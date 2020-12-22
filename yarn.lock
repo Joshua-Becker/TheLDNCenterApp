@@ -3225,6 +3225,13 @@
     "locate-path" "^5.0.0"
     "path-exists" "^4.0.0"
 
+"firestorter@^2.0.1":
+  "integrity" "sha512-DN9p+mrAy6pzGSzrEIw24IS06xh8RrexUtxaMVNg1VQwZAuQq3fwzbEEAo5V7VkNo0HithkIJiPs3CDe/09lIQ=="
+  "resolved" "https://registry.npmjs.org/firestorter/-/firestorter-2.0.1.tgz"
+  "version" "2.0.1"
+  dependencies:
+    "lodash.isequal" "^4.5.0"
+
 "flat-cache@^3.0.4":
   "integrity" "sha512-dm9s5Pw7Jc0GvMYbshN6zchCA9RgQlzzEZX3vylR9IqFfS8XciblUXOKfW6SiuJ0e13eDYZoZV5wdrev7P3Nwg=="
   "resolved" "https://registry.yarnpkg.com/flat-cache/-/flat-cache-3.0.4.tgz"
@@ -5314,6 +5321,23 @@
   dependencies:
     "minimist" "^1.2.5"
 
+"mobx-react-lite@^3.1.6":
+  "integrity" "sha512-MM3x9BLt5nC7iE/ILA5n2+hfrplEKYbFjqROEuGkzBdZP/KD+Z44+2gseczRrTG0xFuiPWfEzgT68+6/zqOiEw=="
+  "resolved" "https://registry.npmjs.org/mobx-react-lite/-/mobx-react-lite-3.1.6.tgz"
+  "version" "3.1.6"
+
+"mobx-react@^7.0.5":
+  "integrity" "sha512-WmHl3Ni30ujVcOOnllmGmyccsbfFCKtAwpkIwncwxhgLcvXcE0Wa9lGJIhoqQdTJzGr0AJqGzMVAdwNc3Fj2DQ=="
+  "resolved" "https://registry.npmjs.org/mobx-react/-/mobx-react-7.0.5.tgz"
+  "version" "7.0.5"
+  dependencies:
+    "mobx-react-lite" "^3.1.6"
+
+"mobx@^6.0.4", "mobx@>= 4":
+  "integrity" "sha512-wT2QJT9tW19VSHo9x7RPKU3z/I2Ps6wUS8Kb1OO+kzmg7UY3n4AkcaYG6jq95Lp1R9ohjC/NGYuT2PtuvBjhFg=="
+  "resolved" "https://registry.npmjs.org/mobx/-/mobx-6.0.4.tgz"
+  "version" "6.0.4"
+
 "ms@2.0.0":
   "integrity" "sha1-VgiurfwAvmwpAd9fmGF4jeDVl8g="
   "resolved" "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz"
@@ -5996,6 +6020,13 @@
   "resolved" "https://registry.yarnpkg.com/react-native-communications/-/react-native-communications-2.2.1.tgz"
   "version" "2.2.1"
 
+"react-native-dropdown-picker@^3.7.5":
+  "integrity" "sha512-eIOt5FdwBRIETZ0f3wJrdEAexXq02APdQS3ojILIyBEAorI49iq1q03GNahXx4ygMdNlI0TTEvXbZELHZ8ZUlg=="
+  "resolved" "https://registry.npmjs.org/react-native-dropdown-picker/-/react-native-dropdown-picker-3.7.5.tgz"
+  "version" "3.7.5"
+  dependencies:
+    "react-native-vector-icons" "^7.0.0"
+
 "react-native-gesture-handler@^1.9.0", "react-native-gesture-handler@>= 1.0.0":
   "integrity" "sha512-fkkNeWDBzDdwDxDcxtYbrb9T1g0PLgT1AxBs2iO/p7uEbDbC6mIoL/NzuOnKNEBHcd0lpLoJuNmIfdmucEON5g=="
   "resolved" "https://registry.npmjs.org/react-native-gesture-handler/-/react-native-gesture-handler-1.9.0.tgz"
@@ -6072,7 +6103,7 @@
   "resolved" "https://registry.yarnpkg.com/react-native-typing-animation/-/react-native-typing-animation-0.1.7.tgz"
   "version" "0.1.7"
 
-"react-native-vector-icons@*", "react-native-vector-icons@^7.1.0":
+"react-native-vector-icons@*", "react-native-vector-icons@^7.0.0", "react-native-vector-icons@^7.1.0":
   "integrity" "sha512-V2a1zJ4i+kS8O4j183gIwX14St9AxxXabxwYpFBgRhvr2NDXyFcjHDEAgrOYYlt2W57e20aN1tBDU/I+wn9WtQ=="
   "resolved" "https://registry.npmjs.org/react-native-vector-icons/-/react-native-vector-icons-7.1.0.tgz"
   "version" "7.1.0"
@@ -6134,7 +6165,7 @@
     "react-is" "^16.8.6"
     "scheduler" "^0.19.1"
 
-"react@*", "react@^16.0", "react@^16.13.1", "react@^16.3.0", "react@^16.8.0 || ^17.0.0", "react@>=16.3.0", "react@16.13.1":
+"react@*", "react@^16.0", "react@^16.13.1", "react@^16.3.0", "react@^16.8.0 || ^17", "react@^16.8.0 || ^17.0.0", "react@>=16.3.0", "react@16.13.1":
   "integrity" "sha512-YMZQQq32xHLX0bz5Mnibv1/LHb3Sqzngu7xstSM+vrkE5Kzr9xE0yMByK5kMoTK30YVJE61WfbxIFFvfeDKT1w=="
   "resolved" "https://registry.yarnpkg.com/react/-/react-16.13.1.tgz"
   "version" "16.13.1"

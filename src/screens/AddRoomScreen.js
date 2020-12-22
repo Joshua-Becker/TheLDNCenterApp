@@ -1,39 +1,78 @@
-import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet, Text } from 'react-native';
 import { IconButton, Title } from 'react-native-paper';
 import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
 import firestore from '@react-native-firebase/firestore';
 import useStatsBar from '../utils/useStatusBar';
+import DropDownPicker from 'react-native-dropdown-picker';
+import Icon from 'react-native-vector-icons/Feather';
+import auth from '@react-native-firebase/auth';
 
 
 export default function AddRoomScreen({ navigation }) {
     useStatsBar('dark-content');
-    const [roomName, setRoomName] = useState('');
+    const [pharmacy, setPharmacy] = useState([]);
+    const [pharmacies, setPharmacies] = useState([]);
+    const user = {email: auth().currentUser.email, id: auth().currentUser.uid}
     // ... Firestore query will come here later
 
     function handleButtonPress() {
-        if (roomName.length > 0) {
+        if (Object.keys(pharmacy).length > 0) {
             firestore()
-            .collection('THREADS')
-            .add({
-                name: roomName,
+            .collection('USERS')
+            .doc(user.id)
+            .set({
+                pharmacyName: pharmacy.name,
+                pharmacyID: pharmacy.id,
                 latestMessage: {
-                text: `You have joined the room ${roomName}.`,
+                text: `You are now messaging ${pharmacy.name}.`,
                 createdAt: new Date().getTime()
                 }
             })
-            .then(docRef => {
-                docRef.collection('MESSAGES').add({
-                text: `You have joined the room ${roomName}.`,
+            .catch(function(error) {
+                console.error("Error saving post : ", error);
+                //this code does not throw an error.
+            });
+
+            firestore()
+            .collection('USERS')
+            .doc(auth().currentUser.uid)
+            .collection('MESSAGES')
+            .add({
+                text: `You are now messaging ${pharmacy.name}.`,
                 createdAt: new Date().getTime(),
                 system: true
-                });
+            });
+
+            firestore()
+            .collection('PHARMACIES')
+            .doc(pharmacy.id)
+            .collection('PATIENTS')
+            .doc(user.id)
+            .set({
+                email: user.email,
+                userID: user.id,
+                joined: new Date().getTime(),
             });
             navigation.navigate('Home');
         }
     }
     
+    const getPharmacies = async () => {
+        const snapshot = await firestore().collection('PHARMACIES').get()
+        const pharmacies = snapshot.docs.map(doc => ({data: doc.data(), id: doc.id}));
+        var ret_pharmacies = [];
+        pharmacies.forEach(createPharmacyObject);
+        function createPharmacyObject(item) {
+            ret_pharmacies.push({label: item.data.name, value: item.data.name, icon: () => <Icon name="shield" size={18} color="#900" />, id: item.id})    
+        }
+        setPharmacies(ret_pharmacies);
+    };
+
+    useEffect(() => {
+        getPharmacies();
+    },[]);
 
     return (
       <View style={styles.rootContainer}>
@@ -46,19 +85,26 @@ export default function AddRoomScreen({ navigation }) {
           />
         </View>
         <View style={styles.innerContainer}>
-          <Title style={styles.title}>Create a new chat room</Title>
-          <FormInput
-            labelName='Room Name'
-            value={roomName}
-            onChangeText={text => setRoomName(text)}
-            clearButtonMode='while-editing'
-          />
+          <Title style={styles.title}>Choose your Pharmacy</Title>
+          <DropDownPicker
+            items={pharmacies}
+            defaultValue={pharmacy.name}
+            containerStyle={{height: 60}}
+            style={{backgroundColor: '#fafafa', width: '90%'}}
+            dropDownStyle={{backgroundColor: '#fafafa', width: '90%'}}
+            onChangeItem={item => setPharmacy({name: item.value, id: item.id})}
+            searchable={true}
+            searchablePlaceholder="Search for an item"
+            searchablePlaceholderTextColor="gray"
+            seachableStyle={{}}
+            searchableError={() => <Text>Not Found</Text>}
+        />
           <FormButton
-            title='Create'
+            title='Join'
             modeValue='contained'
             labelStyle={styles.buttonLabel}
             onPress={() => handleButtonPress()}
-            disabled={roomName.length === 0}
+            disabled={Object.keys(pharmacy).length === 0}
           />
         </View>
       </View>
@@ -78,7 +124,8 @@ closeButtonContainer: {
 innerContainer: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    padding: 10,
 },
 title: {
     fontSize: 24,
