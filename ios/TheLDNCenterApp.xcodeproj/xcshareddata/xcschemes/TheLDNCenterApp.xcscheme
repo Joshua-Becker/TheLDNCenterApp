@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "ChatApp.app"
-               BlueprintName = "ChatApp"
-               ReferencedContainer = "container:ChatApp.xcodeproj">
+               BuildableName = "TheLDNCenterApp.app"
+               BlueprintName = "TheLDNCenterApp"
+               ReferencedContainer = "container:TheLDNCenterApp.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "ChatAppTests.xctest"
-               BlueprintName = "ChatAppTests"
-               ReferencedContainer = "container:ChatApp.xcodeproj">
+               BuildableName = "TheLDNCenterAppTests.xctest"
+               BlueprintName = "TheLDNCenterAppTests"
+               ReferencedContainer = "container:TheLDNCenterApp.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "ChatApp.app"
-            BlueprintName = "ChatApp"
-            ReferencedContainer = "container:ChatApp.xcodeproj">
+            BuildableName = "TheLDNCenterApp.app"
+            BlueprintName = "TheLDNCenterApp"
+            ReferencedContainer = "container:TheLDNCenterApp.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "ChatApp.app"
-            BlueprintName = "ChatApp"
-            ReferencedContainer = "container:ChatApp.xcodeproj">
+            BuildableName = "TheLDNCenterApp.app"
+            BlueprintName = "TheLDNCenterApp"
+            ReferencedContainer = "container:TheLDNCenterApp.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

@@ -7,20 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00E356F31AD99517003FC87E /* ChatAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* ChatAppTests.m */; };
+		00E356F31AD99517003FC87E /* TheLDNCenterAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* TheLDNCenterAppTests.m */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		2DCD954D1E0B4F2C00145EB5 /* ChatAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* ChatAppTests.m */; };
-		2E8F8A34D1BCBF24F65B80FA /* libPods-ChatApp-ChatAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D79DF0038599C01C60278974 /* libPods-ChatApp-ChatAppTests.a */; };
+		2DCD954D1E0B4F2C00145EB5 /* TheLDNCenterAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* TheLDNCenterAppTests.m */; };
+		2E8F8A34D1BCBF24F65B80FA /* libPods-TheLDNCenterApp-TheLDNCenterAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D79DF0038599C01C60278974 /* libPods-TheLDNCenterApp-TheLDNCenterAppTests.a */; };
 		324D251D258AB83000A5F97B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 324D251C258AB83000A5F97B /* GoogleService-Info.plist */; };
-		59678D7EE62DB368FCE2F164 /* libPods-ChatApp-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 49BEA014D30306CD8A538C58 /* libPods-ChatApp-tvOSTests.a */; };
+		59678D7EE62DB368FCE2F164 /* libPods-TheLDNCenterApp-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 49BEA014D30306CD8A538C58 /* libPods-TheLDNCenterApp-tvOSTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		9DDB8509A14CB4B3973A3387 /* libPods-ChatApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EF0E7E48D3B8DC9266144DA /* libPods-ChatApp.a */; };
-		CA103D0551C6893FBF38B970 /* libPods-ChatApp-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1926F7FFFB97F8B81D39C59B /* libPods-ChatApp-tvOS.a */; };
+		9DDB8509A14CB4B3973A3387 /* libPods-TheLDNCenterApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EF0E7E48D3B8DC9266144DA /* libPods-TheLDNCenterApp.a */; };
+		CA103D0551C6893FBF38B970 /* libPods-TheLDNCenterApp-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1926F7FFFB97F8B81D39C59B /* libPods-TheLDNCenterApp-tvOS.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,44 +29,44 @@
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
-			remoteInfo = ChatApp;
+			remoteInfo = TheLDNCenterApp;
 		};
 		2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 2D02E47A1E0B4A5D006451C7;
-			remoteInfo = "ChatApp-tvOS";
+			remoteInfo = "TheLDNCenterApp-tvOS";
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
-		00E356EE1AD99517003FC87E /* ChatAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00E356EE1AD99517003FC87E /* TheLDNCenterAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TheLDNCenterAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		00E356F21AD99517003FC87E /* ChatAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChatAppTests.m; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* ChatApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ChatApp/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = ChatApp/AppDelegate.m; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ChatApp/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ChatApp/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ChatApp/main.m; sourceTree = "<group>"; };
-		1926F7FFFB97F8B81D39C59B /* libPods-ChatApp-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ChatApp-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		1F8404A82305C182D8F0BD3F /* Pods-ChatApp-ChatAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatApp-ChatAppTests.release.xcconfig"; path = "Target Support Files/Pods-ChatApp-ChatAppTests/Pods-ChatApp-ChatAppTests.release.xcconfig"; sourceTree = "<group>"; };
-		2D02E47B1E0B4A5D006451C7 /* ChatApp-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ChatApp-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2D02E4901E0B4A5D006451C7 /* ChatApp-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ChatApp-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		00E356F21AD99517003FC87E /* TheLDNCenterAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TheLDNCenterAppTests.m; sourceTree = "<group>"; };
+		13B07F961A680F5B00A75B9A /* TheLDNCenterApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TheLDNCenterApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = TheLDNCenterApp/AppDelegate.h; sourceTree = "<group>"; };
+		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = TheLDNCenterApp/AppDelegate.m; sourceTree = "<group>"; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = TheLDNCenterApp/Images.xcassets; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = TheLDNCenterApp/Info.plist; sourceTree = "<group>"; };
+		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = TheLDNCenterApp/main.m; sourceTree = "<group>"; };
+		1926F7FFFB97F8B81D39C59B /* libPods-TheLDNCenterApp-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TheLDNCenterApp-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1F8404A82305C182D8F0BD3F /* Pods-TheLDNCenterApp-TheLDNCenterAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TheLDNCenterApp-TheLDNCenterAppTests.release.xcconfig"; path = "Target Support Files/Pods-TheLDNCenterApp-TheLDNCenterAppTests/Pods-TheLDNCenterApp-TheLDNCenterAppTests.release.xcconfig"; sourceTree = "<group>"; };
+		2D02E47B1E0B4A5D006451C7 /* TheLDNCenterApp-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TheLDNCenterApp-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D02E4901E0B4A5D006451C7 /* TheLDNCenterApp-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "TheLDNCenterApp-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		324D251C258AB83000A5F97B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
-		4239821BE8D91633CC30751A /* Pods-ChatApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatApp.debug.xcconfig"; path = "Target Support Files/Pods-ChatApp/Pods-ChatApp.debug.xcconfig"; sourceTree = "<group>"; };
-		49BEA014D30306CD8A538C58 /* libPods-ChatApp-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ChatApp-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		4EF0E7E48D3B8DC9266144DA /* libPods-ChatApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ChatApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		5EA39C6666BE0C9BC406FA84 /* Pods-ChatApp-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatApp-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-ChatApp-tvOSTests/Pods-ChatApp-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ChatApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		ACF21E22DD4A8318E3B0DFFB /* Pods-ChatApp-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatApp-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-ChatApp-tvOS/Pods-ChatApp-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
-		CCA5B91BD37AD1F6C770C252 /* Pods-ChatApp-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatApp-tvOS.release.xcconfig"; path = "Target Support Files/Pods-ChatApp-tvOS/Pods-ChatApp-tvOS.release.xcconfig"; sourceTree = "<group>"; };
-		D1CA15C4545FD0A518CACCD2 /* Pods-ChatApp-ChatAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatApp-ChatAppTests.debug.xcconfig"; path = "Target Support Files/Pods-ChatApp-ChatAppTests/Pods-ChatApp-ChatAppTests.debug.xcconfig"; sourceTree = "<group>"; };
-		D79DF0038599C01C60278974 /* libPods-ChatApp-ChatAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ChatApp-ChatAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		D8B3AA02FFB92CFBAE78828B /* Pods-ChatApp-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatApp-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-ChatApp-tvOSTests/Pods-ChatApp-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
-		E16C0B9FA942A615D90FF78F /* Pods-ChatApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatApp.release.xcconfig"; path = "Target Support Files/Pods-ChatApp/Pods-ChatApp.release.xcconfig"; sourceTree = "<group>"; };
+		4239821BE8D91633CC30751A /* Pods-TheLDNCenterApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TheLDNCenterApp.debug.xcconfig"; path = "Target Support Files/Pods-TheLDNCenterApp/Pods-TheLDNCenterApp.debug.xcconfig"; sourceTree = "<group>"; };
+		49BEA014D30306CD8A538C58 /* libPods-TheLDNCenterApp-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TheLDNCenterApp-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4EF0E7E48D3B8DC9266144DA /* libPods-TheLDNCenterApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TheLDNCenterApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5EA39C6666BE0C9BC406FA84 /* Pods-TheLDNCenterApp-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TheLDNCenterApp-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-TheLDNCenterApp-tvOSTests/Pods-TheLDNCenterApp-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = TheLDNCenterApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		ACF21E22DD4A8318E3B0DFFB /* Pods-TheLDNCenterApp-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TheLDNCenterApp-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-TheLDNCenterApp-tvOS/Pods-TheLDNCenterApp-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
+		CCA5B91BD37AD1F6C770C252 /* Pods-TheLDNCenterApp-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TheLDNCenterApp-tvOS.release.xcconfig"; path = "Target Support Files/Pods-TheLDNCenterApp-tvOS/Pods-TheLDNCenterApp-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		D1CA15C4545FD0A518CACCD2 /* Pods-TheLDNCenterApp-TheLDNCenterAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TheLDNCenterApp-TheLDNCenterAppTests.debug.xcconfig"; path = "Target Support Files/Pods-TheLDNCenterApp-TheLDNCenterAppTests/Pods-TheLDNCenterApp-TheLDNCenterAppTests.debug.xcconfig"; sourceTree = "<group>"; };
+		D79DF0038599C01C60278974 /* libPods-TheLDNCenterApp-TheLDNCenterAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TheLDNCenterApp-TheLDNCenterAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D8B3AA02FFB92CFBAE78828B /* Pods-TheLDNCenterApp-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TheLDNCenterApp-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-TheLDNCenterApp-tvOSTests/Pods-TheLDNCenterApp-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		E16C0B9FA942A615D90FF78F /* Pods-TheLDNCenterApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TheLDNCenterApp.release.xcconfig"; path = "Target Support Files/Pods-TheLDNCenterApp/Pods-TheLDNCenterApp.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
@@ -76,7 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2E8F8A34D1BCBF24F65B80FA /* libPods-ChatApp-ChatAppTests.a in Frameworks */,
+				2E8F8A34D1BCBF24F65B80FA /* libPods-TheLDNCenterApp-TheLDNCenterAppTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,7 +84,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9DDB8509A14CB4B3973A3387 /* libPods-ChatApp.a in Frameworks */,
+				9DDB8509A14CB4B3973A3387 /* libPods-TheLDNCenterApp.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,7 +92,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CA103D0551C6893FBF38B970 /* libPods-ChatApp-tvOS.a in Frameworks */,
+				CA103D0551C6893FBF38B970 /* libPods-TheLDNCenterApp-tvOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,20 +100,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				59678D7EE62DB368FCE2F164 /* libPods-ChatApp-tvOSTests.a in Frameworks */,
+				59678D7EE62DB368FCE2F164 /* libPods-TheLDNCenterApp-tvOSTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		00E356EF1AD99517003FC87E /* ChatAppTests */ = {
+		00E356EF1AD99517003FC87E /* TheLDNCenterAppTests */ = {
 			isa = PBXGroup;
 			children = (
-				00E356F21AD99517003FC87E /* ChatAppTests.m */,
+				00E356F21AD99517003FC87E /* TheLDNCenterAppTests.m */,
 				00E356F01AD99517003FC87E /* Supporting Files */,
 			);
-			path = ChatAppTests;
+			path = TheLDNCenterAppTests;
 			sourceTree = "<group>";
 		};
 		00E356F01AD99517003FC87E /* Supporting Files */ = {
@@ -124,7 +124,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		13B07FAE1A68108700A75B9A /* ChatApp */ = {
+		13B07FAE1A68108700A75B9A /* TheLDNCenterApp */ = {
 			isa = PBXGroup;
 			children = (
 				324D251C258AB83000A5F97B /* GoogleService-Info.plist */,
@@ -136,7 +136,7 @@
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
-			name = ChatApp;
+			name = TheLDNCenterApp;
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
@@ -144,10 +144,10 @@
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				4EF0E7E48D3B8DC9266144DA /* libPods-ChatApp.a */,
-				D79DF0038599C01C60278974 /* libPods-ChatApp-ChatAppTests.a */,
-				1926F7FFFB97F8B81D39C59B /* libPods-ChatApp-tvOS.a */,
-				49BEA014D30306CD8A538C58 /* libPods-ChatApp-tvOSTests.a */,
+				4EF0E7E48D3B8DC9266144DA /* libPods-TheLDNCenterApp.a */,
+				D79DF0038599C01C60278974 /* libPods-TheLDNCenterApp-TheLDNCenterAppTests.a */,
+				1926F7FFFB97F8B81D39C59B /* libPods-TheLDNCenterApp-tvOS.a */,
+				49BEA014D30306CD8A538C58 /* libPods-TheLDNCenterApp-tvOSTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -155,14 +155,14 @@
 		7916C77ABDB85557DDE0BC1F /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				4239821BE8D91633CC30751A /* Pods-ChatApp.debug.xcconfig */,
-				E16C0B9FA942A615D90FF78F /* Pods-ChatApp.release.xcconfig */,
-				D1CA15C4545FD0A518CACCD2 /* Pods-ChatApp-ChatAppTests.debug.xcconfig */,
-				1F8404A82305C182D8F0BD3F /* Pods-ChatApp-ChatAppTests.release.xcconfig */,
-				ACF21E22DD4A8318E3B0DFFB /* Pods-ChatApp-tvOS.debug.xcconfig */,
-				CCA5B91BD37AD1F6C770C252 /* Pods-ChatApp-tvOS.release.xcconfig */,
-				5EA39C6666BE0C9BC406FA84 /* Pods-ChatApp-tvOSTests.debug.xcconfig */,
-				D8B3AA02FFB92CFBAE78828B /* Pods-ChatApp-tvOSTests.release.xcconfig */,
+				4239821BE8D91633CC30751A /* Pods-TheLDNCenterApp.debug.xcconfig */,
+				E16C0B9FA942A615D90FF78F /* Pods-TheLDNCenterApp.release.xcconfig */,
+				D1CA15C4545FD0A518CACCD2 /* Pods-TheLDNCenterApp-TheLDNCenterAppTests.debug.xcconfig */,
+				1F8404A82305C182D8F0BD3F /* Pods-TheLDNCenterApp-TheLDNCenterAppTests.release.xcconfig */,
+				ACF21E22DD4A8318E3B0DFFB /* Pods-TheLDNCenterApp-tvOS.debug.xcconfig */,
+				CCA5B91BD37AD1F6C770C252 /* Pods-TheLDNCenterApp-tvOS.release.xcconfig */,
+				5EA39C6666BE0C9BC406FA84 /* Pods-TheLDNCenterApp-tvOSTests.debug.xcconfig */,
+				D8B3AA02FFB92CFBAE78828B /* Pods-TheLDNCenterApp-tvOSTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -177,9 +177,9 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				13B07FAE1A68108700A75B9A /* ChatApp */,
+				13B07FAE1A68108700A75B9A /* TheLDNCenterApp */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
-				00E356EF1AD99517003FC87E /* ChatAppTests */,
+				00E356EF1AD99517003FC87E /* TheLDNCenterAppTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				7916C77ABDB85557DDE0BC1F /* Pods */,
@@ -192,10 +192,10 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* ChatApp.app */,
-				00E356EE1AD99517003FC87E /* ChatAppTests.xctest */,
-				2D02E47B1E0B4A5D006451C7 /* ChatApp-tvOS.app */,
-				2D02E4901E0B4A5D006451C7 /* ChatApp-tvOSTests.xctest */,
+				13B07F961A680F5B00A75B9A /* TheLDNCenterApp.app */,
+				00E356EE1AD99517003FC87E /* TheLDNCenterAppTests.xctest */,
+				2D02E47B1E0B4A5D006451C7 /* TheLDNCenterApp-tvOS.app */,
+				2D02E4901E0B4A5D006451C7 /* TheLDNCenterApp-tvOSTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -203,9 +203,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		00E356ED1AD99517003FC87E /* ChatAppTests */ = {
+		00E356ED1AD99517003FC87E /* TheLDNCenterAppTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "ChatAppTests" */;
+			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "TheLDNCenterAppTests" */;
 			buildPhases = (
 				19608B7F07CA2589ED1FF630 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
@@ -218,14 +218,14 @@
 			dependencies = (
 				00E356F51AD99517003FC87E /* PBXTargetDependency */,
 			);
-			name = ChatAppTests;
-			productName = ChatAppTests;
-			productReference = 00E356EE1AD99517003FC87E /* ChatAppTests.xctest */;
+			name = TheLDNCenterAppTests;
+			productName = TheLDNCenterAppTests;
+			productReference = 00E356EE1AD99517003FC87E /* TheLDNCenterAppTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		13B07F861A680F5B00A75B9A /* ChatApp */ = {
+		13B07F861A680F5B00A75B9A /* TheLDNCenterApp */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "ChatApp" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "TheLDNCenterApp" */;
 			buildPhases = (
 				3745C54F50CD02EACC82877D /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
@@ -240,14 +240,14 @@
 			);
 			dependencies = (
 			);
-			name = ChatApp;
-			productName = ChatApp;
-			productReference = 13B07F961A680F5B00A75B9A /* ChatApp.app */;
+			name = TheLDNCenterApp;
+			productName = TheLDNCenterApp;
+			productReference = 13B07F961A680F5B00A75B9A /* TheLDNCenterApp.app */;
 			productType = "com.apple.product-type.application";
 		};
-		2D02E47A1E0B4A5D006451C7 /* ChatApp-tvOS */ = {
+		2D02E47A1E0B4A5D006451C7 /* TheLDNCenterApp-tvOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "ChatApp-tvOS" */;
+			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "TheLDNCenterApp-tvOS" */;
 			buildPhases = (
 				6AA1F463B970E6A6D2037B48 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F122414F3F0027D42C /* Start Packager */,
@@ -260,14 +260,14 @@
 			);
 			dependencies = (
 			);
-			name = "ChatApp-tvOS";
-			productName = "ChatApp-tvOS";
-			productReference = 2D02E47B1E0B4A5D006451C7 /* ChatApp-tvOS.app */;
+			name = "TheLDNCenterApp-tvOS";
+			productName = "TheLDNCenterApp-tvOS";
+			productReference = 2D02E47B1E0B4A5D006451C7 /* TheLDNCenterApp-tvOS.app */;
 			productType = "com.apple.product-type.application";
 		};
-		2D02E48F1E0B4A5D006451C7 /* ChatApp-tvOSTests */ = {
+		2D02E48F1E0B4A5D006451C7 /* TheLDNCenterApp-tvOSTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "ChatApp-tvOSTests" */;
+			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "TheLDNCenterApp-tvOSTests" */;
 			buildPhases = (
 				147482DB40A93A9E9B8ED5A0 /* [CP] Check Pods Manifest.lock */,
 				2D02E48C1E0B4A5D006451C7 /* Sources */,
@@ -279,9 +279,9 @@
 			dependencies = (
 				2D02E4921E0B4A5D006451C7 /* PBXTargetDependency */,
 			);
-			name = "ChatApp-tvOSTests";
-			productName = "ChatApp-tvOSTests";
-			productReference = 2D02E4901E0B4A5D006451C7 /* ChatApp-tvOSTests.xctest */;
+			name = "TheLDNCenterApp-tvOSTests";
+			productName = "TheLDNCenterApp-tvOSTests";
+			productReference = 2D02E4901E0B4A5D006451C7 /* TheLDNCenterApp-tvOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -310,7 +310,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "ChatApp" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "TheLDNCenterApp" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -323,10 +323,10 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* ChatApp */,
-				00E356ED1AD99517003FC87E /* ChatAppTests */,
-				2D02E47A1E0B4A5D006451C7 /* ChatApp-tvOS */,
-				2D02E48F1E0B4A5D006451C7 /* ChatApp-tvOSTests */,
+				13B07F861A680F5B00A75B9A /* TheLDNCenterApp */,
+				00E356ED1AD99517003FC87E /* TheLDNCenterAppTests */,
+				2D02E47A1E0B4A5D006451C7 /* TheLDNCenterApp-tvOS */,
+				2D02E48F1E0B4A5D006451C7 /* TheLDNCenterApp-tvOSTests */,
 			);
 		};
 /* End PBXProject section */
@@ -396,7 +396,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ChatApp-tvOSTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-TheLDNCenterApp-tvOSTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -418,7 +418,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ChatApp-ChatAppTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-TheLDNCenterApp-TheLDNCenterAppTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -454,7 +454,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ChatApp-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-TheLDNCenterApp-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -486,7 +486,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ChatApp-tvOS-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-TheLDNCenterApp-tvOS-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -499,7 +499,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ChatApp/Pods-ChatApp-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-TheLDNCenterApp/Pods-TheLDNCenterApp-resources.sh",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
@@ -542,7 +542,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ChatApp/Pods-ChatApp-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TheLDNCenterApp/Pods-TheLDNCenterApp-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E16255BA2F9394A596323C6F /* [CP] Copy Pods Resources */ = {
@@ -551,7 +551,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ChatApp-ChatAppTests/Pods-ChatApp-ChatAppTests-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-TheLDNCenterApp-TheLDNCenterAppTests/Pods-TheLDNCenterApp-TheLDNCenterAppTests-resources.sh",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
@@ -594,7 +594,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ChatApp-ChatAppTests/Pods-ChatApp-ChatAppTests-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TheLDNCenterApp-TheLDNCenterAppTests/Pods-TheLDNCenterApp-TheLDNCenterAppTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -642,7 +642,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00E356F31AD99517003FC87E /* ChatAppTests.m in Sources */,
+				00E356F31AD99517003FC87E /* TheLDNCenterAppTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -668,7 +668,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2DCD954D1E0B4F2C00145EB5 /* ChatAppTests.m in Sources */,
+				2DCD954D1E0B4F2C00145EB5 /* TheLDNCenterAppTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -677,12 +677,12 @@
 /* Begin PBXTargetDependency section */
 		00E356F51AD99517003FC87E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 13B07F861A680F5B00A75B9A /* ChatApp */;
+			target = 13B07F861A680F5B00A75B9A /* TheLDNCenterApp */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
 		};
 		2D02E4921E0B4A5D006451C7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 2D02E47A1E0B4A5D006451C7 /* ChatApp-tvOS */;
+			target = 2D02E47A1E0B4A5D006451C7 /* TheLDNCenterApp-tvOS */;
 			targetProxy = 2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -690,14 +690,14 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D1CA15C4545FD0A518CACCD2 /* Pods-ChatApp-ChatAppTests.debug.xcconfig */;
+			baseConfigurationReference = D1CA15C4545FD0A518CACCD2 /* Pods-TheLDNCenterApp-TheLDNCenterAppTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = ChatAppTests/Info.plist;
+				INFOPLIST_FILE = TheLDNCenterAppTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -707,17 +707,17 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ChatApp.app/ChatApp";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TheLDNCenterApp.app/TheLDNCenterApp";
 			};
 			name = Debug;
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1F8404A82305C182D8F0BD3F /* Pods-ChatApp-ChatAppTests.release.xcconfig */;
+			baseConfigurationReference = 1F8404A82305C182D8F0BD3F /* Pods-TheLDNCenterApp-TheLDNCenterAppTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
-				INFOPLIST_FILE = ChatAppTests/Info.plist;
+				INFOPLIST_FILE = TheLDNCenterAppTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -727,19 +727,19 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ChatApp.app/ChatApp";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TheLDNCenterApp.app/TheLDNCenterApp";
 			};
 			name = Release;
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4239821BE8D91633CC30751A /* Pods-ChatApp.debug.xcconfig */;
+			baseConfigurationReference = 4239821BE8D91633CC30751A /* Pods-TheLDNCenterApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = ChatApp/Info.plist;
+				INFOPLIST_FILE = TheLDNCenterApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -747,7 +747,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = ChatApp;
+				PRODUCT_NAME = TheLDNCenterApp;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -756,12 +756,12 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E16C0B9FA942A615D90FF78F /* Pods-ChatApp.release.xcconfig */;
+			baseConfigurationReference = E16C0B9FA942A615D90FF78F /* Pods-TheLDNCenterApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				INFOPLIST_FILE = ChatApp/Info.plist;
+				INFOPLIST_FILE = TheLDNCenterApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -769,7 +769,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = ChatApp;
+				PRODUCT_NAME = TheLDNCenterApp;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -777,7 +777,7 @@
 		};
 		2D02E4971E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = ACF21E22DD4A8318E3B0DFFB /* Pods-ChatApp-tvOS.debug.xcconfig */;
+			baseConfigurationReference = ACF21E22DD4A8318E3B0DFFB /* Pods-TheLDNCenterApp-tvOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -788,14 +788,14 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "ChatApp-tvOS/Info.plist";
+				INFOPLIST_FILE = "TheLDNCenterApp-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.ChatApp-tvOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.TheLDNCenterApp-tvOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
@@ -805,7 +805,7 @@
 		};
 		2D02E4981E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CCA5B91BD37AD1F6C770C252 /* Pods-ChatApp-tvOS.release.xcconfig */;
+			baseConfigurationReference = CCA5B91BD37AD1F6C770C252 /* Pods-TheLDNCenterApp-tvOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -816,14 +816,14 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "ChatApp-tvOS/Info.plist";
+				INFOPLIST_FILE = "TheLDNCenterApp-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.ChatApp-tvOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.TheLDNCenterApp-tvOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
@@ -833,7 +833,7 @@
 		};
 		2D02E4991E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5EA39C6666BE0C9BC406FA84 /* Pods-ChatApp-tvOSTests.debug.xcconfig */;
+			baseConfigurationReference = 5EA39C6666BE0C9BC406FA84 /* Pods-TheLDNCenterApp-tvOSTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -843,24 +843,24 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "ChatApp-tvOSTests/Info.plist";
+				INFOPLIST_FILE = "TheLDNCenterApp-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.ChatApp-tvOSTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.TheLDNCenterApp-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ChatApp-tvOS.app/ChatApp-tvOS";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TheLDNCenterApp-tvOS.app/TheLDNCenterApp-tvOS";
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 			};
 			name = Debug;
 		};
 		2D02E49A1E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D8B3AA02FFB92CFBAE78828B /* Pods-ChatApp-tvOSTests.release.xcconfig */;
+			baseConfigurationReference = D8B3AA02FFB92CFBAE78828B /* Pods-TheLDNCenterApp-tvOSTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -870,17 +870,17 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "ChatApp-tvOSTests/Info.plist";
+				INFOPLIST_FILE = "TheLDNCenterApp-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.ChatApp-tvOSTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.TheLDNCenterApp-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ChatApp-tvOS.app/ChatApp-tvOS";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TheLDNCenterApp-tvOS.app/TheLDNCenterApp-tvOS";
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 			};
 			name = Release;
@@ -1001,7 +1001,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "ChatAppTests" */ = {
+		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "TheLDNCenterAppTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				00E356F61AD99517003FC87E /* Debug */,
@@ -1010,7 +1010,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "ChatApp" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "TheLDNCenterApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -1019,7 +1019,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "ChatApp-tvOS" */ = {
+		2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "TheLDNCenterApp-tvOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2D02E4971E0B4A5E006451C7 /* Debug */,
@@ -1028,7 +1028,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "ChatApp-tvOSTests" */ = {
+		2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "TheLDNCenterApp-tvOSTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2D02E4991E0B4A5E006451C7 /* Debug */,
@@ -1037,7 +1037,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "ChatApp" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "TheLDNCenterApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
