@@ -1,40 +1,40 @@
 {
   "project_info": {
-    "project_number": "124287445999",
-    "project_id": "chatapp-95cb5",
-    "storage_bucket": "chatapp-95cb5.appspot.com"
+    "project_number": "94256911294",
+    "project_id": "theldncenterapp",
+    "storage_bucket": "theldncenterapp.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:124287445999:android:cd854bf8f810a40762241a",
+        "mobilesdk_app_id": "1:94256911294:android:ebd5bfe749777f98971fef",
         "android_client_info": {
-          "package_name": "com.chatapp"
+          "package_name": "com.josh.theldncenterapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "124287445999-hg72sr12ghl4068k8jlr95gp9095cjo6.apps.googleusercontent.com",
+          "client_id": "94256911294-qpm9cpfgvrnbtvkjif5dbd15c2pqpgj6.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCustDYbjeFWce7XQoeczK8zf-iAmTi7gs"
+          "current_key": "AIzaSyCnTmAAw6F0MVRuWagNA1UzFtJ6qsRnacw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "124287445999-hg72sr12ghl4068k8jlr95gp9095cjo6.apps.googleusercontent.com",
+              "client_id": "94256911294-qpm9cpfgvrnbtvkjif5dbd15c2pqpgj6.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "124287445999-hfgp9japsmo3f1f9e6ujdsc1updlud9v.apps.googleusercontent.com",
+              "client_id": "94256911294-khkjum6srgk6bk8o76s60ceiqbskh42k.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.josh.chatapp"
+                "bundle_id": "org.reactjs.native.example.TheLDNCenterApp"
               }
             }
           ]

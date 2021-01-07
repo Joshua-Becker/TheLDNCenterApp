@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "TheLDNCenterApp.app"
-               BlueprintName = "TheLDNCenterApp"
-               ReferencedContainer = "container:TheLDNCenterApp.xcodeproj">
+               BuildableName = "theldncenterapp.app"
+               BlueprintName = "theldncenterapp"
+               ReferencedContainer = "container:theldncenterapp.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "TheLDNCenterAppTests.xctest"
-               BlueprintName = "TheLDNCenterAppTests"
-               ReferencedContainer = "container:TheLDNCenterApp.xcodeproj">
+               BuildableName = "theldncenterappTests.xctest"
+               BlueprintName = "theldncenterappTests"
+               ReferencedContainer = "container:theldncenterapp.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "TheLDNCenterApp.app"
-            BlueprintName = "TheLDNCenterApp"
-            ReferencedContainer = "container:TheLDNCenterApp.xcodeproj">
+            BuildableName = "theldncenterapp.app"
+            BlueprintName = "theldncenterapp"
+            ReferencedContainer = "container:theldncenterapp.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "TheLDNCenterApp.app"
-            BlueprintName = "TheLDNCenterApp"
-            ReferencedContainer = "container:TheLDNCenterApp.xcodeproj">
+            BuildableName = "theldncenterapp.app"
+            BlueprintName = "theldncenterapp"
+            ReferencedContainer = "container:theldncenterapp.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

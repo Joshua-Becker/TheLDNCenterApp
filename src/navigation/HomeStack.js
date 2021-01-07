@@ -6,23 +6,23 @@ import RoomScreen from '../screens/RoomScreen';
 import { IconButton } from 'react-native-paper';
 import { AuthContext } from '../navigation/AuthProvider';
 
-const ChatAppStack = createStackNavigator();
+const TheLDNCenterStack = createStackNavigator();
 const ModalStack = createStackNavigator();
 
 export default function HomeStack() {
     return (
       <ModalStack.Navigator mode='modal' headerMode='none'>
-        <ModalStack.Screen name='ChatApp' component={ChatApp} />
+        <ModalStack.Screen name='TheLDNCenter' component={TheLDNCenter} />
         <ModalStack.Screen name='AddRoom' component={AddRoomScreen} />
       </ModalStack.Navigator>
     );
 }
 
-function ChatApp() {
+function TheLDNCenter() {
     const { logout } = useContext(AuthContext);
 
     return (
-      <ChatAppStack.Navigator
+      <TheLDNCenterStack.Navigator
         screenOptions={{
           headerStyle: {
             backgroundColor: '#6646ee'
@@ -33,7 +33,7 @@ function ChatApp() {
           }
         }}
       >
-        <ChatAppStack.Screen
+        <TheLDNCenterStack.Screen
         name='Home'
         component={HomeScreen}
         options={({ navigation }) => ({
@@ -55,13 +55,13 @@ function ChatApp() {
                 )
         })}
         />
-        <ChatAppStack.Screen
+        <TheLDNCenterStack.Screen
         name='Room'
         component={RoomScreen}
         options={({ route }) => ({
             title: route.params.thread.name
         })}
         />
-      </ChatAppStack.Navigator>
+      </TheLDNCenterStack.Navigator>
     );
 }

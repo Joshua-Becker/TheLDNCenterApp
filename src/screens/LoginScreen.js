@@ -15,7 +15,7 @@ export default function LoginScreen({ navigation }) {
   
     return (
       <View style={styles.container}>
-        <Title style={styles.titleText}>Welcome to Chat app</Title>
+        <Title style={styles.titleText}>Welcome to The LDN Center app</Title>
         <FormInput
           labelName='Email'
           value={email}
