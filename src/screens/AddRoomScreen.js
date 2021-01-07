@@ -14,7 +14,7 @@ export default function AddRoomScreen({ navigation }) {
     useStatsBar('dark-content');
     const [pharmacy, setPharmacy] = useState([]);
     const [pharmacies, setPharmacies] = useState([]);
-    const user = {email: auth().currentUser.email, id: auth().currentUser.uid}
+    const user = {name: auth().currentUser.displayName, email: auth().currentUser.email, id: auth().currentUser.uid}
     // ... Firestore query will come here later
 
     function handleButtonPress() {
@@ -29,7 +29,7 @@ export default function AddRoomScreen({ navigation }) {
                 text: `You are now messaging ${pharmacy.name}.`,
                 createdAt: new Date().getTime()
                 }
-            })
+            }, { merge: true })
             .catch(function(error) {
                 console.error("Error saving post : ", error);
                 //this code does not throw an error.
@@ -51,10 +51,11 @@ export default function AddRoomScreen({ navigation }) {
             .collection('PATIENTS')
             .doc(user.id)
             .set({
-                email: user.email,
                 userID: user.id,
+                email: user.email,
+                name: user.name,
                 joined: new Date().getTime(),
-            });
+            }, { merge: true });
             navigation.navigate('Home');
         }
     }

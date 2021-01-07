@@ -15,7 +15,8 @@ export const AuthProvider = ({ children }) => {
           .set({
             user: {
               _id: currentUser.uid,
-              email: currentUser.email
+              email: currentUser.email,
+              name: currentUser.displayName,
             },
             note: 'Saved Data',
         });
@@ -33,10 +34,14 @@ export const AuthProvider = ({ children }) => {
               console.log(e);
             }
           },
-          register: async (email, password) => {
+          register: async (firstName, lastName, email, password) => {
+            const username = firstName + ' ' + lastName;
             try {
               await auth().createUserWithEmailAndPassword(email, password);
               var newUser = auth().currentUser;
+              newUser.updateProfile({
+                displayName: username
+              })
               addNewUser(newUser);
             } catch (e) {
               console.log(e);

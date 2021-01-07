@@ -6,6 +6,8 @@ import FormButton from '../components/FormButton';
 import { AuthContext } from '../navigation/AuthProvider';
 
 export default function SignupScreen({ navigation }) {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { register } = useContext(AuthContext);
@@ -13,6 +15,18 @@ export default function SignupScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <Title style={styles.titleText}>Register to chat</Title>
+      <FormInput
+        labelName='First name'
+        value={firstName}
+        autoCapitalize='none'
+        onChangeText={userFirstName => setFirstName(userFirstName)}
+      />
+      <FormInput
+        labelName='Last name'
+        value={lastName}
+        autoCapitalize='none'
+        onChangeText={userLastName => setLastName(userLastName)}
+      />
       <FormInput
         labelName='Email'
         value={email}
@@ -29,7 +43,7 @@ export default function SignupScreen({ navigation }) {
         title='Signup'
         modeValue='contained'
         labelStyle={styles.loginButtonLabel}
-        onPress={() => register(email, password)}
+        onPress={() => register(firstName, lastName, email, password)}
       />
       <IconButton
         icon='keyboard-backspace'
