@@ -35,10 +35,9 @@ export default function LoginScreen({ navigation }) {
           onPress={() => login(email, password)}
         />
         <FormButton
-          title='New user? Join here'
-          modeValue='text'
-          uppercase={false}
-          labelStyle={styles.navButtonText}
+          title='Join'
+          modeValue='contained'
+          labelStyle={styles.loginButtonLabel}
           onPress={() => navigation.navigate('Signup')}
         />
       </View>
@@ -61,5 +60,5 @@ const styles = StyleSheet.create({
     },
     navButtonText: {
       fontSize: 16
-    }
+    },
 });

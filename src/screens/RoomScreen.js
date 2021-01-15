@@ -27,7 +27,7 @@ export default function RoomScreen({ route }) {
     function renderLoading() {
         return (
             <View style={styles.loadingContainer}>
-            <ActivityIndicator size='large' color='#6646ee' />
+            <ActivityIndicator size='large' color='#0C5FAA' />
             </View>
         );
     }
@@ -36,7 +36,7 @@ export default function RoomScreen({ route }) {
         return (
             <Send {...props}>
             <View style={styles.sendingContainer}>
-                <IconButton icon='send-circle' size={32} color='#6646ee' />
+                <IconButton icon='send-circle' size={32} color='#0C5FAA' />
             </View>
             </Send>
         );
@@ -50,7 +50,7 @@ export default function RoomScreen({ route }) {
             wrapperStyle={{
                 right: {
                 // Here is the color change
-                backgroundColor: '#6646ee'
+                backgroundColor: '#0C5FAA'
                 }
             }}
             textStyle={{
@@ -65,7 +65,7 @@ export default function RoomScreen({ route }) {
     function scrollToBottomComponent() {
         return (
             <View style={styles.bottomComponentContainer}>
-            <IconButton icon='chevron-double-down' size={36} color='#6646ee' />
+            <IconButton icon='chevron-double-down' size={36} color='#0C5FAA' />
             </View>
         );
     }

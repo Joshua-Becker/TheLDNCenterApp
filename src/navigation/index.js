@@ -7,11 +7,11 @@ import Routes from './Routes';
  * Wrap all providers here
  */
 
-export default function Providers() {
+export default function Providers(props) {
   return (
     <PaperProvider>
-      <AuthProvider>
-        <Routes />
+      <AuthProvider fcmToken={props.FCMToken}>
+        <Routes/>
       </AuthProvider>
     </PaperProvider>
   );

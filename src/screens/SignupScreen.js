@@ -10,6 +10,7 @@ export default function SignupScreen({ navigation }) {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [condition, setCondition] = useState('');
   const { register } = useContext(AuthContext);
 
   return (
@@ -39,17 +40,23 @@ export default function SignupScreen({ navigation }) {
         secureTextEntry={true}
         onChangeText={userPassword => setPassword(userPassword)}
       />
+      <FormInput
+        labelName='Reason for taking LDN'
+        value={condition}
+        autoCapitalize='none'
+        onChangeText={userCondition => setCondition(userCondition)}
+      />
       <FormButton
         title='Signup'
         modeValue='contained'
         labelStyle={styles.loginButtonLabel}
-        onPress={() => register(firstName, lastName, email, password)}
+        onPress={() => register(firstName, lastName, email, password, condition)}
       />
       <IconButton
         icon='keyboard-backspace'
         size={30}
         style={styles.navButton}
-        color='#6646ee'
+        color='#0C5FAA'
         onPress={() => navigation.goBack()}
       />
     </View>

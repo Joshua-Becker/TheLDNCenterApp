@@ -8,6 +8,7 @@ export default function FormInput({ labelName, ...rest }) {
     return (
       <TextInput
         label={labelName}
+        spellCheck={false}
         style={styles.input}
         numberOfLines={1}
         {...rest}

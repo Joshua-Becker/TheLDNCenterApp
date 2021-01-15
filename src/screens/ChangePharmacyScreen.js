@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import React, { useState, useEffect, } from 'react';
+import { View, StyleSheet, Text, Alert } from 'react-native';
 import { IconButton, Title } from 'react-native-paper';
 import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
@@ -10,16 +10,62 @@ import Icon from 'react-native-vector-icons/Feather';
 import auth from '@react-native-firebase/auth';
 
 
-export default function AddRoomScreen({ navigation }) {
+export default function ChangePharmacyScreen({ navigation }) {
     useStatsBar('dark-content');
     const [pharmacy, setPharmacy] = useState([]);
+    const [previousPharmacy, setPreviousPharmacy] = useState([]);
     const [pharmacies, setPharmacies] = useState([]);
     const user = {name: auth().currentUser.displayName, email: auth().currentUser.email, id: auth().currentUser.uid}
     // ... Firestore query will come here later
+    
+    async function getPreviousPharmacy(){
+        const previousPharmacyRaw = await firestore()
+        .collection('USERS')
+        .doc(user.id)
+        .get();
+        const previousPharmacyData = previousPharmacyRaw.data()
+        setPreviousPharmacy({name: previousPharmacyData.pharmacyName, id: previousPharmacyData.pharmacyID})
+    }
 
-    function handleButtonPress() {
+    async function deleteMessages(db, batchSize) {
+        const collectionRef = db.collection('USERS').doc(auth().currentUser.uid).collection('MESSAGES');
+        const query = collectionRef.orderBy('__name__').limit(batchSize);
+      
+        return new Promise((resolve, reject) => {
+          deleteQueryBatch(db, query, resolve).catch(reject);
+        });
+    }
+      
+    async function deleteQueryBatch(db, query, resolve) {
+        const snapshot = await query.get();
+        
+        process.nextTick = setImmediate;
+
+        const batchSize = snapshot.size;
+        if (batchSize === 0) {
+          // When there are no documents left, we are done
+          resolve();
+          return;
+        }
+      
+        // Delete documents in a batch
+        const batch = db.batch();
+        snapshot.docs.forEach((doc) => {
+          batch.delete(doc.ref);
+        });
+        await batch.commit();
+      
+        // Recurse on the next process tick, to avoid
+        // exploding the stack.
+        process.nextTick(() => {
+          deleteQueryBatch(db, query, resolve);
+        });
+    }
+
+    async function handleButtonPress() {
+        getPreviousPharmacy()
         if (Object.keys(pharmacy).length > 0) {
-            firestore()
+            await firestore()
             .collection('USERS')
             .doc(user.id)
             .set({
@@ -35,7 +81,9 @@ export default function AddRoomScreen({ navigation }) {
                 //this code does not throw an error.
             });
 
-            firestore()
+            deleteMessages(firestore(), 50)
+
+            await firestore()
             .collection('USERS')
             .doc(auth().currentUser.uid)
             .collection('MESSAGES')
@@ -45,7 +93,7 @@ export default function AddRoomScreen({ navigation }) {
                 system: true
             });
 
-            firestore()
+            await firestore()
             .collection('PHARMACIES')
             .doc(pharmacy.id)
             .collection('PATIENTS')
@@ -56,6 +104,14 @@ export default function AddRoomScreen({ navigation }) {
                 // name: user.name,
                 joined: new Date().getTime(),
             }, { merge: true });
+
+            await firestore()
+            .collection('PHARMACIES')
+            .doc(previousPharmacy.id)
+            .collection('PATIENTS')
+            .doc(user.id)
+            .delete();
+
             navigation.navigate('Home');
         }
     }
@@ -73,6 +129,19 @@ export default function AddRoomScreen({ navigation }) {
 
     useEffect(() => {
         getPharmacies();
+        Alert.alert(
+            "Transferring Pharmacies",
+            "Are you sure you want to transfer pharmacies?",
+            [
+              {
+                text: "Cancel",
+                onPress: () => navigation.navigate('Home'),
+                style: "cancel"
+              },
+              { text: "Yes", onPress: () => console.log("Yes Pressed") }
+            ],
+            { cancelable: false }
+        );
     },[]);
 
     return (
@@ -86,7 +155,7 @@ export default function AddRoomScreen({ navigation }) {
           />
         </View>
         <View style={styles.innerContainer}>
-          <Title style={styles.title}>Choose your Pharmacy</Title>
+          <Title style={styles.title}>Transfer to new pharmacy</Title>
           <DropDownPicker
             items={pharmacies}
             defaultValue={pharmacy.name}
@@ -114,7 +183,7 @@ export default function AddRoomScreen({ navigation }) {
 
 const styles = StyleSheet.create({
 rootContainer: {
-    flex: 1
+    flex: 1,
 },
 closeButtonContainer: {
     position: 'absolute',

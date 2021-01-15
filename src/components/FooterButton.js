@@ -4,12 +4,13 @@ import { Button } from 'react-native-paper';
 
 const { width, height } = Dimensions.get('screen');
 
-export default function FormButton({ title, modeValue, ...rest }) {
+export default function FooterButton({ title, modeValue, ...rest }) {
   return (
     <Button
       mode={modeValue}
       {...rest}
       style={styles.button}
+      labelStyle={styles.buttonLabel}
       contentStyle={styles.buttonContainer}
     >
       {title}
@@ -18,12 +19,17 @@ export default function FormButton({ title, modeValue, ...rest }) {
 }
 
 const styles = StyleSheet.create({
-  button: {
-    marginTop: 10,
-    backgroundColor: '#0C5FAA',
-  },
-  buttonContainer: {
-    width: width / 2,
-    height: height / 15
-  }
+    button: {
+        marginTop: 10,
+        backgroundColor: '#0C5FAA',
+        borderRadius: 0,
+        backgroundColor: '#CC5500',
+    },
+    buttonContainer: {
+        height: height / 15,
+        width: width,
+    },
+    buttonLabel: {
+        fontSize: 22,    
+    }
 });
