@@ -4,18 +4,18 @@ import { Title } from 'react-native-paper';
 import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
 import { AuthContext } from '../navigation/AuthProvider';
-import useStatsBar from '../utils/useStatusBar';
+import useStatusBar from '../utils/useStatusBar';
 
 
 export default function LoginScreen({ navigation }) {
-    useStatsBar('dark-content');
+    useStatusBar('dark-content');
     const { login } = useContext(AuthContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
   
     return (
       <View style={styles.container}>
-        <Title style={styles.titleText}>Welcome to The LDN Center app</Title>
+        <Title style={styles.titleText}>The LDN Center app</Title>
         <FormInput
           labelName='Email'
           value={email}

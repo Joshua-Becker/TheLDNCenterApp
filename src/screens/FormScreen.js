@@ -38,7 +38,7 @@ export default function FormScreen({ navigation }) {
             labelStyle={styles.loginButtonLabel}
             onPress={() => {
                 submitForm(painLevel)
-                navigation.navigate('Home')
+                navigation.navigate('PharmacyHome')
             }}
             />
             <IconButton

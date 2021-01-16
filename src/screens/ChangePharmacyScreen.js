@@ -4,14 +4,14 @@ import { IconButton, Title } from 'react-native-paper';
 import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
 import firestore from '@react-native-firebase/firestore';
-import useStatsBar from '../utils/useStatusBar';
+import useStatusBar from '../utils/useStatusBar';
 import DropDownPicker from 'react-native-dropdown-picker';
 import Icon from 'react-native-vector-icons/Feather';
 import auth from '@react-native-firebase/auth';
 
 
 export default function ChangePharmacyScreen({ navigation }) {
-    useStatsBar('dark-content');
+    useStatusBar('dark-content');
     const [pharmacy, setPharmacy] = useState([]);
     const [previousPharmacy, setPreviousPharmacy] = useState([]);
     const [pharmacies, setPharmacies] = useState([]);
@@ -112,7 +112,7 @@ export default function ChangePharmacyScreen({ navigation }) {
             .doc(user.id)
             .delete();
 
-            navigation.navigate('Home');
+            navigation.navigate('PharmacyHome');
         }
     }
     
@@ -135,7 +135,7 @@ export default function ChangePharmacyScreen({ navigation }) {
             [
               {
                 text: "Cancel",
-                onPress: () => navigation.navigate('Home'),
+                onPress: () => navigation.navigate('PharmacyHome'),
                 style: "cancel"
               },
               { text: "Yes", onPress: () => console.log("Yes Pressed") }
@@ -184,6 +184,7 @@ export default function ChangePharmacyScreen({ navigation }) {
 const styles = StyleSheet.create({
 rootContainer: {
     flex: 1,
+    marginTop: 10,
 },
 closeButtonContainer: {
     position: 'absolute',

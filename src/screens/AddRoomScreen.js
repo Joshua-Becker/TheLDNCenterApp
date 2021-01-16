@@ -4,14 +4,14 @@ import { IconButton, Title } from 'react-native-paper';
 import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
 import firestore from '@react-native-firebase/firestore';
-import useStatsBar from '../utils/useStatusBar';
+import useStatusBar from '../utils/useStatusBar';
 import DropDownPicker from 'react-native-dropdown-picker';
 import Icon from 'react-native-vector-icons/Feather';
 import auth from '@react-native-firebase/auth';
 
 
 export default function AddRoomScreen({ navigation }) {
-    useStatsBar('dark-content');
+    useStatusBar('dark-content');
     const [pharmacy, setPharmacy] = useState([]);
     const [pharmacies, setPharmacies] = useState([]);
     const user = {name: auth().currentUser.displayName, email: auth().currentUser.email, id: auth().currentUser.uid}
@@ -56,7 +56,7 @@ export default function AddRoomScreen({ navigation }) {
                 // name: user.name,
                 joined: new Date().getTime(),
             }, { merge: true });
-            navigation.navigate('Home');
+            navigation.navigate('PharmacyHome');
         }
     }
     
