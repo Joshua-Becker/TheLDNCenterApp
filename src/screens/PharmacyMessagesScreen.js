@@ -7,7 +7,7 @@ import firestore from '@react-native-firebase/firestore';
 import useStatusBar from '../utils/useStatusBar';
 
 
-export default function RoomScreen({ route }) {
+export default function PharmacyMessagesScreen({ route }) {
     useStatusBar('light-content');
     const { user } = useContext(AuthContext);
     const currentUser = user.toJSON();
@@ -48,15 +48,27 @@ export default function RoomScreen({ route }) {
             <Bubble
             {...props}
             wrapperStyle={{
-                right: {
-                // Here is the color change
+              right: {
+              // Here is the color change
                 backgroundColor: '#0C5FAA'
-                }
+              },
+              left: {
+                // Here is the color change
+                backgroundColor: '#171921',
+              },
             }}
             textStyle={{
-                right: {
-                color: '#fff'
-                }
+              right: {
+                color: '#fff',
+              },
+              left: {
+                color: '#fff',
+              },
+            }}
+            textProps={{
+              style: {
+                color: props.position === 'left' ? '#fff' : '#fff',
+              },
             }}
             />
         );
@@ -158,17 +170,22 @@ const styles = StyleSheet.create({
       alignItems: 'center'
     },
     bottomComponentContainer: {
-        justifyContent: 'center',
-        alignItems: 'center'
+      justifyContent: 'center',
+      alignItems: 'center' 
     },
     loadingContainer: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center'
     },
     systemMessageText: {
-        fontSize: 14,
-        color: '#fff',
-        fontWeight: 'bold'
+      fontSize: 14,
+      color: '#fff',
+      fontWeight: 'bold',
+    },
+    systemMessageWrapper: {
+      backgroundColor: 'orange',
+      padding: 10,
+      borderRadius: 10,
     },
 });

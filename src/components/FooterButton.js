@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#CC5500',
     },
     buttonContainer: {
-        height: height / 15,
+        height: height / 12,
         width: width,
     },
     buttonLabel: {

@@ -1,9 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../screens/HomeScreen';
 import PharmacyStack from './PharmacyStack';
 import { IconButton } from 'react-native-paper';
 import { AuthContext } from '../navigation/AuthProvider';
+import auth from '@react-native-firebase/auth';
 
 const Stack = createStackNavigator();
 
@@ -16,35 +17,51 @@ export default function HomeStack() {
     );
 }
 
+function sleep(milliseconds) {
+  const date = Date.now();
+  let currentDate = null;
+  do {
+    currentDate = Date.now();
+  } while (currentDate - date < milliseconds);
+}
+
 function Home() {
-    const { logout } = useContext(AuthContext)
-    return (
-        <Stack.Navigator
-          screenOptions={{
-            headerStyle: {
-              backgroundColor: '#0C5FAA'
-            },
-            headerTintColor: '#ffffff',
-            headerTitleStyle: {
-              fontSize: 22
-            }
-          }}
-        >
-          <Stack.Screen
-          name='The LDN Center'
-          component={HomeScreen}
-          options={({ navigation }) => ({
-            headerLeft: () => (
-              <IconButton
-                  icon='logout'
-                  size={28}
-                  color='#ffffff'
-                  onPress={() => logout()}
-              />
-            )
-          })}
-          />
-        </Stack.Navigator>
-    );
+  let firstname = '';
+  try {
+    firstname = ', ' + (auth().currentUser.displayName).split(' ')[0];
+  } catch (err){
+    console.log('HomeStack displayName not found: ' + err);
+  }
+
+  const { logout } = useContext(AuthContext)
+  return (
+      //<HomeScreen />
+      <Stack.Navigator
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: '#0C5FAA'
+          },
+          headerTintColor: '#ffffff',
+          headerTitleStyle: {
+            fontSize: 22
+          }
+        }}
+      >
+        <Stack.Screen
+        name={'Welcome' + firstname} 
+        component={HomeScreen}
+        options={({ navigation }) => ({
+          headerLeft: () => (
+            <IconButton
+                icon='logout'
+                size={28}
+                color='#fff'
+                onPress={() => logout()}
+            />
+          )
+        })}
+        />
+      </Stack.Navigator>
+  );
 
 }

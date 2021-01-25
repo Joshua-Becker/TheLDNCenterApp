@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
-import { IconButton, Title } from 'react-native-paper';
-import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
 import firestore from '@react-native-firebase/firestore';
 import useStatusBar from '../utils/useStatusBar';
@@ -10,7 +8,7 @@ import Icon from 'react-native-vector-icons/Feather';
 import auth from '@react-native-firebase/auth';
 
 
-export default function AddRoomScreen({ navigation }) {
+export default function AddPharmacyScreen({ navigation }) {
     useStatusBar('dark-content');
     const [pharmacy, setPharmacy] = useState([]);
     const [pharmacies, setPharmacies] = useState([]);
@@ -56,8 +54,8 @@ export default function AddRoomScreen({ navigation }) {
                 // name: user.name,
                 joined: new Date().getTime(),
             }, { merge: true });
-            navigation.navigate('PharmacyHome');
         }
+        navigation.navigate('PharmacyHome');
     }
     
     const getPharmacies = async () => {
@@ -77,16 +75,7 @@ export default function AddRoomScreen({ navigation }) {
 
     return (
       <View style={styles.rootContainer}>
-        <View style={styles.closeButtonContainer}>
-          <IconButton
-            icon='close-circle'
-            size={36}
-            color='#0C5FAA'
-            onPress={() => navigation.goBack()}
-          />
-        </View>
         <View style={styles.innerContainer}>
-          <Title style={styles.title}>Choose your Pharmacy</Title>
           <DropDownPicker
             items={pharmacies}
             defaultValue={pharmacy.name}
@@ -95,10 +84,11 @@ export default function AddRoomScreen({ navigation }) {
             dropDownStyle={{backgroundColor: '#fafafa', width: '90%'}}
             onChangeItem={item => setPharmacy({name: item.value, id: item.id})}
             searchable={true}
-            searchablePlaceholder="Search for an item"
+            searchablePlaceholder="Search for a pharmacy"
             searchablePlaceholderTextColor="gray"
             seachableStyle={{}}
             searchableError={() => <Text>Not Found</Text>}
+            placeholder={'Select a pharmacy'}
         />
           <FormButton
             title='Join'

@@ -4,10 +4,12 @@ import firestore from '@react-native-firebase/firestore';
 
 export const AuthContext = createContext({});
 
+
 export const AuthProvider = ({ fcmToken, children }) => {
     const [user, setUser] = useState(null);
+    const [username, setUsername] = useState(null);
 
-    function addNewUser(newUser, condition) {
+    function addNewUser(newUser, condition, painLevel, symptomTimeline, medications, comments) {
       const currentUser = newUser.toJSON();
       firestore()
         .collection('USERS')
@@ -18,6 +20,10 @@ export const AuthProvider = ({ fcmToken, children }) => {
             email: currentUser.email,
             name: currentUser.displayName,
             condition: condition,
+            painLevel: painLevel,
+            symptomTimeline: symptomTimeline,
+            medications: medications,
+            comments: comments,
             token: fcmToken,
           },
           note: 'Saved Data',
@@ -36,8 +42,12 @@ export const AuthProvider = ({ fcmToken, children }) => {
               console.log(e);
             }
           },
-          register: async (firstName, lastName, email, password, condition) => {
+          register: async (firstName, lastName, email, password, condition, painLevel, symptomTimeline, medications, comments) => {
             const username = firstName + ' ' + lastName;
+            if(firstName == '' || lastName == '' || email == '' || password == '' || condition == '' || symptomTimeline == '') {
+              alert("Please make sure the following fields are not empty: name, email, password, condition, symptom timeline");
+              return;
+            }
             try {
               await auth().createUserWithEmailAndPassword(email, password).then(function(user) {
                 var user = auth().currentUser;
@@ -45,7 +55,7 @@ export const AuthProvider = ({ fcmToken, children }) => {
                     displayName: username
                 }).then(function() {
                     const newUser = auth().currentUser
-                    addNewUser(newUser, condition)
+                    addNewUser(newUser, condition, painLevel, symptomTimeline, medications, comments)
                 }, function(error) {
                     // An error happened.
                 });        
@@ -72,7 +82,7 @@ export const AuthProvider = ({ fcmToken, children }) => {
               console.error(e);
             }
           },
-          submitForm: async (painLevel) => {
+          submitForm: async (painLevel, sideEffects, comments) => {
             var user = auth().currentUser
             firestore()
             .collection('USERS')
@@ -80,6 +90,8 @@ export const AuthProvider = ({ fcmToken, children }) => {
             .collection('FORMS')
             .add({
               pain: painLevel,
+              sideEffects: sideEffects,
+              comments: comments,
               date: new Date().getTime(),
             });
           }
@@ -89,4 +101,5 @@ export const AuthProvider = ({ fcmToken, children }) => {
       </AuthContext.Provider>
     );
 };
+
   

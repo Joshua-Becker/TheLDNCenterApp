@@ -5,16 +5,22 @@ import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
 import { AuthContext } from '../navigation/AuthProvider';
 import useStatusBar from '../utils/useStatusBar';
-
+import Spinner from 'react-native-loading-spinner-overlay';
 
 export default function LoginScreen({ navigation }) {
     useStatusBar('dark-content');
     const { login } = useContext(AuthContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-  
+    const [isLoading, setIsLoding] = useState(false);
+
     return (
       <View style={styles.container}>
+        <Spinner
+          visible={isLoading}
+          textContent={'Loading...'}
+          textStyle={styles.spinnerTextStyle}
+        />
         <Title style={styles.titleText}>The LDN Center app</Title>
         <FormInput
           labelName='Email'
@@ -32,7 +38,11 @@ export default function LoginScreen({ navigation }) {
           title='Login'
           modeValue='contained'
           labelStyle={styles.loginButtonLabel}
-          onPress={() => login(email, password)}
+          onPress={() => {
+              setIsLoding(true);
+              login(email, password);
+            }
+          }
         />
         <FormButton
           title='Join'
@@ -45,20 +55,23 @@ export default function LoginScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-    container: {
-      backgroundColor: '#f5f5f5',
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center'
-    },
-    titleText: {
-      fontSize: 24,
-      marginBottom: 10
-    },
-    loginButtonLabel: {
-      fontSize: 22
-    },
-    navButtonText: {
-      fontSize: 16
-    },
+  container: {
+    backgroundColor: '#f5f5f5',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  titleText: {
+    fontSize: 24,
+    marginBottom: 10
+  },
+  loginButtonLabel: {
+    fontSize: 22
+  },
+  navButtonText: {
+    fontSize: 16
+  },
+  spinnerTextStyle: {
+    color: '#FFF'
+  },
 });

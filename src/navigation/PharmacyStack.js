@@ -1,8 +1,9 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
+import { useFocusEffect } from '@react-navigation/native';
 import PharmacyScreen from '../screens/PharmacyScreen';
-import AddRoomScreen from '../screens/AddRoomScreen';
-import RoomScreen from '../screens/RoomScreen';
+import AddPharmacyScreen from '../screens/AddPharmacyScreen';
+import PharmacyMessagesScreen from '../screens/PharmacyMessagesScreen';
 import FormScreen from '../screens/FormScreen';
 import ChangePharmacyScreen from '../screens/ChangePharmacyScreen';
 import { IconButton } from 'react-native-paper';
@@ -12,22 +13,20 @@ import firestore from '@react-native-firebase/firestore';
 import HomeStack from '../navigation/HomeStack';
 
 const PharmacyStack = createStackNavigator();
-const ModalStack = createStackNavigator();
 
 export default function Pharmacy() {
     return (
-      <ModalStack.Navigator mode='modal' headerMode='none'>
-        <ModalStack.Screen name='PharmacyHome' component={PharmacyHome} />
-        <ModalStack.Screen name='AddRoom' component={AddRoomScreen} />
-        <ModalStack.Screen name='Form' component={FormScreen} />
-        <ModalStack.Screen name='ChangePharmacy' component={ChangePharmacyScreen} />
-        <ModalStack.Screen name='Home' component={HomeStack} />
-      </ModalStack.Navigator>
+      <PharmacyStack.Navigator mode='modal' headerMode='none'>
+        <PharmacyStack.Screen name='PharmacyHome' component={PharmacyHome} />
+        <PharmacyStack.Screen name='AddPharmacy' component={AddPharmacyScreen} />
+        <PharmacyStack.Screen name='Form' component={FormScreen} />
+        <PharmacyStack.Screen name='ChangePharmacy' component={ChangePharmacyScreen} />
+        <PharmacyStack.Screen name='Home' component={HomeStack} />
+      </PharmacyStack.Navigator>
     );
 }
 
 function PharmacyHome() {
-  const { logout } = useContext(AuthContext)
   const [hasPharmacy, setHasPharmacy] = useState(true)
   const user = auth().currentUser
 
@@ -37,16 +36,18 @@ function PharmacyHome() {
     .doc(user.uid)
     .get()
     const userInfoData = userInfoRaw.data()
-    if(userInfoData.pharmacyName != ''){
+    if(userInfoData.pharmacyName != '' && userInfoData.pharmacyName != undefined){
       setHasPharmacy(true)
     } else {
       setHasPharmacy(false)
     }
   }
 
-  useEffect(() => {
-    userHasPharmacy()
-  })
+  useEffect(
+    React.useCallback(() => {
+      userHasPharmacy()
+    }, [])
+  );  
 
   return (
     <PharmacyStack.Navigator
@@ -61,26 +62,26 @@ function PharmacyHome() {
       }}
     >
       <PharmacyStack.Screen
-      name='MyPharmacy'
+      name='My Pharmacy'
       component={PharmacyScreen}
       options={({ navigation }) => ({
         headerRight: () => (
           <IconButton
-              icon='message-plus'
+              icon ={ hasPharmacy ? 'account-switch' : 'message-plus'}
               size={28}
               color='#ffffff'
               onPress={() => {
                 if(hasPharmacy) {
                   navigation.navigate('ChangePharmacy')
                 } else {
-                  navigation.navigate('AddRoom')
+                  navigation.navigate('AddPharmacy')
                 }
               }}
           />
         ),
         headerLeft: () => (
           <IconButton
-              icon='logout'
+              icon='home'
               size={28}
               color='#ffffff'
               onPress={() => navigation.navigate('Home')}
@@ -89,10 +90,32 @@ function PharmacyHome() {
       })}
       />
       <PharmacyStack.Screen
-      name='Room'
-      component={RoomScreen}
-      options={({ route }) => ({
-          title: route.params.thread.name
+      name='AddPharmacy'
+      component={AddPharmacyScreen}
+      options={({ navigation }) => ({
+          title: 'Choose your pharmacy',
+          headerLeft: () => (
+            <IconButton
+                icon='home'
+                size={28}
+                color='#ffffff'
+                onPress={() => navigation.navigate('Home')}
+            />
+          )
+      })}
+      />
+      <PharmacyStack.Screen
+      name='Messages'
+      component={PharmacyMessagesScreen}
+      options={() => ({
+          title: 'Messages'
+      })}
+      />
+      <PharmacyStack.Screen
+      name='Form'
+      component={FormScreen}
+      options={() => ({
+          title: 'Biweekly Form'
       })}
       />
     </PharmacyStack.Navigator>

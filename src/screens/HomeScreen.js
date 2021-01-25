@@ -1,9 +1,10 @@
 import React, { useState, useContext } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Title } from 'react-native-paper';
+import { View, StyleSheet, Image, Dimensions } from 'react-native';
 import FormButton from '../components/FormButton';
 import { AuthContext } from '../navigation/AuthProvider';
 import useStatusBar from '../utils/useStatusBar';
+
+const { width, height } = Dimensions.get('screen');
 
 export default function HomeScreen({ navigation }) {
     useStatusBar('dark-content');
@@ -13,13 +14,24 @@ export default function HomeScreen({ navigation }) {
   
     return (
       <View style={styles.container}>
-        {/* <Title style={styles.titleText}>The LDN Center app</Title> */}
-        <FormButton
-          title='My Pharmacy'
-          modeValue='contained'
-          labelStyle={styles.loginButtonLabel}
-          onPress={() => navigation.navigate('Pharmacy')}
+        <Image 
+            source={require('../media/images/logo-dark.png')} 
+            style={styles.logo}
         />
+        <View style={styles.stacks}>
+          <FormButton
+            title='My Pharmacy'
+            modeValue='contained'
+            labelStyle={styles.loginButtonLabel}
+            onPress={() => navigation.navigate('Pharmacy')}
+          />
+          <FormButton
+            title='About Me'
+            modeValue='contained'
+            labelStyle={styles.loginButtonLabel}
+            onPress={() => navigation.navigate('Pharmacy')}
+          />
+        </View>
       </View>
     );
 }
@@ -28,8 +40,10 @@ const styles = StyleSheet.create({
     container: {
       backgroundColor: '#f5f5f5',
       flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center'
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: height / 9,
+      marginTop: height / 9,
     },
     titleText: {
       fontSize: 24,
@@ -38,4 +52,11 @@ const styles = StyleSheet.create({
     loginButtonLabel: {
       fontSize: 15
     },
+    logo: {
+        width: width / 1.5,
+        height: height / 4.5,
+    },
+    stacks: {
+
+    }
 });
