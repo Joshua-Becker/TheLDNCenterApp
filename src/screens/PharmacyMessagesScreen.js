@@ -13,6 +13,7 @@ export default function PharmacyMessagesScreen({ route }) {
     const currentUser = user.toJSON();
     const { thread } = route.params;
     const [messages, setMessages] = useState([]);
+    const { ethree } = useContext(AuthContext);
 
     function renderSystemMessage(props) {
         return (
@@ -85,13 +86,14 @@ export default function PharmacyMessagesScreen({ route }) {
     // helper method that is sends a message
     async function handleSend(messages) {
         const text = messages[0].text;
-    
+        const findUserIdentity = await ethree.findUsers(thread.pharmacyID);
+        const encryptedMessage = await ethree.authEncrypt(text, findUserIdentity);
         firestore()
           .collection('USERS')
           .doc(thread._id)
           .collection('MESSAGES')
           .add({
-            text,
+            text: encryptedMessage,
             createdAt: new Date().getTime(),
             user: {
               _id: currentUser.uid,
@@ -105,47 +107,53 @@ export default function PharmacyMessagesScreen({ route }) {
           .set(
             {
               latestMessage: {
-                text,
+                text: encryptedMessage,
                 createdAt: new Date().getTime()
               }
             },
             { merge: true }
           );
-      }
-    
-      useEffect(() => {
-        const messagesListener = firestore()
-          .collection('USERS')
-          .doc(thread._id)
-          .collection('MESSAGES')
-          .orderBy('createdAt', 'desc')
-          .onSnapshot(querySnapshot => {
-            const messages = querySnapshot.docs.map(doc => {
-              const firebaseData = doc.data();
-    
-              const data = {
-                _id: doc.id,
-                text: '',
-                createdAt: new Date().getTime(),
-                ...firebaseData
+    }
+
+    useEffect(() => {     
+      const messagesListener = firestore()
+        .collection('USERS')
+        .doc(thread._id)
+        .collection('MESSAGES')
+        .orderBy('createdAt', 'desc')
+        .onSnapshot(querySnapshot => {
+          const newMessages = querySnapshot.docs.map( async (doc) => {
+            const firebaseData = doc.data();
+            let decryptedText;
+            if(firebaseData.user._id == thread.pharmacyID){
+              const findUserIdentity = await ethree.findUsers(thread.pharmacyID);
+              decryptedText = await ethree.authDecrypt(firebaseData.text, findUserIdentity);
+            } else {
+              decryptedText = await ethree.authDecrypt(firebaseData.text);
+            }
+            const data = {
+              _id: doc.id,
+              text: '',
+              createdAt: new Date().getTime(),
+              ...firebaseData
+            };
+            if (!firebaseData.system) {
+              data.user = {
+                ...firebaseData.user,
+                name: firebaseData.user.email
               };
-    
-              if (!firebaseData.system) {
-                data.user = {
-                  ...firebaseData.user,
-                  name: firebaseData.user.email
-                };
-              }
-    
-              return data;
-            });
-    
-            setMessages(messages);
-          });
-    
-        // Stop listening for updates whenever the component unmounts
-        return () => messagesListener();
-      }, []);
+            }
+            data.text = decryptedText;
+            return data;
+          })
+          Promise.all(newMessages).then(function(results) {
+            setMessages(results);
+          }).catch(error => console.log('Error returning messages: ' + error));
+        });
+  
+      // Stop listening for updates whenever the component unmounts
+      return () => messagesListener();
+    }, []);
 
     return (
         <GiftedChat

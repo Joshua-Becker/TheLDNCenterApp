@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, StyleSheet, ScrollView} from 'react-native';
 import { Card, Title, Paragraph, Button } from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
@@ -7,6 +7,7 @@ import useStatusBar from '../utils/useStatusBar';
 import auth from '@react-native-firebase/auth';
 import FooterButton from '../components/FooterButton';
 import FormButton from '../components/FormButton';
+import { AuthContext } from '../navigation/AuthProvider';
 
 export default function PharmacyScreen({ navigation }) {
   useStatusBar('light-content');
@@ -14,6 +15,8 @@ export default function PharmacyScreen({ navigation }) {
   const [thread, setThread] = useState({});
   const [loading, setLoading] = useState(true);
   const user = {email: auth().currentUser.email, id: auth().currentUser.uid}
+  const { ethree } = useContext(AuthContext);
+  console.log('ETHREE: ' + ethree);
 
   async function showFormCheck() {
     const latestForm = await firestore()
@@ -47,7 +50,7 @@ export default function PharmacyScreen({ navigation }) {
     const unsubscribe = firestore()
       .collection('USERS')
       .doc(user.id)
-      .onSnapshot(querySnapshot => {
+      .onSnapshot(async querySnapshot => {
         const thread = {
           _id: querySnapshot.id,
           name: '',
@@ -59,6 +62,16 @@ export default function PharmacyScreen({ navigation }) {
         if(thread.pharmacyName == '' || thread.pharmacyName == undefined){
           navigation.navigate('AddPharmacy');
         }
+        console.log('THREAD: ' + thread.latestMessage.text);
+        let decryptedText;
+        if(querySnapshot.id == thread.pharmacyID){
+          const findUserIdentity = await ethree.findUsers(thread.pharmacyID);
+          decryptedText = await ethree.authDecrypt(thread.latestMessage.text, findUserIdentity);
+        } else {
+          decryptedText = await ethree.authDecrypt(thread.latestMessage.text);
+        }
+        console.log('DECRYPTED TEXT: ' + decryptedText);
+        thread.latestMessage.text = decryptedText;
         setThread(thread);
         if (loading) {
           setLoading(false);
