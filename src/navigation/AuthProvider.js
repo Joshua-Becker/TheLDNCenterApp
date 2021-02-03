@@ -15,34 +15,41 @@ export const AuthProvider = ({ fcmToken, children }) => {
   const initializeFunction = () => getToken().then(result => result.data.token);
 
   async function addNewUser(newUser, condition, painLevel, symptomTimeline, medications, comments) {
+    console.log('Adding new user');
+    console.log('ETHREE: ' + ethree);
     const currentUser = newUser.toJSON();
-    firestore()
-      .collection('USERS')
-      .doc(currentUser.uid)
-      .set({
-        user: {
-          _id: currentUser.uid,
-          email: currentUser.email,
-          name: currentUser.displayName,
-          condition: condition,
-          painLevel: painLevel,
-          symptomTimeline: symptomTimeline,
-          medications: medications,
-          comments: comments,
-          token: fcmToken,
-        },
-        note: 'Saved Data',
-    });
     EThree.initialize(initializeFunction, { AsyncStorage }).then(async eThree => {
       await eThree.cleanup();
       await eThree.register()
-        .then(() => console.log('EThree Register Success'))
+        .then(async () => {
+          console.log('EThree Register Success: ' + currentUser);
+          const encryptedName = await ethree.authEncrypt(currentUser.displayName);
+          const encryptedEmail = await ethree.authEncrypt(currentUser.email);
+          console.log('After Encryption: ' + currentUser);
+          firestore()
+            .collection('USERS')
+            .doc(currentUser.uid)
+            .set({
+              user: {
+                _id: currentUser.uid,
+                email: encryptedEmail,
+                name: encryptedName,
+                condition: condition,
+                painLevel: painLevel,
+                symptomTimeline: symptomTimeline,
+                medications: medications,
+                comments: comments,
+                token: fcmToken,
+              },
+              note: 'Saved Data',
+          });
+        })
         .catch(e => console.error('EThree Register Error: ', e));
       setEthree(eThree);
     })
     .catch( err => {
       console.log('EThree register fail:' + err);
-    })
+    });
   }
 
   return (
@@ -60,20 +67,25 @@ export const AuthProvider = ({ fcmToken, children }) => {
           setEthree(await EThree.initialize(initializeFunction, { AsyncStorage }));
         },
         register: async (firstName, lastName, email, password, condition, painLevel, symptomTimeline, medications, comments) => {
+          console.log('Beginning Register');
           const username = firstName + ' ' + lastName;
           if(firstName == '' || lastName == '' || email == '' || password == '' || condition == '' || symptomTimeline == '') {
             alert("Please make sure the following fields are not empty: name, email, password, condition, symptom timeline");
             return;
           }
           try {
+            console.log('Creating firebase user');
             await auth().createUserWithEmailAndPassword(email, password).then(function(user) {
               var user = auth().currentUser;
               user.updateProfile({
                   displayName: username
               }).then(function() {
                   const newUser = auth().currentUser;
-                  addNewUser(newUser, condition, painLevel, symptomTimeline, medications, comments)
+                  //Wait 2 seconds for Firebase to register new user
+                  console.log('Before timeout');
+                  addNewUser(newUser, condition, painLevel, symptomTimeline, medications, comments);
               }, function(error) {
+                console.error("Error adding new user" + error);
                   // An error happened.
               });        
           }, function(error) {

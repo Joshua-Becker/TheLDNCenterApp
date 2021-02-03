@@ -1,11 +1,13 @@
 import React, { useState, useContext } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Title } from 'react-native-paper';
+import { View, StyleSheet, Image, Dimensions, Text, TouchableOpacity } from 'react-native';
+import { IconButton } from 'react-native-paper';
 import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
 import { AuthContext } from '../navigation/AuthProvider';
 import useStatusBar from '../utils/useStatusBar';
 import Spinner from 'react-native-loading-spinner-overlay';
+
+const { width, height } = Dimensions.get('screen');
 
 export default function LoginScreen({ navigation }) {
     useStatusBar('dark-content');
@@ -21,19 +23,36 @@ export default function LoginScreen({ navigation }) {
           textContent={'Loading...'}
           textStyle={styles.spinnerTextStyle}
         />
-        <Title style={styles.titleText}>The LDN Center app</Title>
-        <FormInput
-          labelName='Email'
-          value={email}
-          autoCapitalize='none'
-          onChangeText={userEmail => setEmail(userEmail)}
-        />
-        <FormInput
-          labelName='Password'
-          value={password}
-          secureTextEntry={true}
-          onChangeText={userPassword => setPassword(userPassword)}
-        />
+        <View style={styles.header}>
+          <TouchableOpacity style={styles.signUpBox} onPress={() => navigation.navigate('Signup')}>
+            <Text 
+            style={styles.signUpText} 
+            >SIGN UP</Text>
+            <IconButton
+                  icon='arrow-right'
+                  size={15}
+                  color='#fff'
+            />
+          </TouchableOpacity>
+          <Image 
+              source={require('../media/images/logo-light.png')} 
+              style={styles.logo}
+          />
+        </View>
+        <View>
+          <FormInput
+            labelName='Email'
+            value={email}
+            autoCapitalize='none'
+            onChangeText={userEmail => setEmail(userEmail)}
+          />
+          <FormInput
+            labelName='Password'
+            value={password}
+            secureTextEntry={true}
+            onChangeText={userPassword => setPassword(userPassword)}
+          />
+        </View>
         <FormButton
           title='Login'
           modeValue='contained'
@@ -44,34 +63,51 @@ export default function LoginScreen({ navigation }) {
             }
           }
         />
-        <FormButton
-          title='Join'
-          modeValue='contained'
-          labelStyle={styles.loginButtonLabel}
-          onPress={() => navigation.navigate('Signup')}
-        />
       </View>
     );
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#3F4253',
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    color: '#fff',
+    paddingBottom: 20,
+  },
+  header: {
+    alignItems: 'center',
   },
   titleText: {
     fontSize: 24,
-    marginBottom: 10
+    marginBottom: 10,
+    color: '#fff',
   },
   loginButtonLabel: {
-    fontSize: 22
+    fontSize: 22,
+    color: '#fff',
   },
   navButtonText: {
     fontSize: 16
   },
   spinnerTextStyle: {
     color: '#FFF'
+  },
+  logo: {
+    width: width / 1.5,
+    height: height / 4.5,
+    marginTop: 20,
+  },
+  signUpBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#171921',
+    width: width,
+    justifyContent: 'flex-end',
+  },
+  signUpText: {
+    color: '#fff',
+    fontSize: 15,
   },
 });

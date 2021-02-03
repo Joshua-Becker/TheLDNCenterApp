@@ -156,6 +156,7 @@ export default function PharmacyMessagesScreen({ route }) {
     }, []);
 
     return (
+      <View style={styles.container}>
         <GiftedChat
             messages={messages}
             onSend={handleSend}
@@ -169,13 +170,18 @@ export default function PharmacyMessagesScreen({ route }) {
             renderLoading={renderLoading}
             renderSystemMessage={renderSystemMessage}
         />
+      </View>
     );
 }
 
 const styles = StyleSheet.create({
+    container: {
+      backgroundColor: '#3F4253',
+      flex: 1,
+    },
     sendingContainer: {
       justifyContent: 'center',
-      alignItems: 'center'
+      alignItems: 'center',
     },
     bottomComponentContainer: {
       justifyContent: 'center',

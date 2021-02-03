@@ -16,7 +16,6 @@ export default function PharmacyScreen({ navigation }) {
   const [loading, setLoading] = useState(true);
   const user = {email: auth().currentUser.email, id: auth().currentUser.uid}
   const { ethree } = useContext(AuthContext);
-  console.log('ETHREE: ' + ethree);
 
   async function showFormCheck() {
     const latestForm = await firestore()
@@ -62,15 +61,21 @@ export default function PharmacyScreen({ navigation }) {
         if(thread.pharmacyName == '' || thread.pharmacyName == undefined){
           navigation.navigate('AddPharmacy');
         }
-        console.log('THREAD: ' + thread.latestMessage.text);
         let decryptedText;
-        if(querySnapshot.id == thread.pharmacyID){
-          const findUserIdentity = await ethree.findUsers(thread.pharmacyID);
-          decryptedText = await ethree.authDecrypt(thread.latestMessage.text, findUserIdentity);
-        } else {
-          decryptedText = await ethree.authDecrypt(thread.latestMessage.text);
+        try {
+          if(querySnapshot.id == thread.pharmacyID){
+            const findUserIdentity = await ethree.findUsers(thread.pharmacyID);
+            decryptedText = await ethree.authDecrypt(thread.latestMessage.text, findUserIdentity);
+          } else if(thread.latestMessage.text == null || thread.latestMessage.text == undefined) {
+            decryptedText = '';
+          } else {
+            decryptedText = await ethree.authDecrypt(thread.latestMessage.text);
+          }
         }
-        console.log('DECRYPTED TEXT: ' + decryptedText);
+        catch(err){
+          console.log("Error decrypting latest message: " + err);
+          decryptedText = '';
+        }
         thread.latestMessage.text = decryptedText;
         setThread(thread);
         if (loading) {
@@ -90,14 +95,14 @@ export default function PharmacyScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <ScrollView style={styles.about}>
-        <Card>
+        <Card style={styles.card}>
           <Card.Title
             title={thread.pharmacyName}
+            titleStyle={styles.cardTitle}
           />
-          {/* <Card.Cover source={{ uri: 'https://picsum.photos/700' }} /> */}
           <Card.Content>
-            <Title>Latest Message:</Title>
-            <Paragraph>{thread.latestMessage.text}</Paragraph>
+            <Title style={styles.cardSubTitle}>Latest Message:</Title>
+            <Paragraph style={styles.cardText}>{thread.latestMessage.text}</Paragraph>
           </Card.Content>
         </Card>
       </ScrollView>
@@ -106,15 +111,13 @@ export default function PharmacyScreen({ navigation }) {
             <FormButton
               title='Messages'
               modeValue='contained'
-              labelStyle={styles.messagesButtonLabel}
               onPress={() => navigation.navigate('Messages', { thread } )}
             />
           </View>
           {showForm && (
           <FooterButton
               title='biweekly form'
-              modeValue='contained'
-              labelStyle={styles.formButton}
+              subTitle={thread.pharmacyName + ' is requesting an update to help you reach your best LDN dose'}
               onPress={() => navigation.navigate('Form')}
             />
             )}
@@ -125,28 +128,35 @@ export default function PharmacyScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#3F4253',
     flex: 1,
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  listTitle: {
-    fontSize: 22,
+  card: {
+    width: '100%',
+    backgroundColor: '#2F3243',
   },
-  listDescription: {
-    fontSize: 16,
+  cardTitle: {
+    color: '#fff',
   },
-  messagesButtonLabel: {
-    fontSize: 22,
+  cardSubTitle: {
+    color: '#fff',
+  },
+  cardText: {
+    color: '#fff',
   },
   about: {
     flex: 1,
     marginTop: 20,
+    width: '90%',
   },
   messages: {
-    marginBottom: 50,
+    marginBottom: 50, 
+    width: '50%',   
   },
   footer: {
+    width: '100%',
     alignItems: 'center',
   },
 });

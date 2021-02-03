@@ -1,4 +1,4 @@
-import React, { useState, useEffect, } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, StyleSheet, Text, Alert } from 'react-native';
 import { IconButton, Title } from 'react-native-paper';
 import FormInput from '../components/FormInput';
@@ -8,6 +8,7 @@ import useStatusBar from '../utils/useStatusBar';
 import DropDownPicker from 'react-native-dropdown-picker';
 import Icon from 'react-native-vector-icons/Feather';
 import auth from '@react-native-firebase/auth';
+import { AuthContext } from '../navigation/AuthProvider';
 
 
 export default function ChangePharmacyScreen({ navigation }) {
@@ -16,7 +17,7 @@ export default function ChangePharmacyScreen({ navigation }) {
     const [previousPharmacy, setPreviousPharmacy] = useState([]);
     const [pharmacies, setPharmacies] = useState([]);
     const user = {name: auth().currentUser.displayName, email: auth().currentUser.email, id: auth().currentUser.uid}
-    // ... Firestore query will come here later
+    const { ethree } = useContext(AuthContext);
     
     async function getPreviousPharmacy(){
         const previousPharmacyRaw = await firestore()
@@ -65,54 +66,57 @@ export default function ChangePharmacyScreen({ navigation }) {
     async function handleButtonPress() {
         getPreviousPharmacy()
         if (Object.keys(pharmacy).length > 0) {
-            await firestore()
-            .collection('USERS')
-            .doc(user.id)
-            .set({
-                pharmacyName: pharmacy.name,
-                pharmacyID: pharmacy.id,
-                latestMessage: {
-                text: `You are now messaging ${pharmacy.name}.`,
-                createdAt: new Date().getTime()
-                }
-            }, { merge: true })
-            .catch(function(error) {
-                console.error("Error saving post : ", error);
-                //this code does not throw an error.
-            });
+          const findUserIdentity = await ethree.findUsers(pharmacy.id);
+          const encryptedEmail = await ethree.authEncrypt(user.email, findUserIdentity);
+          const encryptedName = await ethree.authEncrypt(user.name, findUserIdentity);
+          await firestore()
+          .collection('USERS')
+          .doc(user.id)
+          .set({
+              pharmacyName: pharmacy.name,
+              pharmacyID: pharmacy.id,
+              // latestMessage: {
+              // text: `You are now messaging ${pharmacy.name}.`,
+              // createdAt: new Date().getTime()
+              // }
+          }, { merge: true })
+          .catch(function(error) {
+              console.error("Error saving post : ", error);
+              //this code does not throw an error.
+          });
 
-            deleteMessages(firestore(), 50)
+          deleteMessages(firestore(), 50)
 
-            await firestore()
-            .collection('USERS')
-            .doc(auth().currentUser.uid)
-            .collection('MESSAGES')
-            .add({
-                text: `You are now messaging ${pharmacy.name}.`,
-                createdAt: new Date().getTime(),
-                system: true
-            });
+          // await firestore()
+          // .collection('USERS')
+          // .doc(auth().currentUser.uid)
+          // .collection('MESSAGES')
+          // .add({
+          //     text: `You are now messaging ${pharmacy.name}.`,
+          //     createdAt: new Date().getTime(),
+          //     system: true
+          // });
 
-            await firestore()
-            .collection('PHARMACIES')
-            .doc(pharmacy.id)
-            .collection('PATIENTS')
-            .doc(user.id)
-            .set({
-                // userID: user.id,
-                // email: user.email,
-                // name: user.name,
-                joined: new Date().getTime(),
-            }, { merge: true });
+          await firestore()
+          .collection('PHARMACIES')
+          .doc(pharmacy.id)
+          .collection('PATIENTS')
+          .doc(user.id)
+          .set({
+              // userID: user.id,
+              // email: user.email,
+              // name: user.name,
+              joined: new Date().getTime(),
+          }, { merge: true });
 
-            await firestore()
-            .collection('PHARMACIES')
-            .doc(previousPharmacy.id)
-            .collection('PATIENTS')
-            .doc(user.id)
-            .delete();
+          await firestore()
+          .collection('PHARMACIES')
+          .doc(previousPharmacy.id)
+          .collection('PATIENTS')
+          .doc(user.id)
+          .delete();
 
-            navigation.navigate('PharmacyHome');
+          navigation.navigate('My Pharmacy');
         }
     }
     
@@ -146,16 +150,7 @@ export default function ChangePharmacyScreen({ navigation }) {
 
     return (
       <View style={styles.rootContainer}>
-        <View style={styles.closeButtonContainer}>
-          <IconButton
-            icon='close-circle'
-            size={36}
-            color='#0C5FAA'
-            onPress={() => navigation.goBack()}
-          />
-        </View>
         <View style={styles.innerContainer}>
-          <Title style={styles.title}>Transfer to new pharmacy</Title>
           <DropDownPicker
             items={pharmacies}
             defaultValue={pharmacy.name}
@@ -184,23 +179,14 @@ export default function ChangePharmacyScreen({ navigation }) {
 const styles = StyleSheet.create({
 rootContainer: {
     flex: 1,
-    marginTop: 10,
-},
-closeButtonContainer: {
-    position: 'absolute',
-    top: 30,
-    right: 0,
-    zIndex: 1
+    backgroundColor: '#3F4253',
 },
 innerContainer: {
     flex: 1,
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 10,
-},
-title: {
-    fontSize: 24,
-    marginBottom: 10
+    paddingBottom: 50,
 },
 buttonLabel: {
     fontSize: 22,

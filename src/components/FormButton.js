@@ -8,9 +8,10 @@ export default function FormButton({ title, modeValue, ...rest }) {
   return (
     <Button
       mode={modeValue}
-      {...rest}
       style={styles.button}
       contentStyle={styles.buttonContainer}
+      labelStyle={styles.buttonLabel}
+      {...rest}
     >
       {title}
     </Button>
@@ -20,10 +21,15 @@ export default function FormButton({ title, modeValue, ...rest }) {
 const styles = StyleSheet.create({
   button: {
     marginTop: 10,
-    backgroundColor: '#0C5FAA',
+    backgroundColor: '#D8752F',
+    alignItems: 'center',
   },
   buttonContainer: {
     width: width / 2,
-    height: height / 10
+    height: height / 14
+  },
+  buttonLabel: {
+    color: '#fff',
+    fontSize: 15,
   }
 });

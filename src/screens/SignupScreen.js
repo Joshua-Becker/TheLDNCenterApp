@@ -7,8 +7,12 @@ import {Picker} from '@react-native-picker/picker';
 import FormComments from '../components/FormComments';
 import { Divider } from 'react-native-paper';
 import Spinner from 'react-native-loading-spinner-overlay';
+import useStatusBar from '../utils/useStatusBar';
+import { IconButton } from 'react-native-paper';
+
 
 export default function SignupScreen({ navigation }) {
+  useStatusBar('dark-content');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -22,13 +26,13 @@ export default function SignupScreen({ navigation }) {
   const [isLoading, setIsLoding] = useState(false);
 
   return (
-    <ScrollView>
+    <ScrollView style={styles.container}>
       <Spinner
           visible={isLoading}
           textContent={'Loading...'}
           textStyle={styles.spinnerTextStyle}
       />
-      <View style={styles.container}>
+      <View style={styles.form}>
         <FormInput
           labelName='First name'
           value={firstName}
@@ -61,7 +65,8 @@ export default function SignupScreen({ navigation }) {
         />
         <Divider style={styles.divider} />
         <Text style={styles.formHeader}>Current level of pain or discomfort</Text>
-        <Picker style={styles.picker} selectedValue={painLevel} style={{width: '100%'}} onValueChange={(itemValue, itemIndex) => setPainLevel(itemValue)}>
+        <View style={styles.pickerContainer}> 
+          <Picker style={styles.picker} itemStyle={styles.pickerItems} selectedValue={painLevel} onValueChange={(itemValue, itemIndex) => setPainLevel(itemValue)}>
             <Picker.Item label="0" value="0" />
             <Picker.Item label="1" value="1" />
             <Picker.Item label="2" value="2" />
@@ -73,7 +78,14 @@ export default function SignupScreen({ navigation }) {
             <Picker.Item label="8" value="8" />
             <Picker.Item label="9" value="9" />
             <Picker.Item label="10" value="10" />
-        </Picker>
+          </Picker>
+          <IconButton
+            icon='arrow-down-drop-circle'
+            size={15}
+            color='#fff'
+            style={styles.pickerIcon}
+          />
+        </View>
         <Divider style={styles.divider} />
         <Text style={styles.formHeader}>How long have you been experiencing symptoms?</Text>
         <FormInput
@@ -97,9 +109,9 @@ export default function SignupScreen({ navigation }) {
           onChangeText={comment => setComments(comment)}
         />
         <FormButton
-          title='Signup'
+          title='Sign Up'
           modeValue='contained'
-          labelStyle={styles.loginButtonLabel}
+          labelStyle={styles.signUpButtonLabel}
           onPress={() => {
               setIsLoding(true);
               register(firstName, lastName, email, password, condition, painLevel, symptomTimeline, medications, comments)
@@ -113,7 +125,10 @@ export default function SignupScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#3F4253',
+  },
+  form: {
+    backgroundColor: '#2F3243',
     flex: 1,
     justifyContent: 'center',
     // alignItems: 'center',
@@ -126,8 +141,9 @@ const styles = StyleSheet.create({
     fontSize: 24,
     marginBottom: 10
   },
-  loginButtonLabel: {
-    fontSize: 22
+  signUpButtonLabel: {
+    fontSize: 22,
+    color: '#fff',
   },
   navButtonText: {
     fontSize: 18
@@ -140,6 +156,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
     textAlign: 'left',
     alignSelf: 'stretch',
+    color : '#fff',
   },
   divider: {
     marginTop: 15,
@@ -147,5 +164,22 @@ const styles = StyleSheet.create({
   },
   spinnerTextStyle: {
     color: '#FFF'
+  },
+  pickerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  picker: {
+    backgroundColor: 'transparent',
+    width: '100%',
+    color: '#fff',
+  },
+  pickerItems: {
+    color: '#000',
+  }, 
+  pickerIcon: {
+    position: 'absolute',
+    right: '10%',
   },
 });

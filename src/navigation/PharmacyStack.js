@@ -53,11 +53,11 @@ function PharmacyHome() {
     <PharmacyStack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: '#0C5FAA'
+          backgroundColor: '#171921'
         },
         headerTintColor: '#ffffff',
         headerTitleStyle: {
-          fontSize: 22
+          fontSize: 20
         }
       }}
     >
@@ -100,6 +100,29 @@ function PharmacyHome() {
                 size={28}
                 color='#ffffff'
                 onPress={() => navigation.navigate('Home')}
+            />
+          )
+      })}
+      />
+      <PharmacyStack.Screen
+      name='ChangePharmacy'
+      component={ChangePharmacyScreen}
+      options={({ navigation }) => ({
+          title: 'Change Pharmacy',
+          headerLeft: () => (
+            <IconButton
+                icon='home'
+                size={28}
+                color='#ffffff'
+                onPress={() => navigation.navigate('Home')}
+            />
+          ),
+          headerRight: () => (
+            <IconButton
+                icon='alpha-x-circle'
+                size={28}
+                color='#ffffff'
+                onPress={() => navigation.goBack()}
             />
           )
       })}

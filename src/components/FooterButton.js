@@ -1,35 +1,51 @@
 import React from 'react';
-import { StyleSheet, Dimensions, Text } from 'react-native';
-import { Button } from 'react-native-paper';
+import { StyleSheet, Dimensions, Text, View, TouchableOpacity } from 'react-native';
+import { IconButton } from 'react-native-paper';
+
 
 const { width, height } = Dimensions.get('screen');
 
-export default function FooterButton({ title, modeValue, ...rest }) {
+export default function FooterButton({ title, subTitle, ...rest }) {
   return (
-    <Button
-      mode={modeValue}
+    <TouchableOpacity
+      style={styles.footerButton}
       {...rest}
-      style={styles.button}
-      labelStyle={styles.buttonLabel}
-      contentStyle={styles.buttonContainer}
     >
-      {title}
-    </Button>
+      <View style={styles.buttonTitleContainer}>
+        <Text style={styles.buttonTitle}>{title}</Text>
+        <IconButton
+          icon='arrow-right'
+          size={20}
+          color='#fff'
+        />
+      </View>
+      <Text style={styles.buttonSubTitle}>{subTitle}</Text>
+    </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
-    button: {
-        marginTop: 10,
-        backgroundColor: '#0C5FAA',
-        borderRadius: 0,
-        backgroundColor: '#CC5500',
-    },
-    buttonContainer: {
-        height: height / 12,
-        width: width,
-    },
-    buttonLabel: {
-        fontSize: 22,    
-    }
+  footerButton: {
+    marginTop: 10,
+    backgroundColor: '#1E6EB4',
+    borderRadius: 0,
+    flexDirection: 'column',
+    width: width,
+    padding: 10,
+    alignItems:'center',
+  },
+  buttonTitle: {
+    fontSize: 22,
+    color: '#fff',
+    textTransform: 'uppercase'
+  },
+  buttonSubTitle: {
+    fontSize: 12,
+    color: '#fff',
+    maxWidth: '75%',
+  },
+  buttonTitleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  }
 });

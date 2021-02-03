@@ -22,7 +22,7 @@ function Signup() {
     <SignupStack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: '#0C5FAA'
+          backgroundColor: '#171921',
         },
         headerTintColor: '#ffffff',
         headerTitleStyle: {
@@ -31,10 +31,10 @@ function Signup() {
       }}
     >
       <SignupStack.Screen
-      name='Register'
+      name='Signup'
       component={SignupScreen}
       options={() => ({
-          title: 'Register'
+          title: 'Sign Up'
       })}
       />
     </SignupStack.Navigator>

@@ -15,20 +15,18 @@ export default function HomeScreen({ navigation }) {
     return (
       <View style={styles.container}>
         <Image 
-            source={require('../media/images/logo-dark.png')} 
+            source={require('../media/images/logo-light.png')} 
             style={styles.logo}
         />
         <View style={styles.stacks}>
           <FormButton
             title='My Pharmacy'
             modeValue='contained'
-            labelStyle={styles.loginButtonLabel}
             onPress={() => navigation.navigate('Pharmacy')}
           />
           <FormButton
             title='About Me'
             modeValue='contained'
-            labelStyle={styles.loginButtonLabel}
             onPress={() => navigation.navigate('Pharmacy')}
           />
         </View>
@@ -38,19 +36,16 @@ export default function HomeScreen({ navigation }) {
 
 const styles = StyleSheet.create({
     container: {
-      backgroundColor: '#f5f5f5',
+      backgroundColor: '#3F4253',
       flex: 1,
       justifyContent: 'space-between',
       alignItems: 'center',
-      marginBottom: height / 9,
-      marginTop: height / 9,
+      paddingBottom: height / 9,
+      paddingTop: height / 9,
     },
     titleText: {
       fontSize: 24,
       marginBottom: 10
-    },
-    loginButtonLabel: {
-      fontSize: 15
     },
     logo: {
         width: width / 1.5,

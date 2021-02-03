@@ -39,7 +39,7 @@ function Home() {
       <Stack.Navigator
         screenOptions={{
           headerStyle: {
-            backgroundColor: '#0C5FAA'
+            backgroundColor: '#171921'
           },
           headerTintColor: '#ffffff',
           headerTitleStyle: {
