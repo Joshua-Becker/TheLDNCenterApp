@@ -22,6 +22,7 @@
     "@react-navigation/native": "^5.9.2",
     "@react-navigation/stack": "^5.14.2",
     "@virgilsecurity/e3kit-native": "^2.4.1",
+    "@virgilsecurity/key-storage-rn": "^1.0.0",
     "expo": "^37.0.12",
     "expo-permissions": "^11.0.0",
     "firestorter": "^3.0.1",
