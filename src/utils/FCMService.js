@@ -88,6 +88,8 @@ class FCMService {
                 onOpenNotification(notification)
                 //  this.removeDeliveredNotification(notification.notificationId)
             }
+        }).catch(error => {
+            console.log("[FCMService] Error getInitialNotification Notification caused app to open from quit state:", error)
         });
 
         // Foreground state messages

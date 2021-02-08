@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     width: width,
     padding: 10,
+    paddingBottom: 20,
     alignItems:'center',
   },
   buttonTitle: {

@@ -7,7 +7,7 @@ import useStatusBar from '../utils/useStatusBar';
 const { width, height } = Dimensions.get('screen');
 
 export default function HomeScreen({ navigation }) {
-    useStatusBar('dark-content');
+    useStatusBar('light-content');
     const { login } = useContext(AuthContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     },
     logo: {
         width: width / 1.5,
-        height: height / 4.5,
+        height: width / 3,
     },
     stacks: {
 

@@ -43,6 +43,12 @@ export default function PharmacyMessagesScreen({ route }) {
         );
     }
 
+    function renderFooterTop(props){
+      return(
+        <View style={styles.footerTop}></View>
+      );
+    }
+
     function renderBubble(props) {
         return (
             // Step 3: return the component
@@ -185,7 +191,7 @@ const styles = StyleSheet.create({
     },
     bottomComponentContainer: {
       justifyContent: 'center',
-      alignItems: 'center' 
+      alignItems: 'center',
     },
     loadingContainer: {
       flex: 1,

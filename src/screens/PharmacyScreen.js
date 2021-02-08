@@ -63,13 +63,18 @@ export default function PharmacyScreen({ navigation }) {
         }
         let decryptedText;
         try {
+          console.log(querySnapshot.id + ' : ' + thread.pharmacyID);
           if(querySnapshot.id == thread.pharmacyID){
+            console.log('Option1')
             const findUserIdentity = await ethree.findUsers(thread.pharmacyID);
             decryptedText = await ethree.authDecrypt(thread.latestMessage.text, findUserIdentity);
           } else if(thread.latestMessage.text == null || thread.latestMessage.text == undefined) {
+            console.log('Option2')
             decryptedText = '';
           } else {
+            console.log('Option3')
             decryptedText = await ethree.authDecrypt(thread.latestMessage.text);
+            console.log('Option3: ' +  decryptedText)
           }
         }
         catch(err){

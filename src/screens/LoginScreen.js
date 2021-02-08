@@ -10,7 +10,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 const { width, height } = Dimensions.get('screen');
 
 export default function LoginScreen({ navigation }) {
-    useStatusBar('dark-content');
+    useStatusBar('light-content');
     const { login } = useContext(AuthContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   },
   logo: {
     width: width / 1.5,
-    height: height / 4.5,
+    height: width / 3,
     marginTop: 20,
   },
   signUpBox: {
@@ -105,6 +105,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#171921',
     width: width,
     justifyContent: 'flex-end',
+    paddingTop: 40,
   },
   signUpText: {
     color: '#fff',

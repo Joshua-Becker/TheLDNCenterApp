@@ -13,19 +13,17 @@ export const AuthProvider = ({ fcmToken, children }) => {
   const [ethree, setEthree] = useState(null);
   const getToken = functions().httpsCallable('getVirgilJwt');
   const initializeFunction = () => getToken().then(result => result.data.token);
+  const delay = ms => new Promise(res => setTimeout(res, ms));
 
   async function addNewUser(newUser, condition, painLevel, symptomTimeline, medications, comments) {
-    console.log('Adding new user');
-    console.log('ETHREE: ' + ethree);
     const currentUser = newUser.toJSON();
     EThree.initialize(initializeFunction, { AsyncStorage }).then(async eThree => {
       await eThree.cleanup();
       await eThree.register()
         .then(async () => {
-          console.log('EThree Register Success: ' + currentUser);
+          // console.log('EThree Register Success: ' + currentUser.displayName + ' : ' + currentUser.email);
           const encryptedName = await ethree.authEncrypt(currentUser.displayName);
           const encryptedEmail = await ethree.authEncrypt(currentUser.email);
-          console.log('After Encryption: ' + currentUser);
           firestore()
             .collection('USERS')
             .doc(currentUser.uid)
@@ -79,10 +77,9 @@ export const AuthProvider = ({ fcmToken, children }) => {
               var user = auth().currentUser;
               user.updateProfile({
                   displayName: username
-              }).then(function() {
+              }).then( async function() {
                   const newUser = auth().currentUser;
-                  //Wait 2 seconds for Firebase to register new user
-                  console.log('Before timeout');
+                  await delay(2000)
                   addNewUser(newUser, condition, painLevel, symptomTimeline, medications, comments);
               }, function(error) {
                 console.error("Error adding new user" + error);
