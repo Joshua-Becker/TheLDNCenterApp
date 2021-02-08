@@ -4,6 +4,7 @@ import firestore from '@react-native-firebase/firestore';
 import { EThree } from '@virgilsecurity/e3kit-native';
 import functions from '@react-native-firebase/functions';
 import AsyncStorage from '@react-native-community/async-storage';
+import { useStaticRendering } from 'mobx-react';
 
 export const AuthContext = createContext({});
 
@@ -58,11 +59,18 @@ export const AuthProvider = ({ fcmToken, children }) => {
         ethree,
         login: async (email, password) => {
           try {
-            await auth().signInWithEmailAndPassword(email, password);
+            return await auth().signInWithEmailAndPassword(email, password)
+            .then( async function() {
+              setEthree(await EThree.initialize(initializeFunction, { AsyncStorage }));
+              return true;
+            })
+            .catch(function(error) {
+              return false;
+            });
           } catch (e) {
             console.log(e);
+            return false;
           }
-          setEthree(await EThree.initialize(initializeFunction, { AsyncStorage }));
         },
         register: async (firstName, lastName, email, password, condition, painLevel, symptomTimeline, medications, comments) => {
           console.log('Beginning Register');
@@ -78,9 +86,9 @@ export const AuthProvider = ({ fcmToken, children }) => {
               user.updateProfile({
                   displayName: username
               }).then( async function() {
-                  const newUser = auth().currentUser;
-                  await delay(2000)
-                  addNewUser(newUser, condition, painLevel, symptomTimeline, medications, comments);
+                  // const newUser = auth().currentUser;
+                  // await delay(2000)
+                  addNewUser(user, condition, painLevel, symptomTimeline, medications, comments);
               }, function(error) {
                 console.error("Error adding new user" + error);
                   // An error happened.

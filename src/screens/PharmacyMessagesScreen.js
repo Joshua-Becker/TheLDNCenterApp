@@ -113,6 +113,7 @@ export default function PharmacyMessagesScreen({ route }) {
           .set(
             {
               latestMessage: {
+                id: thread._id,
                 text: encryptedMessage,
                 createdAt: new Date().getTime()
               }

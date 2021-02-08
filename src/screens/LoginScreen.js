@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { View, StyleSheet, Image, Dimensions, Text, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Image, Dimensions, Text, TouchableOpacity, Alert } from 'react-native';
 import { IconButton } from 'react-native-paper';
 import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
@@ -14,7 +14,24 @@ export default function LoginScreen({ navigation }) {
     const { login } = useContext(AuthContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [isLoading, setIsLoding] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+
+    // Alert put into a promise to be called asynchronously (Pause JS flow)
+    const AsyncAlert = (title, msg) => new Promise((resolve) => {
+      Alert.alert(
+        title,
+        msg,
+        [
+          {
+            text: 'ok',
+            onPress: () => {
+              resolve('YES');
+            },
+          },
+        ],
+        { cancelable: false },
+      );
+    });
 
     return (
       <View style={styles.container}>
@@ -57,9 +74,15 @@ export default function LoginScreen({ navigation }) {
           title='Login'
           modeValue='contained'
           labelStyle={styles.loginButtonLabel}
-          onPress={() => {
-              setIsLoding(true);
-              login(email, password);
+          onPress={async () => {
+              setIsLoading(true);
+              const loggedIn = await Promise.resolve(login(email, password));
+              if(!loggedIn){
+                await AsyncAlert("Wrong username or password", "Please try again");  
+                setIsLoading(false);        
+                setEmail('');
+                setPassword('');
+              };
             }
           }
         />

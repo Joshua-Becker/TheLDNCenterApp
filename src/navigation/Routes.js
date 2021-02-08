@@ -13,9 +13,11 @@ export default function Routes() {
 
   // Handle user state changes
   function onAuthStateChanged(user) {
-    setUser(user);
-    if (initializing) setInitializing(false);
-    setLoading(false);
+    if(user){
+      setUser(user);
+      if (initializing) setInitializing(false);
+      setLoading(false);
+    }
   }
 
   useEffect(() => {

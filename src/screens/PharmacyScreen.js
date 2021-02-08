@@ -50,31 +50,28 @@ export default function PharmacyScreen({ navigation }) {
       .collection('USERS')
       .doc(user.id)
       .onSnapshot(async querySnapshot => {
+        const data = querySnapshot.data();
         const thread = {
           _id: querySnapshot.id,
           name: '',
           latestMessage: {
             text: ''
           },
-          ...querySnapshot.data()
+          ...data
         };
         if(thread.pharmacyName == '' || thread.pharmacyName == undefined){
           navigation.navigate('AddPharmacy');
         }
         let decryptedText;
         try {
-          console.log(querySnapshot.id + ' : ' + thread.pharmacyID);
-          if(querySnapshot.id == thread.pharmacyID){
-            console.log('Option1')
+          console.log(thread.latestMessage.id + ' : ' + thread.pharmacyID);
+          if(thread.latestMessage.id == thread.pharmacyID){
             const findUserIdentity = await ethree.findUsers(thread.pharmacyID);
             decryptedText = await ethree.authDecrypt(thread.latestMessage.text, findUserIdentity);
-          } else if(thread.latestMessage.text == null || thread.latestMessage.text == undefined) {
-            console.log('Option2')
+          } else if(thread.latestMessage.text == null || thread.latestMessage.text == undefined || thread.latestMessage.text == '') {
             decryptedText = '';
           } else {
-            console.log('Option3')
             decryptedText = await ethree.authDecrypt(thread.latestMessage.text);
-            console.log('Option3: ' +  decryptedText)
           }
         }
         catch(err){
