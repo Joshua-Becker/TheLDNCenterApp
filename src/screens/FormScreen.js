@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { ScrollView, View, StyleSheet, Text } from 'react-native';
+import { ScrollView, View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import { Divider, Checkbox, Card } from 'react-native-paper';
 import FormComments from '../components/FormComments';
@@ -18,8 +18,8 @@ export default function FormScreen({ navigation }) {
     const [comments, setComments] = useState('');
 
     return (
-    <ScrollView>
-        <View style={styles.container}>
+    <View style={styles.container}>
+        <ScrollView style={styles.form} contentContainerStyle={styles.formContainer}>
             <View style={styles.formQuestions}>
                 <Card style={styles.cards}>
                     <Text style={styles.formHeader}>Pain Level</Text>
@@ -40,95 +40,124 @@ export default function FormScreen({ navigation }) {
                 </Card>
                 <Card style={styles.cards}>
                     <Text style={styles.formHeader}>Side Effects</Text>
-                    <Text style={styles.formSubtext}>Skip if not applicable</Text>
-                    <View style={styles.checkbox}>
+                    <Text style={styles.formSubtext}>Select all that apply (Skip if not applicable)</Text>
+                    <TouchableOpacity 
+                    style={styles.checkbox} 
+                    onPress={() => {
+                    setSDChecked(!sdChecked);
+                    setSideEffects(oldArray => [...oldArray, 'Sleep Disturbances']);
+                    }}
+                    >
                         <Checkbox
                             status={sdChecked ? 'checked' : 'unchecked'}
-                            onPress={() => {
-                            setSDChecked(!sdChecked);
-                            setSideEffects(oldArray => [...oldArray, 'Sleep Disturbances']);
-                            }}
                         />
                         <Text>Sleep Disturbances</Text>
-                    </View>
-                    <View style={styles.checkbox}>
+                    </TouchableOpacity>
+                    <TouchableOpacity 
+                    style={styles.checkbox}
+                    onPress={() => {
+                    setVDChecked(!vdChecked);
+                    setSideEffects(oldArray => [...oldArray, 'Vivid Dreams']);
+                    }}
+                    >
                         <Checkbox
                             status={vdChecked ? 'checked' : 'unchecked'}
-                            onPress={() => {
-                            setVDChecked(!vdChecked);
-                            setSideEffects(oldArray => [...oldArray, 'Vivid Dreams']);
-                            }}
                         />
                         <Text>Vivid Dreams</Text>
-                    </View>
-                    <View style={styles.checkbox}>
+                    </TouchableOpacity>
+                    <TouchableOpacity 
+                    style={styles.checkbox}
+                    onPress={() => {
+                    setUSChecked(!usChecked);
+                    setSideEffects(oldArray => [...oldArray, 'Upset Stomach']);
+                    }}
+                    >
                         <Checkbox
                             status={usChecked ? 'checked' : 'unchecked'}
-                            onPress={() => {
-                            setUSChecked(!usChecked);
-                            setSideEffects(oldArray => [...oldArray, 'Upset Stomach']);
-                            }}
+
                         />
                         <Text>Upset Stomach</Text>
-                    </View>
-                    <View style={styles.checkbox}>
+                    </TouchableOpacity>
+                    <TouchableOpacity 
+                    style={styles.checkbox}
+                    onPress={() => {
+                    setAChecked(!aChecked);
+                    setSideEffects(oldArray => [...oldArray, 'Anxiety']);
+                    }}
+                    >
                         <Checkbox
                             status={aChecked ? 'checked' : 'unchecked'}
-                            onPress={() => {
-                            setAChecked(!aChecked);
-                            setSideEffects(oldArray => [...oldArray, 'Anxiety']);
-                            }}
                         />
                         <Text>Anxiety</Text>
-                    </View>
-                    <View style={styles.checkbox}>
+                    </TouchableOpacity>
+                    <TouchableOpacity 
+                    style={styles.checkbox} 
+                    onPress={() => {
+                    setHChecked(!hChecked);
+                    setSideEffects(oldArray => [...oldArray, 'Headaches']);
+                    }}
+                    >
                         <Checkbox
                             status={hChecked ? 'checked' : 'unchecked'}
-                            onPress={() => {
-                            setHChecked(!hChecked);
-                            setSideEffects(oldArray => [...oldArray, 'Headaches']);
-                            }}
                         />
                         <Text>Headaches</Text>
-                    </View>
+                    </TouchableOpacity>
                 </Card>
                 <FormComments
                     labelName='Other Comments'
                     value={comments}
                     onChangeText={comment => setComments(comment)}
+                    style={styles.comments}
+                    placeholderTextColor = "#555"
                 />
             </View>
             <View style={styles.submit}>
                 <FormButton
                 title='Submit'
                 modeValue='contained'
-                labelStyle={styles.loginButtonLabel}
+                labelStyle={styles.submitButtonLabel}
                 onPress={() => {
                     submitForm(painLevel, sideEffects, comments)
                     navigation.navigate('Home')
                 }}
                 />
             </View>
-        </View>
-    </ScrollView>
+        </ScrollView>
+    </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#f5f5f5',
+        backgroundColor: '#3F4253',
         flex: 1,
         // justifyContent: 'space-between',
         padding: 20,
     },
+    formContainer: {
+        margin: 20,
+        padding: 20,
+    },
+    form: {
+        height: '100%',
+    },
+    comments: {
+        width: '100%',
+        backgroundColor: '#fff',
+        height: 100,
+        borderRadius: 5,
+        padding: 10,
+    },
     submit: {
         alignItems: 'center',
-        marginTop: 50,
+        marginTop: 20,
+        marginBottom: 20,
     },
     formQuestions: {
     },
-    loginButtonLabel: {
-        fontSize: 22
+    submitButtonLabel: {
+        fontSize: 22,
+        color: '#fff',
     },
     formHeader: {
      fontSize: 18,
@@ -154,5 +183,6 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 5,
         marginBottom: 10,
+        borderRadius: 5,
     }
 });

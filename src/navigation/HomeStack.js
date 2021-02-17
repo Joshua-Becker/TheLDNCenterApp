@@ -18,11 +18,12 @@ export default function HomeStack() {
 }
 
 function Home() {
+  const { user } = useContext(AuthContext);
   let firstname = '';
-  try {
-    firstname = ', ' + (auth().currentUser.displayName).split(' ')[0];
-  } catch (err){
-    console.log('HomeStack displayName not found: ' + err);
+  if(user.displayName != null){
+    firstname = ', ' + user.displayName.split(' ')[0];
+  } else {
+      console.log('HomeStack displayName not found');
   }
 
   const { logout } = useContext(AuthContext)

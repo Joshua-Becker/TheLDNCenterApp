@@ -18,11 +18,14 @@ export default function FormComments({ labelName, ...rest }) {
 
 const styles = StyleSheet.create({
     input: {
-        marginTop: 10,
-        marginBottom: 10,
-        width: width / 1.3,
-        height: height / 4,
-        backgroundColor: '#ddd',
-        alignSelf: 'center',
+        margin: 10,
+        height: height / 6,
+        borderRadius: 5,
+        backgroundColor: '#fff',
+        paddingTop: 20,
+        paddingRight: 10,
+        paddingBottom: 20,
+        paddingLeft: 10,
+        color: '#000'
     }
 });

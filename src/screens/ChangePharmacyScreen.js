@@ -12,7 +12,7 @@ import { AuthContext } from '../navigation/AuthProvider';
 
 
 export default function ChangePharmacyScreen({ navigation }) {
-    useStatusBar('dark-content');
+    useStatusBar('light-content');
     const [pharmacy, setPharmacy] = useState([]);
     const [previousPharmacy, setPreviousPharmacy] = useState([]);
     const [pharmacies, setPharmacies] = useState([]);

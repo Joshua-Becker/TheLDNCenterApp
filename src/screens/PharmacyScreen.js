@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, StyleSheet, ScrollView} from 'react-native';
-import { Card, Title, Paragraph, Button } from 'react-native-paper';
+import { View, StyleSheet, ScrollView, Dimensions} from 'react-native';
+import { Card, Title, Paragraph, Divider } from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 import Loading from '../components/Loading';
 import useStatusBar from '../utils/useStatusBar';
@@ -8,6 +8,9 @@ import auth from '@react-native-firebase/auth';
 import FooterButton from '../components/FooterButton';
 import FormButton from '../components/FormButton';
 import { AuthContext } from '../navigation/AuthProvider';
+import { IconButton } from 'react-native-paper';
+
+const { width, height } = Dimensions.get('screen');
 
 export default function PharmacyScreen({ navigation }) {
   useStatusBar('light-content');
@@ -15,7 +18,7 @@ export default function PharmacyScreen({ navigation }) {
   const [thread, setThread] = useState({});
   const [loading, setLoading] = useState(true);
   const user = {email: auth().currentUser.email, id: auth().currentUser.uid}
-  const { ethree } = useContext(AuthContext);
+  const { ethree, notifications, checkForNotifications } = useContext(AuthContext);
 
   async function showFormCheck() {
     const latestForm = await firestore()
@@ -45,6 +48,7 @@ export default function PharmacyScreen({ navigation }) {
    * Fetch threads from Firestore
    */
   useEffect(() => {
+    checkForNotifications();
     showFormCheck()
     const unsubscribe = firestore()
       .collection('USERS')
@@ -64,7 +68,6 @@ export default function PharmacyScreen({ navigation }) {
         }
         let decryptedText;
         try {
-          console.log(thread.latestMessage.id + ' : ' + thread.pharmacyID);
           if(thread.latestMessage.id == thread.pharmacyID){
             const findUserIdentity = await ethree.findUsers(thread.pharmacyID);
             decryptedText = await ethree.authDecrypt(thread.latestMessage.text, findUserIdentity);
@@ -96,34 +99,40 @@ export default function PharmacyScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.about}>
-        <Card style={styles.card}>
-          <Card.Title
-            title={thread.pharmacyName}
-            titleStyle={styles.cardTitle}
-          />
-          <Card.Content>
-            <Title style={styles.cardSubTitle}>Latest Message:</Title>
-            <Paragraph style={styles.cardText}>{thread.latestMessage.text}</Paragraph>
-          </Card.Content>
-        </Card>
-      </ScrollView>
-        <View style={styles.footer}>
-          <View style={styles.messages}>
-            <FormButton
-              title='Messages'
-              modeValue='contained'
-              onPress={() => navigation.navigate('Messages', { thread } )}
+      <View style={styles.content}>
+        <ScrollView style={styles.about}>
+          <Card style={styles.card}>
+            <Card.Title
+              title={thread.pharmacyName}
+              titleStyle={styles.cardTitle}
             />
+            <Divider style={styles.divider}></Divider>
+            <Card.Content>
+              <Title style={styles.cardSubTitle}>Latest Message:</Title>
+              <Paragraph style={styles.cardText}>{thread.latestMessage.text}</Paragraph>
+            </Card.Content>
+          </Card>
+        </ScrollView>
+        <View style={styles.messages}>
+              <FormButton
+                title='Go To Messages'
+                modeValue='contained'
+                onPress={() => navigation.navigate('Messages', { thread } )}
+              />
+              {Boolean(notifications.unreadMessageFromPharmacy) && (
+              <IconButton style={styles.notificationIcon} icon='alert-circle' color='white' size={40}/>
+              )}
           </View>
-          {showForm && (
-          <FooterButton
-              title='biweekly form'
-              subTitle={thread.pharmacyName + ' is requesting an update to help you reach your best LDN dose'}
-              onPress={() => navigation.navigate('Form')}
-            />
-            )}
-        </View>
+      </View>
+      <View style={styles.footer}>
+        {showForm && (
+        <FooterButton
+            title='biweekly form'
+            subTitle={thread.pharmacyName + ' is requesting an update to help you reach your best LDN dose'}
+            onPress={() => navigation.navigate('Form')}
+          />
+          )}
+      </View>
     </View>
   );
 }
@@ -133,6 +142,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#3F4253',
     flex: 1,
     justifyContent: 'space-between',
+  },
+  content: {
+    width: '100%',
+    padding: 20,
     alignItems: 'center',
   },
   card: {
@@ -144,21 +157,34 @@ const styles = StyleSheet.create({
   },
   cardSubTitle: {
     color: '#fff',
+    fontSize: 18,
   },
   cardText: {
-    color: '#fff',
+    color: '#ccc',
   },
   about: {
-    flex: 1,
-    marginTop: 20,
-    width: '90%',
+    width: '100%',
   },
   messages: {
-    marginBottom: 50, 
-    width: '50%',   
+    width: '50%',
+    marginTop: 15,
+  },
+  notificationIcon: {
+    position: 'absolute',
+    right: -width / 15,
+    top: -width / 30,
+    backgroundColor: '#3F4252',
+    margin: 0,
+    width: 50,
+    height: 50,
   },
   footer: {
     width: '100%',
-    alignItems: 'center',
+  },
+  divider: {
+    borderWidth: 1,
+    borderColor: '#bbb',
+    marginLeft: 15,
+    marginRight: 15,    
   },
 });

@@ -12,7 +12,7 @@ import { IconButton } from 'react-native-paper';
 
 
 export default function SignupScreen({ navigation }) {
-  useStatusBar('dark-content');
+  useStatusBar('light-content');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -96,28 +96,32 @@ export default function SignupScreen({ navigation }) {
         />
         <Divider style={styles.divider} />
         <Text style={styles.formHeader}>Please list other medications you are taking and for how long</Text>
-        <FormComments
-          labelName=''
-          value={medications}
-          onChangeText={medicationList => setMedications(medicationList)}
-        />
-        <Divider style={styles.divider} />
-        <Text style={styles.formHeader}>Other Comments</Text>
-        <FormComments
-          labelName=''
-          value={comments}
-          onChangeText={comment => setComments(comment)}
-        />
-        <FormButton
-          title='Sign Up'
-          modeValue='contained'
-          labelStyle={styles.signUpButtonLabel}
-          onPress={() => {
-              setIsLoding(true);
-              register(firstName, lastName, email, password, condition, painLevel, symptomTimeline, medications, comments)
+        <View style={styles.commentsContainer}>
+          <FormComments
+            labelName=''
+            value={medications}
+            onChangeText={medicationList => setMedications(medicationList)}
+          />
+          <Divider style={styles.divider} />
+          <Text style={styles.formHeader}>Other Comments</Text>
+          <FormComments
+            labelName=''
+            value={comments}
+            onChangeText={comment => setComments(comment)}
+          />
+        </View>
+        <View style={styles.signUpButtonContainer}>
+          <FormButton
+            title='Sign Up'
+            modeValue='contained'
+            labelStyle={styles.signUpButtonLabel}
+            onPress={() => {
+                setIsLoding(true);
+                register(firstName, lastName, email, password, condition, painLevel, symptomTimeline, medications, comments);
+              }
             }
-          }
-        />
+          />
+        </View>
       </View>
     </ScrollView>
   );
@@ -127,6 +131,10 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#3F4253',
   },
+  commentsContainer: {
+    marginLeft: 12,
+    marginRight: 12,
+  },
   form: {
     backgroundColor: '#2F3243',
     flex: 1,
@@ -134,7 +142,7 @@ const styles = StyleSheet.create({
     marginRight: 25,
     marginLeft: 25,
     marginTop: 20,
-    marginBottom: 20,
+    marginBottom: 40,
   },
   titleText: {
     fontSize: 24,
@@ -143,6 +151,11 @@ const styles = StyleSheet.create({
   signUpButtonLabel: {
     fontSize: 22,
     color: '#fff',
+  },
+  signUpButtonContainer: {
+    alignItems: 'center',
+    marginTop: 20,
+    marginBottom: 20,
   },
   navButtonText: {
     fontSize: 18
@@ -160,6 +173,10 @@ const styles = StyleSheet.create({
   divider: {
     marginTop: 15,
     marginBottom: 15,
+    borderWidth: 1,
+    borderColor: '#fff',
+    marginLeft: 10,
+    marginRight: 10,
   },
   spinnerTextStyle: {
     color: '#FFF'
@@ -168,6 +185,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    backgroundColor: '#fff',
+    margin: 20,
+    borderRadius: 5,
   },
   picker: {
     backgroundColor: 'transparent',

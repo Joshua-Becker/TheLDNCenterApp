@@ -1,30 +1,31 @@
 import React, { createContext, useState } from 'react';
+import { Alert } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import { EThree } from '@virgilsecurity/e3kit-native';
 import functions from '@react-native-firebase/functions';
 import AsyncStorage from '@react-native-community/async-storage';
-import { useStaticRendering } from 'mobx-react';
 
 export const AuthContext = createContext({});
 
 
 export const AuthProvider = ({ fcmToken, children }) => {
   const [user, setUser] = useState(null);
+  const [notifications, setNotifications] = useState(null);
   const [ethree, setEthree] = useState(null);
   const getToken = functions().httpsCallable('getVirgilJwt');
   const initializeFunction = () => getToken().then(result => result.data.token);
   const delay = ms => new Promise(res => setTimeout(res, ms));
 
-  async function addNewUser(newUser, condition, painLevel, symptomTimeline, medications, comments) {
+  async function addNewUser(newUser, displayName, condition, painLevel, symptomTimeline, medications, comments) {
     const currentUser = newUser.toJSON();
     EThree.initialize(initializeFunction, { AsyncStorage }).then(async eThree => {
-      await eThree.cleanup();
+      await eThree.cleanup().then(() => console.log('ethree cleanup success'))
+      .catch(e => console.error('ethree cleanup error: ', e));
       await eThree.register()
         .then(async () => {
-          // console.log('EThree Register Success: ' + currentUser.displayName + ' : ' + currentUser.email);
-          const encryptedName = await ethree.authEncrypt(currentUser.displayName);
-          const encryptedEmail = await ethree.authEncrypt(currentUser.email);
+          const encryptedName = await eThree.authEncrypt(displayName);
+          const encryptedEmail = await eThree.authEncrypt(currentUser.email);
           firestore()
             .collection('USERS')
             .doc(currentUser.uid)
@@ -51,29 +52,68 @@ export const AuthProvider = ({ fcmToken, children }) => {
     });
   }
 
+  function checkForNotifications(){
+    firestore().collection('USERS').doc(user.uid).get()
+    .then((doc) => {
+      //console.log(doc.data());
+      const data = doc.data();
+      if(data.latestMessage != undefined && data.latestMessage.unreadMessageFromPharmacy != null && data.latestMessage.unreadMessageFromPharmacy != undefined){
+        setNotifications({unreadMessageFromPharmacy: data.latestMessage.unreadMessageFromPharmacy});
+      } else {
+        setNotifications({unreadMessageFromPharmacy: false});
+      }
+    }).catch((error) => {
+      setNotifications({unreadMessageFromPharmacy: false});
+      console.log('Error getting user notifications: ' + error);
+    });
+  }
+
+  // Alert put into a promise to be called asynchronously (Pause JS flow)
+  const AsyncAlert = (title, msg) => new Promise((resolve) => {
+    Alert.alert(
+      title,
+      msg,
+      [
+        {
+          text: 'ok',
+          onPress: () => {
+            resolve('YES');
+          },
+        },
+      ],
+      { cancelable: false },
+    );
+  });
+
   return (
     <AuthContext.Provider
       value={{
         user,
         setUser,
         ethree,
+        notifications,
+        setNotifications,
+        checkForNotifications,
         login: async (email, password) => {
+          let signedIn = false;
           try {
-            return await auth().signInWithEmailAndPassword(email, password)
-            .then( async function() {
+            await auth().signInWithEmailAndPassword(email, password)
+            .then( async (userCreds) => {
+              signedIn = true;
+              setUser(userCreds.user);
               setEthree(await EThree.initialize(initializeFunction, { AsyncStorage }));
-              return true;
             })
-            .catch(function(error) {
-              return false;
+            .catch(async function(error) {
+              console.log('Error occurred logging in' + error);
             });
           } catch (e) {
             console.log(e);
-            return false;
+          }
+          if(!signedIn){
+            await AsyncAlert('Wrong username or password', 'Please try again');
           }
         },
         register: async (firstName, lastName, email, password, condition, painLevel, symptomTimeline, medications, comments) => {
-          console.log('Beginning Register');
           const username = firstName + ' ' + lastName;
           if(firstName == '' || lastName == '' || email == '' || password == '' || condition == '' || symptomTimeline == '') {
             alert("Please make sure the following fields are not empty: name, email, password, condition, symptom timeline");
@@ -86,9 +126,9 @@ export const AuthProvider = ({ fcmToken, children }) => {
               user.updateProfile({
                   displayName: username
               }).then( async function() {
-                  // const newUser = auth().currentUser;
-                  // await delay(2000)
-                  addNewUser(user, condition, painLevel, symptomTimeline, medications, comments);
+                  user.displayName = username;
+                  setUser(user);
+                  addNewUser(user, username, condition, painLevel, symptomTimeline, medications, comments);
               }, function(error) {
                 console.error("Error adding new user" + error);
                   // An error happened.
@@ -113,7 +153,7 @@ export const AuthProvider = ({ fcmToken, children }) => {
           try {
             await auth().signOut();
           } catch (e) {
-            console.error(e);
+            console.error('Error signing out:' + e);
           }
         },
         submitForm: async (painLevel, sideEffects, comments) => {

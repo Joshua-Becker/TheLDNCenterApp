@@ -10,7 +10,7 @@ import { AuthContext } from '../navigation/AuthProvider';
 
 
 export default function AddPharmacyScreen({ navigation }) {
-    useStatusBar('dark-content');
+    useStatusBar('light-content');
     const [pharmacy, setPharmacy] = useState([]);
     const [pharmacies, setPharmacies] = useState([]);
     const user = {name: auth().currentUser.displayName, email: auth().currentUser.email, id: auth().currentUser.uid}
@@ -127,6 +127,7 @@ innerContainer: {
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 10,
+    marginBottom: 20,
 },
 title: {
     fontSize: 24,

@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { GiftedChat, Bubble, Send, SystemMessage } from 'react-native-gifted-chat';
+import { GiftedChat, Bubble, Send, SystemMessage, InputToolbar } from 'react-native-gifted-chat';
 import { IconButton } from 'react-native-paper';
 import { ActivityIndicator, View, StyleSheet } from 'react-native';
 import { AuthContext } from '../navigation/AuthProvider';
@@ -9,7 +9,7 @@ import useStatusBar from '../utils/useStatusBar';
 
 export default function PharmacyMessagesScreen({ route }) {
     useStatusBar('light-content');
-    const { user } = useContext(AuthContext);
+    const { user, checkForNotifications } = useContext(AuthContext);
     const currentUser = user.toJSON();
     const { thread } = route.params;
     const [messages, setMessages] = useState([]);
@@ -43,9 +43,11 @@ export default function PharmacyMessagesScreen({ route }) {
         );
     }
 
-    function renderFooterTop(props){
+    function renderInputToolbar(props){
       return(
-        <View style={styles.footerTop}></View>
+        <View style={styles.inputToolbarContainer}>
+          <InputToolbar containerStyle={styles.inputToolbar} {...props} />
+        </View>
       );
     }
 
@@ -57,7 +59,7 @@ export default function PharmacyMessagesScreen({ route }) {
             wrapperStyle={{
               right: {
               // Here is the color change
-                backgroundColor: '#0C5FAA'
+                backgroundColor: '#0C5FAA',
               },
               left: {
                 // Here is the color change
@@ -89,37 +91,55 @@ export default function PharmacyMessagesScreen({ route }) {
         );
     }
 
+    function setPharmacyUnreadMessageToTrue(){
+      firestore().collection('PHARMACIES').doc(thread.pharmacyID).collection('PATIENTS').doc(thread._id)
+      .set({
+        unreadMessageFromPatient: true,
+      }, { merge: true });
+    }
+
+    function setPatientUnreadMessageToFalse(){
+      checkForNotifications();
+      firestore().collection('USERS').doc(thread._id)
+      .set({
+        latestMessage: {
+          unreadMessageFromPharmacy: false,
+        }
+      }, { merge: true });
+    }
+
     // helper method that is sends a message
     async function handleSend(messages) {
-        const text = messages[0].text;
-        const findUserIdentity = await ethree.findUsers(thread.pharmacyID);
-        const encryptedMessage = await ethree.authEncrypt(text, findUserIdentity);
-        firestore()
-          .collection('USERS')
-          .doc(thread._id)
-          .collection('MESSAGES')
-          .add({
-            text: encryptedMessage,
-            createdAt: new Date().getTime(),
-            user: {
-              _id: currentUser.uid,
-              email: currentUser.email
+      setPharmacyUnreadMessageToTrue();
+      const text = messages[0].text;
+      const findUserIdentity = await ethree.findUsers(thread.pharmacyID);
+      const encryptedMessage = await ethree.authEncrypt(text, findUserIdentity);
+      firestore()
+        .collection('USERS')
+        .doc(thread._id)
+        .collection('MESSAGES')
+        .add({
+          text: encryptedMessage,
+          createdAt: new Date().getTime(),
+          user: {
+            _id: currentUser.uid,
+            // email: currentUser.email
+          }
+        });
+
+      await firestore()
+        .collection('USERS')
+        .doc(thread._id)
+        .set(
+          {
+            latestMessage: {
+              id: thread._id,
+              text: encryptedMessage,
+              createdAt: new Date().getTime()
             }
-          });
-    
-        await firestore()
-          .collection('USERS')
-          .doc(thread._id)
-          .set(
-            {
-              latestMessage: {
-                id: thread._id,
-                text: encryptedMessage,
-                createdAt: new Date().getTime()
-              }
-            },
-            { merge: true }
-          );
+          },
+          { merge: true }
+        );
     }
 
     useEffect(() => {     
@@ -144,17 +164,18 @@ export default function PharmacyMessagesScreen({ route }) {
               createdAt: new Date().getTime(),
               ...firebaseData
             };
-            if (!firebaseData.system) {
-              data.user = {
-                ...firebaseData.user,
-                name: firebaseData.user.email
-              };
-            }
+            // if (!firebaseData.system) {
+            //   data.user = {
+            //     ...firebaseData.user,
+            //     name: currentUser.displayName,
+            //   };
+            // }
             data.text = decryptedText;
             return data;
           })
           Promise.all(newMessages).then(function(results) {
             setMessages(results);
+            setPatientUnreadMessageToFalse();
           }).catch(error => console.log('Error returning messages: ' + error));
         });
   
@@ -170,43 +191,57 @@ export default function PharmacyMessagesScreen({ route }) {
             user={{ _id: currentUser.uid }}
             renderBubble={renderBubble}
             placeholder='Type your message here...'
-            showUserAvatar
+            // showUserAvatar
             alwaysShowSend
+            renderAvatar={() => null}
             renderSend={renderSend}
             scrollToBottomComponent={scrollToBottomComponent}
             renderLoading={renderLoading}
             renderSystemMessage={renderSystemMessage}
+            renderInputToolbar={renderInputToolbar}
         />
       </View>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
-      backgroundColor: '#3F4253',
-      flex: 1,
-    },
-    sendingContainer: {
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    bottomComponentContainer: {
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    loadingContainer: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center'
-    },
-    systemMessageText: {
-      fontSize: 14,
-      color: '#fff',
-      fontWeight: 'bold',
-    },
-    systemMessageWrapper: {
-      backgroundColor: 'orange',
-      padding: 10,
-      borderRadius: 10,
-    },
+  container: {
+    backgroundColor: '#3F4253',
+    flex: 1,
+    paddingBottom: 5,
+  },
+  sendingContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  bottomComponentContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loadingContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  systemMessageText: {
+    fontSize: 14,
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  systemMessageWrapper: {
+    backgroundColor: 'orange',
+    padding: 10,
+    borderRadius: 10,
+  },
+  inputToolbarContainer: {
+    width: '100%',
+    position: 'absolute',
+    bottom: 0,
+  },
+  inputToolbar: {
+    borderRadius: 10,
+    backgroundColor: '#fff',
+    marginLeft: 5,
+    marginRight: 5,
+  }
 });

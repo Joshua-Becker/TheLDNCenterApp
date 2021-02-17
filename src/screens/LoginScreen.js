@@ -16,23 +16,6 @@ export default function LoginScreen({ navigation }) {
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
-    // Alert put into a promise to be called asynchronously (Pause JS flow)
-    const AsyncAlert = (title, msg) => new Promise((resolve) => {
-      Alert.alert(
-        title,
-        msg,
-        [
-          {
-            text: 'ok',
-            onPress: () => {
-              resolve('YES');
-            },
-          },
-        ],
-        { cancelable: false },
-      );
-    });
-
     return (
       <View style={styles.container}>
         <Spinner
@@ -47,7 +30,7 @@ export default function LoginScreen({ navigation }) {
             >SIGN UP</Text>
             <IconButton
                   icon='arrow-right'
-                  size={15}
+                  size={20}
                   color='#fff'
             />
           </TouchableOpacity>
@@ -76,13 +59,10 @@ export default function LoginScreen({ navigation }) {
           labelStyle={styles.loginButtonLabel}
           onPress={async () => {
               setIsLoading(true);
-              const loggedIn = await Promise.resolve(login(email, password));
-              if(!loggedIn){
-                await AsyncAlert("Wrong username or password", "Please try again");  
-                setIsLoading(false);        
-                setEmail('');
-                setPassword('');
-              };
+              setEmail('');
+              setPassword('');
+              await login(email, password);
+              setIsLoading(false);        
             }
           }
         />
@@ -129,9 +109,11 @@ const styles = StyleSheet.create({
     width: width,
     justifyContent: 'flex-end',
     paddingTop: 40,
+    paddingBottom: 5,
+    paddingRight: 10,
   },
   signUpText: {
     color: '#fff',
-    fontSize: 15,
+    fontSize: 20,
   },
 });
