@@ -68,11 +68,11 @@ export default function PharmacyScreen({ navigation }) {
         }
         let decryptedText;
         try {
-          if(thread.latestMessage.id == thread.pharmacyID){
+          if(thread.latestMessage.text == null || thread.latestMessage.text == undefined || thread.latestMessage.text == '') {
+            decryptedText = '';
+          } else if(thread.latestMessage.id == thread.pharmacyID){
             const findUserIdentity = await ethree.findUsers(thread.pharmacyID);
             decryptedText = await ethree.authDecrypt(thread.latestMessage.text, findUserIdentity);
-          } else if(thread.latestMessage.text == null || thread.latestMessage.text == undefined || thread.latestMessage.text == '') {
-            decryptedText = '';
           } else {
             decryptedText = await ethree.authDecrypt(thread.latestMessage.text);
           }

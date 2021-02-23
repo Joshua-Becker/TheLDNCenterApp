@@ -1,13 +1,11 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { useFocusEffect } from '@react-navigation/native';
 import PharmacyScreen from '../screens/PharmacyScreen';
 import AddPharmacyScreen from '../screens/AddPharmacyScreen';
 import PharmacyMessagesScreen from '../screens/PharmacyMessagesScreen';
 import FormScreen from '../screens/FormScreen';
 import ChangePharmacyScreen from '../screens/ChangePharmacyScreen';
 import { IconButton } from 'react-native-paper';
-import { AuthContext } from '../navigation/AuthProvider';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import HomeStack from '../navigation/HomeStack';

@@ -2,6 +2,10 @@ import React, { useEffect,useState } from 'react';
 import Providers from './src/navigation';
 import {fcmService} from './src/utils/FCMService';
 import {localNotificationService} from './src/utils/LocalNotificationService';
+import {YellowBox} from 'react-native';
+
+YellowBox.ignoreWarnings(['Warning: Async Storage has been extracted from react-native core']);
+
 
 export default function App() {
   const [fcmToken, setToken] = useState(null);

@@ -7,6 +7,7 @@ export default function FormComments({ labelName, ...rest }) {
     return (
       <TextInput
         placeholder={labelName}
+        placeholderTextColor='#555'
         spellCheck={false}
         style={styles.input}
         numberOfLines={4}

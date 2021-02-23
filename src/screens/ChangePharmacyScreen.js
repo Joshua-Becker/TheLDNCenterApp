@@ -64,7 +64,21 @@ export default function ChangePharmacyScreen({ navigation }) {
     }
 
     async function handleButtonPress() {
-        getPreviousPharmacy()
+        await getPreviousPharmacy()
+        let cancellingFunction = false;
+        if(previousPharmacy.name == pharmacy.name) {
+          Alert.alert(
+            "Transferring Pharmacies",
+            "You are already a member of this pharmacy. Please select another.",
+            [
+              { text: "Okay", onPress: () => {cancellingFunction = true} }
+            ],
+            { cancelable: false }
+          );
+          if(cancellingFunction){
+            return;
+          }
+        }
         if (Object.keys(pharmacy).length > 0) {
           const findUserIdentity = await ethree.findUsers(pharmacy.id);
           const encryptedEmail = await ethree.authEncrypt(user.email, findUserIdentity);
@@ -75,37 +89,18 @@ export default function ChangePharmacyScreen({ navigation }) {
           .set({
               pharmacyName: pharmacy.name,
               pharmacyID: pharmacy.id,
-              // latestMessage: {
-              // text: `You are now messaging ${pharmacy.name}.`,
-              // createdAt: new Date().getTime()
-              // }
           }, { merge: true })
           .catch(function(error) {
               console.error("Error saving post : ", error);
-              //this code does not throw an error.
           });
 
-          deleteMessages(firestore(), 50)
-
-          // await firestore()
-          // .collection('USERS')
-          // .doc(auth().currentUser.uid)
-          // .collection('MESSAGES')
-          // .add({
-          //     text: `You are now messaging ${pharmacy.name}.`,
-          //     createdAt: new Date().getTime(),
-          //     system: true
-          // });
-
+          await deleteMessages(firestore(), 50)
           await firestore()
           .collection('PHARMACIES')
           .doc(pharmacy.id)
           .collection('PATIENTS')
           .doc(user.id)
           .set({
-              // userID: user.id,
-              // email: user.email,
-              // name: user.name,
               joined: new Date().getTime(),
           }, { merge: true });
 

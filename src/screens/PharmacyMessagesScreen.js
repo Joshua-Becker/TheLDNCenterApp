@@ -1,11 +1,14 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { GiftedChat, Bubble, Send, SystemMessage, InputToolbar } from 'react-native-gifted-chat';
 import { IconButton } from 'react-native-paper';
-import { ActivityIndicator, View, StyleSheet } from 'react-native';
+import { ActivityIndicator, View, StyleSheet, LogBox } from 'react-native';
 import { AuthContext } from '../navigation/AuthProvider';
 import firestore from '@react-native-firebase/firestore';
 import useStatusBar from '../utils/useStatusBar';
 
+// Disable to see warnings
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
 
 export default function PharmacyMessagesScreen({ route }) {
     useStatusBar('light-content');
@@ -37,7 +40,7 @@ export default function PharmacyMessagesScreen({ route }) {
         return (
             <Send {...props}>
             <View style={styles.sendingContainer}>
-                <IconButton icon='send-circle' size={32} color='#0C5FAA' />
+                <IconButton icon='send-circle' size={40} color='#0C5FAA' />
             </View>
             </Send>
         );
@@ -243,5 +246,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     marginLeft: 5,
     marginRight: 5,
+    paddingTop: 4,
   }
 });

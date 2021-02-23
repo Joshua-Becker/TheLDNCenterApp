@@ -89,7 +89,7 @@ export default function SignupScreen({ navigation }) {
         <Divider style={styles.divider} />
         <Text style={styles.formHeader}>How long have you been experiencing symptoms?</Text>
         <FormInput
-          labelName=''
+          labelName='Symptoms timeline'
           value={symptomTimeline}
           autoCapitalize='none'
           onChangeText={timeline => setSymptomTimeline(timeline)}
@@ -98,14 +98,14 @@ export default function SignupScreen({ navigation }) {
         <Text style={styles.formHeader}>Please list other medications you are taking and for how long</Text>
         <View style={styles.commentsContainer}>
           <FormComments
-            labelName=''
+            labelName='Medications'
             value={medications}
             onChangeText={medicationList => setMedications(medicationList)}
           />
           <Divider style={styles.divider} />
           <Text style={styles.formHeader}>Other Comments</Text>
           <FormComments
-            labelName=''
+            labelName='Comments'
             value={comments}
             onChangeText={comment => setComments(comment)}
           />

@@ -62,7 +62,6 @@ export default function LoginScreen({ navigation }) {
               setEmail('');
               setPassword('');
               await login(email, password);
-              setIsLoading(false);        
             }
           }
         />

@@ -4,7 +4,6 @@ import HomeScreen from '../screens/HomeScreen';
 import PharmacyStack from './PharmacyStack';
 import { IconButton } from 'react-native-paper';
 import { AuthContext } from '../navigation/AuthProvider';
-import auth from '@react-native-firebase/auth';
 
 const Stack = createStackNavigator();
 

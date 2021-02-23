@@ -22,7 +22,7 @@ export default function AddPharmacyScreen({ navigation }) {
             const findUserIdentity = await ethree.findUsers(pharmacy.id);
             const encryptedEmail = await ethree.authEncrypt(user.email, findUserIdentity);
             const encryptedName = await ethree.authEncrypt(user.name, findUserIdentity);
-            firestore()
+            await firestore()
             .collection('USERS')
             .doc(user.id)
             .set({
@@ -32,27 +32,13 @@ export default function AddPharmacyScreen({ navigation }) {
                 },
                 pharmacyName: pharmacy.name,
                 pharmacyID: pharmacy.id,
-                // latestMessage: {
-                //     text: `You are now messaging ${pharmacy.name}.`,
-                //     createdAt: new Date().getTime()
-                // }
             }, { merge: true })
             .catch(function(error) {
                 console.error("Error saving post : ", error);
                 //this code does not throw an error.
             });
 
-            // firestore()
-            // .collection('USERS')
-            // .doc(auth().currentUser.uid)
-            // .collection('MESSAGES')
-            // .add({
-            //     text: `You are now messaging ${pharmacy.name}.`,
-            //     createdAt: new Date().getTime(),
-            //     system: true
-            // });
-
-            firestore()
+            await firestore()
             .collection('PHARMACIES')
             .doc(pharmacy.id)
             .collection('PATIENTS')

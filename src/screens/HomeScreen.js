@@ -41,11 +41,11 @@ export default function HomeScreen({ navigation }) {
             <IconButton style={styles.notificationIcon} icon='alert-circle' color='white' size={40}/>
             )}
           </View>
-          <FormButton
+          {/* <FormButton
             title='About Me'
             modeValue='contained'
             onPress={() => navigation.navigate('Pharmacy')}
-          />
+          /> */}
         </View>
       </View>
     );
