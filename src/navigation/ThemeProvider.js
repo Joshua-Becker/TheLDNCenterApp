@@ -1,6 +1,7 @@
 import React, {useEffect, useState, createContext, useContext} from 'react';
 import {useColorScheme} from 'react-native-appearance';
 import {lightColors, darkColors} from '../utils/colorThemes';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const ThemeContext = createContext({
     isDark: false,
@@ -10,7 +11,23 @@ export const ThemeContext = createContext({
 
 export const ThemeProvider = (props) => {
     // Getting the device color theme, this will also work with react-native-web
-    const colorScheme = useColorScheme(); // Can be dark | light | no-preference
+    const [colorScheme, setColorScheme] = useState(useColorScheme());
+    async function getColorScheme() {
+        try {
+            const storedColorScheme = await AsyncStorage.getItem('@color_theme')
+            if(storedColorScheme == 'light') {
+                setColorScheme('light');
+            } else if(storedColorScheme == 'dark') {
+                setColorScheme('dark'); 
+            } else {
+                console.log('Not stored');
+                // Color scheme not assigned in settings
+            }
+        } catch(e) {
+            console.log('[ThemeProvider] Error getting color theme: ' + e);
+        }
+    }
+    getColorScheme(); // Can be dark | light | no-preference
 
     /*
     * To enable changing the app theme dynamicly in the app (run-time)

@@ -168,7 +168,6 @@ const styles = (colors) => StyleSheet.create({
     width: '100%',
   },
   messages: {
-    width: '50%',
     marginTop: 15,
   },
   notificationIcon: {

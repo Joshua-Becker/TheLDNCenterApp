@@ -27,8 +27,8 @@ const styles = (colors) => StyleSheet.create({
     alignItems: 'center',
   },
   buttonContainer: {
-    width: width / 2,
-    height: height / 14
+    width: width * 0.9,
+    height: height / 16
   },
   buttonLabel: {
     color: colors.buttonText,

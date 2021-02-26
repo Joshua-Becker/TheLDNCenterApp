@@ -1,6 +1,7 @@
 import React, { useEffect, useCallback } from 'react';
 import {View, StatusBar, Text, StyleSheet, Switch} from 'react-native';
 import {useTheme} from '../navigation/ThemeProvider';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function SettingsScreen(props) {
     const {children} = props;
@@ -16,6 +17,19 @@ export default function SettingsScreen(props) {
         */
         isDark ? setScheme('light') : setScheme('dark');
     }
+
+    async function storeColorSceme(isDark) {
+        try {
+            if(isDark){
+                AsyncStorage.setItem('@color_theme', 'dark');
+            } else {
+                AsyncStorage.setItem('@color_theme', 'light');
+            }
+        } catch (e) {
+            console.log('[SettingScreen] Error saving settings: ' + e);
+        }
+    }
+
     useEffect(() => {
         if(isDark){
             props.navigation.setOptions({
@@ -30,6 +44,7 @@ export default function SettingsScreen(props) {
                     },
             });
         }
+        storeColorSceme(isDark);
     }, [isDark]);
 
     const styles = StyleSheet.create({
