@@ -17,11 +17,20 @@ export const AuthProvider = ({ fcmToken, children }) => {
   const initializeFunction = () => getToken().then(result => result.data.token);
   const delay = ms => new Promise(res => setTimeout(res, ms));
 
-  async function addNewUser(newUser, displayName, condition, painLevel, symptomTimeline, medications, comments) {
+  function ethreeDerivedToStr(array) {
+    let out = '';
+    for (const num of array) {
+      out += num.toString();
+    }
+    return out;
+  }
+
+  async function addNewUser(newUser, backupPassword, displayName, condition, painLevel, symptomTimeline, medications, comments) {
     const currentUser = newUser.toJSON();
     EThree.initialize(initializeFunction, { AsyncStorage }).then(async eThree => {
       await eThree.cleanup().then(() => console.log('ethree cleanup success'))
       .catch(e => console.error('ethree cleanup error: ', e));
+      setEthree(eThree);
       await eThree.register()
         .then(async () => {
           const encryptedName = await eThree.authEncrypt(displayName);
@@ -46,6 +55,8 @@ export const AuthProvider = ({ fcmToken, children }) => {
         })
         .catch(e => console.error('EThree Register Error: ', e));
       setEthree(eThree);
+      await eThree.backupPrivateKey(backupPassword)
+      .catch(e => console.error('EThree backup private key error: ', e));
     })
     .catch( err => {
       console.log('EThree register fail:' + err);
@@ -97,11 +108,16 @@ export const AuthProvider = ({ fcmToken, children }) => {
         login: async (email, password) => {
           let signedIn = false;
           try {
-            await auth().signInWithEmailAndPassword(email, password)
+            let { loginPassword, backupPassword } = EThree.derivePasswords(password);
+            loginPassword = ethreeDerivedToStr(loginPassword);
+            backupPassword = ethreeDerivedToStr(backupPassword);
+            await auth().signInWithEmailAndPassword(email, loginPassword)
             .then( async (userCreds) => {
               signedIn = true;
               setUser(userCreds.user);
               setEthree(await EThree.initialize(initializeFunction, { AsyncStorage }));
+              const hasLocalPrivateKey = await eThree.hasLocalPrivateKey();
+              if (!hasLocalPrivateKey) await eThree.restorePrivateKey(backupPassword);
             })
             .catch(async function(error) {
               console.log('Error occurred logging in' + error);
@@ -121,17 +137,21 @@ export const AuthProvider = ({ fcmToken, children }) => {
           }
           try {
             console.log('Creating firebase user');
-            await auth().createUserWithEmailAndPassword(email, password).then(function(user) {
+            let { loginPassword, backupPassword } = EThree.derivePasswords(password);
+            loginPassword = ethreeDerivedToStr(loginPassword);
+            backupPassword = ethreeDerivedToStr(backupPassword);
+            await auth().createUserWithEmailAndPassword(email, loginPassword).then(function(user) {
               var user = auth().currentUser;
               user.updateProfile({
                   displayName: username
               }).then( async function() {
-                  user.displayName = username;
                   setUser(user);
-                  addNewUser(user, username, condition, painLevel, symptomTimeline, medications, comments);
+                  addNewUser(user, backupPassword, username, condition, painLevel, symptomTimeline, medications, comments);
               }, function(error) {
                 console.error("Error adding new user" + error);
                   // An error happened.
+              }).catch( function(error) {
+                console.log("Error adding new user (catch): " + error);
               });        
           }, function(error) {
               // Handle Errors here.
@@ -150,6 +170,11 @@ export const AuthProvider = ({ fcmToken, children }) => {
           }
         },
         logout: async () => {
+          try{
+            if(typeof eThree !== 'undefined') await eThree.cleanup();
+          } catch (e) {
+            console.error('Error removing private key:' + e);
+          }
           try {
             await auth().signOut();
           } catch (e) {

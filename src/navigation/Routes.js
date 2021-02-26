@@ -5,6 +5,8 @@ import AuthStack from './AuthStack';
 import HomeStack from './HomeStack';
 import { AuthContext } from './AuthProvider';
 import Loading from '../components/Loading';
+import {AppearanceProvider} from 'react-native-appearance';
+import {ThemeProvider} from './ThemeProvider';
 
 export default function Routes() {
   const { user, setUser } = useContext(AuthContext);
@@ -28,8 +30,12 @@ export default function Routes() {
   }
 
   return (
-    <NavigationContainer>
-      {user ? <HomeStack /> : <AuthStack />}
-    </NavigationContainer>
+    <AppearanceProvider>
+      <ThemeProvider>
+        <NavigationContainer>
+          {user ? <HomeStack /> : <AuthStack />}
+        </NavigationContainer>
+      </ThemeProvider>
+    </AppearanceProvider>
   );
 }

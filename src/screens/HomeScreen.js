@@ -1,11 +1,9 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { View, StyleSheet, Image, Dimensions } from 'react-native';
 import { IconButton } from 'react-native-paper';
-import { createEmitAndSemanticDiagnosticsBuilderProgram } from 'typescript';
 import FormButton from '../components/FormButton';
 import { AuthContext } from '../navigation/AuthProvider';
 import useStatusBar from '../utils/useStatusBar';
-
 const { width, height } = Dimensions.get('screen');
 
 export default function HomeScreen({ navigation }) {

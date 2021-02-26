@@ -111,7 +111,7 @@ export default function ChangePharmacyScreen({ navigation }) {
           .doc(user.id)
           .delete();
 
-          navigation.navigate('My Pharmacy');
+          navigation.navigate('PharmacyHome');
         }
     }
     

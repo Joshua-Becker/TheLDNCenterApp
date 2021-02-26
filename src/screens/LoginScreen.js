@@ -104,10 +104,9 @@ const styles = StyleSheet.create({
   signUpBox: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#171921',
+    backgroundColor: '#D8752F',
     width: width,
     justifyContent: 'flex-end',
-    paddingTop: 40,
     paddingBottom: 5,
     paddingRight: 10,
   },

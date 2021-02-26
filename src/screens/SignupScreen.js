@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     marginRight: 12,
   },
   form: {
-    backgroundColor: '#2F3243',
+    // backgroundColor: '#2F3243',
     flex: 1,
     justifyContent: 'center',
     marginRight: 25,
