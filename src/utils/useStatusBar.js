@@ -1,20 +1,38 @@
 import React, { useCallback } from 'react';
 import { StatusBar, Platform } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
+import {useTheme} from '../navigation/ThemeProvider';
 
-export default function useStatusBar(style, animated = true) {
-    console.log('statusBarHeight: ', StatusBar.currentHeight);
-    useFocusEffect(
-      useCallback(() => {
-        if(Platform.OS === 'ios') {
-          StatusBar.setBarStyle(style, animated);
-        } else if(Platform.OS === 'android') {
-          StatusBar.setBarStyle('light-content', animated);
-          StatusBar.setBackgroundColor('#171921', animated);
-        } else{
-          StatusBar.setBarStyle(style, animated);
-          StatusBar.setbar
+export default function useStatusBar() {
+  const {colors, isDark} = useTheme();
+  // const isDark = true;
+  useFocusEffect(
+    useCallback(() => {
+      if(Platform.OS === 'ios') {
+        if(isDark){
+          StatusBar.setBarStyle('light-content', true);
+          StatusBar.setBackgroundColor(colors.statusBar, true);
+        } else {
+          StatusBar.setBarStyle('light-content', true);
+          StatusBar.setBackgroundColor(colors.statusBar, true);
         }
-      }, [])
-    );
+      } else if(Platform.OS === 'android') {
+        if(isDark){
+          StatusBar.setBarStyle('light-content', true);
+          StatusBar.setBackgroundColor(colors.statusBar, true);
+        } else {
+          StatusBar.setBarStyle('light-content', true);
+          StatusBar.setBackgroundColor(colors.statusBar, true);
+        }
+      } else{
+        if(isDark){
+          StatusBar.setBarStyle('light-content', true);
+          StatusBar.setBackgroundColor(colors.statusBar, true);
+        } else {
+          StatusBar.setBarStyle('light-content', true);
+          StatusBar.setBackgroundColor(colors.statusBar, true);
+        }
+      }
+    }, [])
+  );
 }

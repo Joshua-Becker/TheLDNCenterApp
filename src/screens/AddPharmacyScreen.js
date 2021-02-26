@@ -7,10 +7,11 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import Icon from 'react-native-vector-icons/Feather';
 import auth from '@react-native-firebase/auth';
 import { AuthContext } from '../navigation/AuthProvider';
-
+import {useTheme} from '../navigation/ThemeProvider';
 
 export default function AddPharmacyScreen({ navigation }) {
-    useStatusBar('light-content');
+    const {colors, isDark} = useTheme();
+    useStatusBar();
     const [pharmacy, setPharmacy] = useState([]);
     const [pharmacies, setPharmacies] = useState([]);
     const user = {name: auth().currentUser.displayName, email: auth().currentUser.email, id: auth().currentUser.uid}
@@ -69,14 +70,14 @@ export default function AddPharmacyScreen({ navigation }) {
     },[]);
 
     return (
-      <View style={styles.rootContainer}>
-        <View style={styles.innerContainer}>
+      <View style={styles(colors).rootContainer}>
+        <View style={styles(colors).innerContainer}>
           <DropDownPicker
             items={pharmacies}
             defaultValue={pharmacy.name}
             containerStyle={{height: 60}}
-            style={{backgroundColor: '#fafafa', width: '90%'}}
-            dropDownStyle={{backgroundColor: '#fafafa', width: '90%'}}
+            style={{backgroundColor: colors.formBackground, width: '90%'}}
+            dropDownStyle={{backgroundColor: colors.formBackground, width: '90%'}}
             onChangeItem={item => setPharmacy({name: item.value, id: item.id})}
             searchable={true}
             searchablePlaceholder="Search for a pharmacy"
@@ -88,7 +89,7 @@ export default function AddPharmacyScreen({ navigation }) {
           <FormButton
             title='Join'
             modeValue='contained'
-            labelStyle={styles.buttonLabel}
+            labelStyle={styles(colors).buttonLabel}
             onPress={() => handleButtonPress()}
             disabled={Object.keys(pharmacy).length === 0}
           />
@@ -97,10 +98,10 @@ export default function AddPharmacyScreen({ navigation }) {
     );
 }
 
-const styles = StyleSheet.create({
+const styles = (colors) => StyleSheet.create({
 rootContainer: {
     flex: 1,
-    backgroundColor: '#3F4253',
+    backgroundColor: colors.background,
 },
 closeButtonContainer: {
     position: 'absolute',
@@ -121,6 +122,6 @@ title: {
 },
 buttonLabel: {
     fontSize: 22,
-    color: '#fff'
+    color: colors.buttonText,
 }
 });

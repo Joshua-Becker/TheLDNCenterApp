@@ -2,7 +2,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import SignupScreen from '../screens/SignupScreen';
 import LoginScreen from '../screens/LoginScreen';
-import { IconButton } from 'react-native-paper';
+import {useTheme} from '../navigation/ThemeProvider';
 
 const Stack = createStackNavigator();
 const SignupStack = createStackNavigator();
@@ -18,11 +18,12 @@ export default function AuthStack() {
 }
 
 function Signup() {
+  const {colors, isDark} = useTheme();
   return (
     <SignupStack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: '#171921',
+          backgroundColor: colors.navBar,
         },
         headerTintColor: '#ffffff',
         headerTitleStyle: {

@@ -5,7 +5,6 @@ import {useTheme} from '../navigation/ThemeProvider';
 export const Toggle = () => {
     // We're also pulling setScheme here!
     const {setScheme, isDark} = useTheme();
-
     const toggleScheme = () => {
         /*
         * setScheme will change the state of the context

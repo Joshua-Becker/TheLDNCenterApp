@@ -9,11 +9,13 @@ import FooterButton from '../components/FooterButton';
 import FormButton from '../components/FormButton';
 import { AuthContext } from '../navigation/AuthProvider';
 import { IconButton } from 'react-native-paper';
+import {useTheme} from '../navigation/ThemeProvider';
 
 const { width, height } = Dimensions.get('screen');
 
 export default function PharmacyScreen({ navigation }) {
-  useStatusBar('light-content');
+  const {colors, isDark} = useTheme();
+  useStatusBar();
   const [showForm, setShowForm] = useState(false);
   const [thread, setThread] = useState({});
   const [loading, setLoading] = useState(true);
@@ -98,33 +100,33 @@ export default function PharmacyScreen({ navigation }) {
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.content}>
-        <ScrollView style={styles.about}>
-          <Card style={styles.card}>
+    <View style={styles(colors).container}>
+      <View style={styles(colors).content}>
+        <ScrollView style={styles(colors).about}>
+          <Card style={styles(colors).card}>
             <Card.Title
               title={thread.pharmacyName}
-              titleStyle={styles.cardTitle}
+              titleStyle={styles(colors).cardTitle}
             />
-            <Divider style={styles.divider}></Divider>
+            <Divider style={styles(colors).divider}></Divider>
             <Card.Content>
-              <Title style={styles.cardSubTitle}>Latest Message:</Title>
-              <Paragraph style={styles.cardText}>{thread.latestMessage.text}</Paragraph>
+              <Title style={styles(colors).cardSubTitle}>Latest Message:</Title>
+              <Paragraph style={styles(colors).cardText}>{thread.latestMessage.text}</Paragraph>
             </Card.Content>
           </Card>
         </ScrollView>
-        <View style={styles.messages}>
+        <View style={styles(colors).messages}>
               <FormButton
                 title='Go To Messages'
                 modeValue='contained'
                 onPress={() => navigation.navigate('Messages', { thread } )}
               />
               {Boolean(notifications.unreadMessageFromPharmacy) && (
-              <IconButton style={styles.notificationIcon} icon='alert-circle' color='white' size={40}/>
+              <IconButton style={styles(colors).notificationIcon} icon='alert-circle' color='white' size={40}/>
               )}
           </View>
       </View>
-      <View style={styles.footer}>
+      <View style={styles(colors).footer}>
         {showForm && (
         <FooterButton
             title='biweekly form'
@@ -137,9 +139,9 @@ export default function PharmacyScreen({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
+const styles = (colors) => StyleSheet.create({
   container: {
-    backgroundColor: '#3F4253',
+    backgroundColor: colors.background,
     flex: 1,
     justifyContent: 'space-between',
   },
@@ -180,6 +182,8 @@ const styles = StyleSheet.create({
   },
   footer: {
     width: '100%',
+    alignItems: 'center',
+    marginBottom: 20,
   },
   divider: {
     borderWidth: 1,

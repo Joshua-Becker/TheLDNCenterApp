@@ -5,6 +5,7 @@ import PharmacyStack from './PharmacyStack';
 import SettingsScreen from '../screens/SettingsScreen';
 import { IconButton } from 'react-native-paper';
 import { AuthContext } from '../navigation/AuthProvider';
+import {useTheme} from '../navigation/ThemeProvider';
 
 const Stack = createStackNavigator();
 
@@ -19,11 +20,13 @@ export default function HomeStack() {
 }
 
 function Home() {
+  let {colors, isDark} = useTheme();
   const { user } = useContext(AuthContext);
   let firstname = '';
   if(user.displayName != null){
     firstname = ', ' + user.displayName.split(' ')[0];
   } else {
+      //navigation.push('Home');
       console.log('HomeStack displayName not found');
   }
 
@@ -33,7 +36,7 @@ function Home() {
       <Stack.Navigator
         screenOptions={{
           headerStyle: {
-            backgroundColor: '#171921'
+            backgroundColor: colors.navBar
           },
           headerTintColor: '#ffffff',
           headerTitleStyle: {
@@ -58,7 +61,7 @@ function Home() {
                 icon='cog'
                 size={28}
                 color='#fff'
-                onPress={() => navigation.navigate('Settings')}
+                onPress={() => navigation.push('Settings')}
             />
           )
         })}
@@ -68,7 +71,14 @@ function Home() {
         component={SettingsScreen}
         options={({ navigation }) => ({
             title: 'Settings',
-            headerBackTitle: 'Back'
+            headerLeft: () => (
+              <IconButton
+                  icon='arrow-left'
+                  size={28}
+                  color='#fff'
+                  onPress={() => navigation.push('Home')}
+              />
+            ),
         })}
         />
       </Stack.Navigator>

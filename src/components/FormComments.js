@@ -1,32 +1,35 @@
 import React from 'react';
 import { StyleSheet, Dimensions, TextInput } from 'react-native';
+import {useTheme} from '../navigation/ThemeProvider';
 
 const { width, height } = Dimensions.get('screen');
 
 export default function FormComments({ labelName, ...rest }) {
-    return (
-      <TextInput
-        placeholder={labelName}
-        placeholderTextColor='#555'
-        spellCheck={false}
-        style={styles.input}
-        numberOfLines={4}
-        multiline={true}
-        {...rest}
-      />
-    );
+  const {colors, isDark} = useTheme();
+
+  return (
+    <TextInput
+      placeholder={labelName}
+      placeholderTextColor={colors.formText}
+      spellCheck={false}
+      style={styles(colors).input}
+      numberOfLines={4}
+      multiline={true}
+      {...rest}
+    />
+  );
 }
 
-const styles = StyleSheet.create({
+const styles = (colors) => StyleSheet.create({
     input: {
         margin: 10,
         height: height / 6,
         borderRadius: 5,
-        backgroundColor: '#fff',
+        backgroundColor: colors.formBackground,
         paddingTop: 20,
         paddingRight: 10,
         paddingBottom: 20,
         paddingLeft: 10,
-        color: '#000'
+        color: colors.formText,
     }
 });

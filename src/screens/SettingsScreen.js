@@ -1,13 +1,36 @@
-import React from 'react';
-import {View, StatusBar, Text, StyleSheet} from 'react-native';
+import React, { useEffect, useCallback } from 'react';
+import {View, StatusBar, Text, StyleSheet, Switch} from 'react-native';
 import {useTheme} from '../navigation/ThemeProvider';
-import {Toggle} from '../utils/toggleTheme';
 
-export default function SettingsScreen(props, { navigation }) {
+export default function SettingsScreen(props) {
     const {children} = props;
-
+    //props.navigation.setParams({ backgroundColor: '#ccc' })
     // Using the custom hook we made to pull the theme colors
-    const {colors, isDark} = useTheme();
+    let {colors, isDark} = useTheme();
+    const {setScheme} = useTheme();
+    const toggleScheme = () => {
+        /*
+        * setScheme will change the state of the context
+        * thus will cause childrens inside the context provider to re-render
+        * with the new color scheme
+        */
+        isDark ? setScheme('light') : setScheme('dark');
+    }
+    useEffect(() => {
+        if(isDark){
+            props.navigation.setOptions({
+                headerStyle: {
+                    backgroundColor: colors.navBar,
+                },
+            });
+        } else {
+            props.navigation.setOptions({
+                headerStyle: {
+                    backgroundColor: colors.navBar,
+                    },
+            });
+        }
+    }, [isDark]);
 
     const styles = StyleSheet.create({
         container: {
@@ -30,11 +53,13 @@ export default function SettingsScreen(props, { navigation }) {
     return (
         <>
             {/* We can also use the isDark prop to set the statusbar style accordingly */}
-            <StatusBar animated barStyle={isDark ? "light-content" : "dark-content"}/>
+            <StatusBar 
+                barStyle={isDark ? "light-content" : "light-content"} 
+                backgroundColor={isDark? colors.statusBar : colors.statusBar}/>
             <View style={styles.container}>
                 {children}
                 <Text style={styles.text}>{isDark ? "Dark Mode" : "Light Mode"}</Text>
-                <View>{Toggle()}</View>
+                <Switch value={isDark} onValueChange={toggleScheme}/>
             </View>
         </>
     );

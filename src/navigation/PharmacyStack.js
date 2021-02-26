@@ -9,6 +9,8 @@ import { IconButton } from 'react-native-paper';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import HomeStack from '../navigation/HomeStack';
+import {useTheme} from '../navigation/ThemeProvider';
+
 
 const PharmacyStack = createStackNavigator();
 
@@ -25,6 +27,7 @@ export default function Pharmacy() {
 }
 
 function PharmacyHome() {
+  let {colors, isDark} = useTheme();
   const [hasPharmacy, setHasPharmacy] = useState(true)
   const user = auth().currentUser
 
@@ -51,7 +54,7 @@ function PharmacyHome() {
     <PharmacyStack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: '#171921'
+          backgroundColor: colors.navBar
         },
         headerTintColor: '#ffffff',
         headerTitleStyle: {

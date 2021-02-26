@@ -9,10 +9,11 @@ import { Divider } from 'react-native-paper';
 import Spinner from 'react-native-loading-spinner-overlay';
 import useStatusBar from '../utils/useStatusBar';
 import { IconButton } from 'react-native-paper';
-
+import {useTheme} from '../navigation/ThemeProvider';
 
 export default function SignupScreen({ navigation }) {
-  useStatusBar('light-content');
+  const {colors, isDark} = useTheme();
+  useStatusBar();
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -30,9 +31,9 @@ export default function SignupScreen({ navigation }) {
       <Spinner
           visible={isLoading}
           textContent={'Loading...'}
-          textStyle={styles.spinnerTextStyle}
+          textStyle={styles(colors).spinnerTextStyle}
       />
-      <View style={styles.form}>
+      <View style={styles(colors).form}>
         <FormInput
           labelName='First name'
           value={firstName}
@@ -63,10 +64,10 @@ export default function SignupScreen({ navigation }) {
           autoCapitalize='none'
           onChangeText={userCondition => setCondition(userCondition)}
         />
-        <Divider style={styles.divider} />
-        <Text style={styles.formHeader}>Current level of pain or discomfort</Text>
-        <View style={styles.pickerContainer}> 
-          <Picker style={styles.picker} itemStyle={styles.pickerItems} selectedValue={painLevel} onValueChange={(itemValue, itemIndex) => setPainLevel(itemValue)}>
+        <Divider style={styles(colors).divider} />
+        <Text style={styles(colors).formHeader}>Current level of pain or discomfort</Text>
+        <View style={styles(colors).pickerContainer}> 
+          <Picker style={styles(colors).picker} itemStyle={styles(colors).pickerItems} selectedValue={painLevel} onValueChange={(itemValue, itemIndex) => setPainLevel(itemValue)}>
             <Picker.Item label="0" value="0" />
             <Picker.Item label="1" value="1" />
             <Picker.Item label="2" value="2" />
@@ -83,38 +84,38 @@ export default function SignupScreen({ navigation }) {
             icon='arrow-down-drop-circle'
             size={15}
             color='#fff'
-            style={styles.pickerIcon}
+            style={styles(colors).pickerIcon}
           />
         </View>
-        <Divider style={styles.divider} />
-        <Text style={styles.formHeader}>How long have you been experiencing symptoms?</Text>
+        <Divider style={styles(colors).divider} />
+        <Text style={styles(colors).formHeader}>How long have you been experiencing symptoms?</Text>
         <FormInput
           labelName='Symptoms timeline'
           value={symptomTimeline}
           autoCapitalize='none'
           onChangeText={timeline => setSymptomTimeline(timeline)}
         />
-        <Divider style={styles.divider} />
-        <Text style={styles.formHeader}>Please list other medications you are taking and for how long</Text>
-        <View style={styles.commentsContainer}>
+        <Divider style={styles(colors).divider} />
+        <Text style={styles(colors).formHeader}>Please list other medications you are taking and for how long</Text>
+        <View style={styles(colors).commentsContainer}>
           <FormComments
             labelName='Medications'
             value={medications}
             onChangeText={medicationList => setMedications(medicationList)}
           />
-          <Divider style={styles.divider} />
-          <Text style={styles.formHeader}>Other Comments</Text>
+          <Divider style={styles(colors).divider} />
+          <Text style={styles(colors).formHeader}>Other Comments</Text>
           <FormComments
             labelName='Comments'
             value={comments}
             onChangeText={comment => setComments(comment)}
           />
         </View>
-        <View style={styles.signUpButtonContainer}>
+        <View style={styles(colors).signUpButtonContainer}>
           <FormButton
             title='Sign Up'
             modeValue='contained'
-            labelStyle={styles.signUpButtonLabel}
+            labelStyle={styles(colors).signUpButtonLabel}
             onPress={() => {
                 setIsLoding(true);
                 register(firstName, lastName, email, password, condition, painLevel, symptomTimeline, medications, comments);
@@ -127,9 +128,9 @@ export default function SignupScreen({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
+const styles = (colors) => StyleSheet.create({
   container: {
-    backgroundColor: '#3F4253',
+    backgroundColor: colors.background,
   },
   commentsContainer: {
     marginLeft: 12,
@@ -150,7 +151,7 @@ const styles = StyleSheet.create({
   },
   signUpButtonLabel: {
     fontSize: 22,
-    color: '#fff',
+    color: colors.buttonText,
   },
   signUpButtonContainer: {
     alignItems: 'center',
@@ -168,37 +169,38 @@ const styles = StyleSheet.create({
     marginRight: 10,
     textAlign: 'left',
     alignSelf: 'stretch',
-    color : '#fff',
+    color : colors.text,
   },
   divider: {
     marginTop: 15,
     marginBottom: 15,
     borderWidth: 1,
-    borderColor: '#fff',
+    borderColor: colors.text,
     marginLeft: 10,
     marginRight: 10,
   },
   spinnerTextStyle: {
-    color: '#FFF'
+    color: colors.text
   },
   pickerContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: colors.formBackground,
     margin: 20,
     borderRadius: 5,
   },
   picker: {
     backgroundColor: 'transparent',
     width: '100%',
-    color: '#fff',
+    color: colors.text,
   },
   pickerItems: {
-    color: '#000',
+    color: colors.text,
   }, 
   pickerIcon: {
     position: 'absolute',
     right: '10%',
+    color: colors.text,
   },
 });
