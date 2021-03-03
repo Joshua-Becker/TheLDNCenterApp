@@ -11,10 +11,10 @@ export default function useStatusBar() {
       if(Platform.OS === 'ios') {
         if(isDark){
           StatusBar.setBarStyle('light-content', true);
-          StatusBar.setBackgroundColor(colors.statusBar, true);
+          //StatusBar.setBackgroundColor(colors.statusBar, true);
         } else {
           StatusBar.setBarStyle('light-content', true);
-          StatusBar.setBackgroundColor(colors.statusBar, true);
+          //StatusBar.setBackgroundColor(colors.statusBar, true);
         }
       } else if(Platform.OS === 'android') {
         if(isDark){

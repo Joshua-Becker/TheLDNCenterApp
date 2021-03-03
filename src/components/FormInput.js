@@ -23,7 +23,7 @@ const styles = (colors) => StyleSheet.create({
       alignSelf: 'center',
       marginTop: 10,
       marginBottom: 10,
-      width: width / 1.3,
+      width: width * 0.9,
       height: height / 15,
       backgroundColor: colors.formBackground,
       borderRadius: 5,

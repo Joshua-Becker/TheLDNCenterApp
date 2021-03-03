@@ -6,6 +6,7 @@ import FormComments from '../components/FormComments';
 import FormButton from '../components/FormButton';
 import { AuthContext } from '../navigation/AuthProvider';
 import {useTheme} from '../navigation/ThemeProvider';
+import NavFooter from '../components/NavFooter';
 
 export default function FormScreen({ navigation }) {
     let {colors, isDark} = useTheme();
@@ -125,6 +126,15 @@ export default function FormScreen({ navigation }) {
                 />
             </View>
         </ScrollView>
+        <NavFooter
+          navigation={navigation}
+          destA='PharmacyHome'
+          destB='Messages'
+          destC=''
+          iconA='account-details'
+          iconB='message'
+          iconC='folder-information'
+          />
     </View>
     );
 }
@@ -134,7 +144,6 @@ const styles = (colors) => StyleSheet.create({
         backgroundColor: colors.background,
         flex: 1,
         // justifyContent: 'space-between',
-        padding: 20,
     },
     formContainer: {
         margin: 20,

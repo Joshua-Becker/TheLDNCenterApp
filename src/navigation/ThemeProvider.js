@@ -20,7 +20,7 @@ export const ThemeProvider = (props) => {
             } else if(storedColorScheme == 'dark') {
                 setColorScheme('dark'); 
             } else {
-                console.log('Not stored');
+                // console.log('Not stored');
                 // Color scheme not assigned in settings
             }
         } catch(e) {

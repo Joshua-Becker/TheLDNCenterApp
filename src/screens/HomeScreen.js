@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, StyleSheet, Image, Dimensions } from 'react-native';
+import { View, StyleSheet, Image, Dimensions, Text } from 'react-native';
 import { IconButton } from 'react-native-paper';
 import FormButton from '../components/FormButton';
 import { AuthContext } from '../navigation/AuthProvider';
@@ -32,6 +32,17 @@ export default function HomeScreen({ navigation }) {
             source={isDark? require('../media/images/logo-light.png') : require('../media/images/logo-dark.png')} 
             style={styles(colors).logo}
         />
+        <View style={styles(colors).notifications}>
+          <View style={styles(colors).notificationTitleContainer}>
+            <Text style={styles(colors).notificationTitleText}>Notifications</Text>
+          </View>
+          {Boolean(showMessageNotification) && (
+          <View style={styles(colors).notificationContainer}>
+            <IconButton style={styles(colors).notificationIcon} icon={'alert-circle'} size={30} color={'#fff'}/>
+            <Text style={styles(colors).notificationText}>My Pharmacy - Message</Text>
+          </View>
+          )}
+        </View>
         <View style={styles(colors).stacks}>
           <View style={styles(colors).buttonContainer}>
             <FormButton
@@ -39,9 +50,6 @@ export default function HomeScreen({ navigation }) {
               modeValue='contained'
               onPress={() => navigation.push('Pharmacy')}
             />
-            {Boolean(showMessageNotification) && (
-            <IconButton style={styles(colors).notificationIcon} icon='alert-circle' color='white' size={40}/>
-            )}
           </View>
           {/* <FormButton
             title='About Me'
@@ -73,13 +81,34 @@ const styles = (colors) => StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
   },
+  notificationTitleContainer: {
+    width: width * 0.9,
+    backgroundColor: colors.pLight,
+    borderBottomWidth: 1,
+    borderColor: colors.text,
+    padding: 15,
+    marginBottom: 10,
+  },
+  notificationTitleText: {
+    color: colors.text,
+    fontSize: 20,
+  },
+  notificationContainer: {
+    backgroundColor: colors.primary,
+    width: width * 0.9,
+    borderRadius: 5,
+    padding: 5,
+    marginBottom: 10,
+    flexDirection: 'row',
+    alignContent: 'center',
+    alignItems: 'center'
+  },
   notificationIcon: {
-    position: 'absolute',
-    right: -width / 15,
-    top: -width / 30,
-    backgroundColor: '#3F4252',
     margin: 0,
-    width: 50,
-    height: 50,
-  }
+  },
+  notificationText: {
+    color: colors.text,
+    fontSize: 18,
+    textAlign: 'center',
+  },
 });

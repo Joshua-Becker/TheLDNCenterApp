@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, StyleSheet, ScrollView, Dimensions} from 'react-native';
+import { View, StyleSheet, ScrollView, Dimensions, Text} from 'react-native';
 import { Card, Title, Paragraph, Divider } from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 import Loading from '../components/Loading';
@@ -7,6 +7,7 @@ import useStatusBar from '../utils/useStatusBar';
 import auth from '@react-native-firebase/auth';
 import FooterButton from '../components/FooterButton';
 import FormButton from '../components/FormButton';
+import NavFooter from '../components/NavFooter';
 import { AuthContext } from '../navigation/AuthProvider';
 import { IconButton } from 'react-native-paper';
 import {useTheme} from '../navigation/ThemeProvider';
@@ -116,24 +117,45 @@ export default function PharmacyScreen({ navigation }) {
           </Card>
         </ScrollView>
         <View style={styles(colors).messages}>
-              <FormButton
+              <View style={styles(colors).notificationTitleContainer}>
+                <Text style={styles(colors).notificationTitleText}>Notifications</Text>
+              </View>
+              {/* <FormButton
                 title='Go To Messages'
                 modeValue='contained'
-                onPress={() => navigation.navigate('Messages', { thread } )}
-              />
+                onPress={() => navigation.navigate('Messages')}
+              /> */}
               {Boolean(notifications.unreadMessageFromPharmacy) && (
-              <IconButton style={styles(colors).notificationIcon} icon='alert-circle' color='white' size={40}/>
+              <View style={styles(colors).notificationContainer}>
+                <IconButton style={styles(colors).notificationIcon} icon={'alert-circle'} size={30} color={'#fff'}/>
+                <Text style={styles(colors).notificationText}>New message</Text>
+              </View>
               )}
+              {showForm &&
+              <View style={styles(colors).notificationContainer}>
+                <IconButton style={styles(colors).notificationIcon} icon={'alert-circle'} size={30} color={'#fff'}/>
+                <Text style={styles(colors).notificationText}>Biweekly form ready</Text>
+              </View>
+              }
           </View>
       </View>
       <View style={styles(colors).footer}>
-        {showForm && (
+        {/* {showForm && (
         <FooterButton
             title='biweekly form'
             subTitle={thread.pharmacyName + ' is requesting an update to help you reach your best LDN dose'}
             onPress={() => navigation.navigate('Form')}
           />
-          )}
+          )} */}
+          <NavFooter
+          navigation={navigation}
+          destA=''
+          destB='Messages'
+          destC='Form'
+          iconA='account-details'
+          iconB='message'
+          iconC='folder-information'
+          />
       </View>
     </View>
   );
@@ -170,19 +192,40 @@ const styles = (colors) => StyleSheet.create({
   messages: {
     marginTop: 15,
   },
+  notificationTitleContainer: {
+    width: width * 0.9,
+    backgroundColor: colors.pLight,
+    borderBottomWidth: 1,
+    borderColor: colors.text,
+    padding: 15,
+    marginBottom: 10,
+  },
+  notificationTitleText: {
+    color: colors.text,
+    fontSize: 20,
+  },
+  notificationContainer: {
+    backgroundColor: colors.primary,
+    width: width * 0.9,
+    borderRadius: 5,
+    padding: 5,
+    marginBottom: 10,
+    flexDirection: 'row',
+    alignContent: 'center',
+    alignItems: 'center'
+  },
   notificationIcon: {
-    position: 'absolute',
-    right: -width / 15,
-    top: -width / 30,
-    backgroundColor: '#3F4252',
     margin: 0,
-    width: 50,
-    height: 50,
+  },
+  notificationText: {
+    color: colors.text,
+    fontSize: 18,
+    textAlign: 'center',
   },
   footer: {
     width: '100%',
     alignItems: 'center',
-    marginBottom: 20,
+    // paddingBottom: 20,
   },
   divider: {
     borderWidth: 1,

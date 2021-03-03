@@ -22,6 +22,7 @@ export default function Pharmacy() {
         <PharmacyStack.Screen name='Form' component={FormScreen} />
         <PharmacyStack.Screen name='ChangePharmacy' component={ChangePharmacyScreen} />
         <PharmacyStack.Screen name='Home' component={HomeStack} />
+        <PharmacyStack.Screen name='Messages' component={PharmacyMessagesScreen} />
       </PharmacyStack.Navigator>
     );
 }
@@ -125,21 +126,45 @@ function PharmacyHome() {
                 color='#ffffff'
                 onPress={() => navigation.goBack()}
             />
+          ),
+          headerLeft: () => (
+            <IconButton
+                icon='home'
+                size={28}
+                color='#ffffff'
+                onPress={() => navigation.navigate('Home')}
+            />
           )
       })}
       />
       <PharmacyStack.Screen
       name='Messages'
       component={PharmacyMessagesScreen}
-      options={() => ({
-          title: 'Messages'
+      options={({ navigation }) => ({
+          title: 'Messages',
+          headerLeft: () => (
+            <IconButton
+                icon='home'
+                size={28}
+                color='#ffffff'
+                onPress={() => navigation.navigate('Home')}
+            />
+          )
       })}
       />
       <PharmacyStack.Screen
       name='Form'
       component={FormScreen}
-      options={() => ({
-          title: 'Biweekly Form'
+      options={({ navigation }) => ({
+          title: 'Biweekly Form',
+          headerLeft: () => (
+            <IconButton
+                icon='home'
+                size={28}
+                color='#ffffff'
+                onPress={() => navigation.navigate('Home')}
+            />
+          )
       })}
       />
     </PharmacyStack.Navigator>

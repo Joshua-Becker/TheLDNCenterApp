@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, StyleSheet, Image, Dimensions, Text, TouchableOpacity, Alert } from 'react-native';
+import { View, StyleSheet, Image, Dimensions, Text, TouchableOpacity, Platform } from 'react-native';
 import { IconButton } from 'react-native-paper';
 import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
@@ -26,10 +26,10 @@ export default function LoginScreen({ navigation }) {
           textStyle={styles(colors).spinnerTextStyle}
         />
         <View style={styles(colors).header}>
-          <TouchableOpacity style={styles(colors).signUpBox} onPress={() => navigation.navigate('Signup')}>
+          <TouchableOpacity style={Platform.OS === 'ios' ? styles(colors).signUpBoxIOS : styles(colors).signUpBox} onPress={() => navigation.navigate('Signup')}>
             <Text 
             style={styles(colors).signUpText} 
-            >SIGN UP</Text>
+            >Don't have an account? Sign up</Text>
             <IconButton
                   icon='arrow-right'
                   size={20}
@@ -54,6 +54,12 @@ export default function LoginScreen({ navigation }) {
             secureTextEntry={true}
             onChangeText={userPassword => setPassword(userPassword)}
           />
+          <TouchableOpacity 
+            style={styles(colors).forgotPasswordContainer}
+            onPress={() => {navigation.navigate('ForgotPassword')}}
+            >
+            <Text style={styles(colors).forgotPasswordText}>Forgot Password?</Text>
+          </TouchableOpacity>
         </View>
         <FormButton
           title='Login'
@@ -63,6 +69,7 @@ export default function LoginScreen({ navigation }) {
               setIsLoading(true);
               setEmail('');
               setPassword('');
+              setIsLoading(false);
               await login(email, password);
             }
           }
@@ -112,8 +119,26 @@ const styles = (colors) => StyleSheet.create({
     paddingBottom: 5,
     paddingRight: 10,
   },
+  signUpBoxIOS: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.statusBar,
+    width: width,
+    justifyContent: 'flex-end',
+    paddingBottom: 5,
+    paddingRight: 10,
+    paddingTop: 30,
+  },
   signUpText: {
     color: colors.buttonText,
     fontSize: 20,
   },
+  forgotPasswordContainer: {
+    marginTop: 20,
+    alignItems: 'center',
+  },
+  forgotPasswordText: {
+    color: colors.accent,
+    fontSize: 18,
+  }
 });

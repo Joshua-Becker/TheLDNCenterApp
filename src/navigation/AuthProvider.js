@@ -1,10 +1,11 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import { Alert } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import { EThree } from '@virgilsecurity/e3kit-native';
 import functions from '@react-native-firebase/functions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { createNoSubstitutionTemplateLiteral } from 'typescript';
 
 export const AuthContext = createContext({});
 
@@ -17,6 +18,7 @@ export const AuthProvider = ({ fcmToken, children }) => {
   const initializeFunction = () => getToken().then(result => result.data.token);
   const delay = ms => new Promise(res => setTimeout(res, ms));
 
+
   function ethreeDerivedToStr(array) {
     let out = '';
     for (const num of array) {
@@ -25,8 +27,18 @@ export const AuthProvider = ({ fcmToken, children }) => {
     return out;
   }
 
-  async function addNewUser(newUser, backupPassword, displayName, condition, painLevel, symptomTimeline, medications, comments) {
+  async function getPharmacyID(userID){
+    const snapshot = await firestore()
+    .collection('USERS')
+    .doc(userID)
+    .get();
+    const data = snapshot.data();
+    return data.pharmacyID;
+  }
+
+  async function addNewUser(userExists, newUser, backupPassword, displayName = '', condition = '', painLevel = '', symptomTimeline = '', medications = '', comments = '') {
     const currentUser = newUser.toJSON();
+    let identityExists = false;
     EThree.initialize(initializeFunction, { AsyncStorage }).then(async eThree => {
       await eThree.cleanup().then(() => console.log('ethree cleanup success'))
       .catch(e => console.error('ethree cleanup error: ', e));
@@ -36,30 +48,98 @@ export const AuthProvider = ({ fcmToken, children }) => {
           const encryptedName = await eThree.authEncrypt(displayName);
           const encryptedEmail = await eThree.authEncrypt(currentUser.email);
           firestore()
+          .collection('USERS')
+          .doc(currentUser.uid)
+          .set({
+            user: {
+              _id: currentUser.uid,
+              email: encryptedEmail,
+              name: encryptedName,
+              condition: condition,
+              painLevel: painLevel,
+              symptomTimeline: symptomTimeline,
+              medications: medications,
+              comments: comments,
+              token: fcmToken,
+            },
+            note: 'Saved Data',
+          });
+        })
+        .catch(async (e) => {
+          const errorStr = e.toString();
+          if(errorStr.includes('IdentityAlreadyExists')){
+            identityExists = true;
+          } else {
+            console.error('EThree Register Error: ', e)
+          }
+        });
+      if(identityExists){
+        const pharmacyID = await getPharmacyID(currentUser.uid);
+        await eThree.resetPrivateKeyBackup()
+        .then(async () =>{
+          await eThree.rotatePrivateKey()
+          .then(async () => {
+            const findUserIdentity = await ethree.findUsers(pharmacyID);
+            const encryptedName = await eThree.authEncrypt(currentUser.displayName, findUserIdentity);
+            const encryptedEmail = await eThree.authEncrypt(currentUser.email, findUserIdentity);
+            await deleteMessages(firestore(), 50);
+            firestore()
             .collection('USERS')
             .doc(currentUser.uid)
             .set({
               user: {
-                _id: currentUser.uid,
                 email: encryptedEmail,
                 name: encryptedName,
-                condition: condition,
-                painLevel: painLevel,
-                symptomTimeline: symptomTimeline,
-                medications: medications,
-                comments: comments,
-                token: fcmToken,
+              },
+              latestMessage: {
+                text: '',
               },
               note: 'Saved Data',
+            }, { merge: true });
           });
-        })
-        .catch(e => console.error('EThree Register Error: ', e));
-      setEthree(eThree);
+        });
+      }
       await eThree.backupPrivateKey(backupPassword)
+      .then(()=>console.log('EThree backup success'))
       .catch(e => console.error('EThree backup private key error: ', e));
     })
     .catch( err => {
-      console.log('EThree register fail:' + err);
+      console.log('EThree Initialize fail:' + err);
+    });
+  }
+
+  async function deleteQueryBatch(db, query, resolve) {
+    const snapshot = await query.get();
+    
+    process.nextTick = setImmediate;
+
+    const batchSize = snapshot.size;
+    if (batchSize === 0) {
+      // When there are no documents left, we are done
+      resolve();
+      return;
+    }
+  
+    // Delete documents in a batch
+    const batch = db.batch();
+    snapshot.docs.forEach((doc) => {
+      batch.delete(doc.ref);
+    });
+    await batch.commit();
+  
+    // Recurse on the next process tick, to avoid
+    // exploding the stack.
+    process.nextTick(() => {
+      deleteQueryBatch(db, query, resolve);
+    });
+  }
+
+  async function deleteMessages(db, batchSize) {
+    const collectionRef = db.collection('USERS').doc(auth().currentUser.uid).collection('MESSAGES');
+    const query = collectionRef.orderBy('__name__').limit(batchSize);
+  
+    return new Promise((resolve, reject) => {
+      deleteQueryBatch(db, query, resolve).catch(reject);
     });
   }
 
@@ -109,21 +189,27 @@ export const AuthProvider = ({ fcmToken, children }) => {
           let signedIn = false;
           try {
             let { loginPassword, backupPassword } = EThree.derivePasswords(password);
-            loginPassword = ethreeDerivedToStr(loginPassword);
+            //loginPassword = ethreeDerivedToStr(loginPassword);
             backupPassword = ethreeDerivedToStr(backupPassword);
-            await auth().signInWithEmailAndPassword(email, loginPassword)
+            await auth().signInWithEmailAndPassword(email, password)
             .then( async (userCreds) => {
-              signedIn = true;
-              setUser(userCreds.user);
-              setEthree(await EThree.initialize(initializeFunction, { AsyncStorage }));
-              const hasLocalPrivateKey = await eThree.hasLocalPrivateKey();
-              if (!hasLocalPrivateKey) await eThree.restorePrivateKey(backupPassword);
+              await EThree.initialize(initializeFunction, { AsyncStorage }).then(async eThree => {
+                setEthree(eThree);
+                signedIn = true;
+                setUser(userCreds.user);
+                const hasLocalPrivateKey = await eThree.hasLocalPrivateKey();
+                if (!hasLocalPrivateKey) await eThree.restorePrivateKey(backupPassword).catch(async (e) => {
+                  // No private key and backup password does not work. Must be password reset
+                  // Delete messages and create new private key with new password
+                  addNewUser(true, userCreds.user, backupPassword);
+                });
+              });
             })
-            .catch(async function(error) {
-              console.log('Error occurred logging in' + error);
+            .catch( function(error) {
+              console.log('Error occurred logging in: ' + error);
             });
           } catch (e) {
-            console.log(e);
+            console.log('Error occurred logging in (try catch): ' + e);
           }
           if(!signedIn){
             await AsyncAlert('Wrong username or password', 'Please try again');
@@ -138,15 +224,15 @@ export const AuthProvider = ({ fcmToken, children }) => {
           try {
             console.log('Creating firebase user');
             let { loginPassword, backupPassword } = EThree.derivePasswords(password);
-            loginPassword = ethreeDerivedToStr(loginPassword);
+            //loginPassword = ethreeDerivedToStr(loginPassword);
             backupPassword = ethreeDerivedToStr(backupPassword);
-            await auth().createUserWithEmailAndPassword(email, loginPassword).then(function(user) {
+            await auth().createUserWithEmailAndPassword(email, password).then(function(user) {
               var user = auth().currentUser;
               user.updateProfile({
                   displayName: username
               }).then( async function() {
                   setUser(user);
-                  addNewUser(user, backupPassword, username, condition, painLevel, symptomTimeline, medications, comments);
+                  addNewUser(false, user, backupPassword, username, condition, painLevel, symptomTimeline, medications, comments);
               }, function(error) {
                 console.error("Error adding new user" + error);
                   // An error happened.
@@ -171,7 +257,7 @@ export const AuthProvider = ({ fcmToken, children }) => {
         },
         logout: async () => {
           try{
-            if(typeof eThree !== 'undefined') await eThree.cleanup();
+            if(typeof ethree !== 'undefined') await ethree.cleanup();
           } catch (e) {
             console.error('Error removing private key:' + e);
           }
@@ -193,6 +279,9 @@ export const AuthProvider = ({ fcmToken, children }) => {
             comments: comments,
             date: new Date().getTime(),
           });
+        },
+        forgotPassword: async (email) => {
+          await auth().sendPasswordResetEmail(email);
         }
       }}
     >

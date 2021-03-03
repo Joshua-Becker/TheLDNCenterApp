@@ -6,19 +6,33 @@ import { AuthContext } from '../navigation/AuthProvider';
 import firestore from '@react-native-firebase/firestore';
 import useStatusBar from '../utils/useStatusBar';
 import {useTheme} from '../navigation/ThemeProvider';
+import NavFooter from '../components/NavFooter';
 
 // Disable to see warnings
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs();//Ignore all log notifications
 
-export default function PharmacyMessagesScreen({ route }) {
+export default function PharmacyMessagesScreen({navigation}) {
   const {colors, isDark} = useTheme();
   useStatusBar();
   const { user, checkForNotifications } = useContext(AuthContext);
   const currentUser = user.toJSON();
-  const { thread } = route.params;
+  const [userData, setUserData] = useState({});
+  const [dataLoaded, setDataLoaded] = useState(false);
   const [messages, setMessages] = useState([]);
   const { ethree } = useContext(AuthContext);
+
+  async function getUserData(){
+    await firestore()
+      .collection('USERS')
+      .doc(currentUser.uid)
+      .get()
+      .then((snapshot) => {
+        const data = snapshot.data()
+        setUserData(data);
+        setDataLoaded(true);
+      });
+  }
 
   function renderSystemMessage(props) {
       return (
@@ -97,7 +111,7 @@ export default function PharmacyMessagesScreen({ route }) {
   }
 
   function setPharmacyUnreadMessageToTrue(){
-    firestore().collection('PHARMACIES').doc(thread.pharmacyID).collection('PATIENTS').doc(thread._id)
+    firestore().collection('PHARMACIES').doc(userData.pharmacyID).collection('PATIENTS').doc(userData.user._id)
     .set({
       unreadMessageFromPatient: true,
     }, { merge: true });
@@ -105,7 +119,7 @@ export default function PharmacyMessagesScreen({ route }) {
 
   function setPatientUnreadMessageToFalse(){
     checkForNotifications();
-    firestore().collection('USERS').doc(thread._id)
+    firestore().collection('USERS').doc(userData.user._id)
     .set({
       latestMessage: {
         unreadMessageFromPharmacy: false,
@@ -117,11 +131,11 @@ export default function PharmacyMessagesScreen({ route }) {
   async function handleSend(messages) {
     setPharmacyUnreadMessageToTrue();
     const text = messages[0].text;
-    const findUserIdentity = await ethree.findUsers(thread.pharmacyID);
+    const findUserIdentity = await ethree.findUsers(userData.pharmacyID);
     const encryptedMessage = await ethree.authEncrypt(text, findUserIdentity);
     firestore()
       .collection('USERS')
-      .doc(thread._id)
+      .doc(userData.user._id)
       .collection('MESSAGES')
       .add({
         text: encryptedMessage,
@@ -134,11 +148,11 @@ export default function PharmacyMessagesScreen({ route }) {
 
     await firestore()
       .collection('USERS')
-      .doc(thread._id)
+      .doc(userData.user._id)
       .set(
         {
           latestMessage: {
-            id: thread._id,
+            id: userData.user._id,
             text: encryptedMessage,
             createdAt: new Date().getTime()
           }
@@ -147,18 +161,20 @@ export default function PharmacyMessagesScreen({ route }) {
       );
   }
 
-  useEffect(() => {     
-    const messagesListener = firestore()
+  useEffect(() => {
+    getUserData();
+    if(Object.keys(userData).length !== 0){
+      const messagesListener = firestore()
       .collection('USERS')
-      .doc(thread._id)
+      .doc(userData.user._id)
       .collection('MESSAGES')
       .orderBy('createdAt', 'desc')
       .onSnapshot(querySnapshot => {
         const newMessages = querySnapshot.docs.map( async (doc) => {
           const firebaseData = doc.data();
           let decryptedText;
-          if(firebaseData.user._id == thread.pharmacyID){
-            const findUserIdentity = await ethree.findUsers(thread.pharmacyID);
+          if(firebaseData.user._id == userData.pharmacyID){
+            const findUserIdentity = await ethree.findUsers(userData.pharmacyID);
             decryptedText = await ethree.authDecrypt(firebaseData.text, findUserIdentity);
           } else {
             decryptedText = await ethree.authDecrypt(firebaseData.text);
@@ -169,12 +185,6 @@ export default function PharmacyMessagesScreen({ route }) {
             createdAt: new Date().getTime(),
             ...firebaseData
           };
-          // if (!firebaseData.system) {
-          //   data.user = {
-          //     ...firebaseData.user,
-          //     name: currentUser.displayName,
-          //   };
-          // }
           data.text = decryptedText;
           return data;
         })
@@ -183,37 +193,51 @@ export default function PharmacyMessagesScreen({ route }) {
           setPatientUnreadMessageToFalse();
         }).catch(error => console.log('Error returning messages: ' + error));
       });
-
-    // Stop listening for updates whenever the component unmounts
-    return () => messagesListener();
-  }, []);
+      // Stop listening for updates whenever the component unmounts
+      return () => messagesListener();
+    }
+  }, [dataLoaded]);
 
   return (
     <View style={styles(colors).container}>
-      <GiftedChat
-          messages={messages}
-          onSend={handleSend}
-          user={{ _id: currentUser.uid }}
-          renderBubble={renderBubble}
-          placeholder='Type your message here...'
-          // showUserAvatar
-          alwaysShowSend
-          renderAvatar={() => null}
-          renderSend={renderSend}
-          scrollToBottomComponent={scrollToBottomComponent}
-          renderLoading={renderLoading}
-          renderSystemMessage={renderSystemMessage}
-          renderInputToolbar={renderInputToolbar}
-      />
+      <View style={styles(colors).giftedChatContainer}>
+        <GiftedChat
+            messages={messages}
+            onSend={handleSend}
+            user={{ _id: currentUser.uid }}
+            renderBubble={renderBubble}
+            placeholder='Type your message here...'
+            // showUserAvatar
+            alwaysShowSend
+            renderAvatar={() => null}
+            renderSend={renderSend}
+            scrollToBottomComponent={scrollToBottomComponent}
+            renderLoading={renderLoading}
+            renderSystemMessage={renderSystemMessage}
+            renderInputToolbar={renderInputToolbar}
+        />
+      </View>
+        <NavFooter
+            navigation={navigation}
+            destA='PharmacyHome'
+            destB=''
+            destC='Form'
+            iconA='account-details'
+            iconB='message'
+            iconC='folder-information'
+        />
     </View>
   );
 }
 
 const styles = (colors) => StyleSheet.create({
   container: {
-    backgroundColor: colors.backgroundShaded,
     flex: 1,
-    paddingBottom: 5,
+    backgroundColor: colors.backgroundShaded,
+  },
+  giftedChatContainer: {
+    flex: 1,
+    marginBottom: 10,
   },
   sendingContainer: {
     justifyContent: 'center',
