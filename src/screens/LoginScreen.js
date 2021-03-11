@@ -18,6 +18,9 @@ export default function LoginScreen({ navigation }) {
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
+    useEffect(() => {
+      setIsLoading(false);
+    }, []);
     return (
       <View style={styles(colors).container}>
         <Spinner
@@ -69,7 +72,6 @@ export default function LoginScreen({ navigation }) {
               setIsLoading(true);
               setEmail('');
               setPassword('');
-              setIsLoading(false);
               await login(email, password);
             }
           }

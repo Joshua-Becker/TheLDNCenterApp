@@ -118,6 +118,7 @@ export default function PharmacyMessagesScreen({navigation}) {
   }
 
   function setPatientUnreadMessageToFalse(){
+    console.log('Setting unreadMessageFromPharmacy to false');
     checkForNotifications();
     firestore().collection('USERS').doc(userData.user._id)
     .set({
@@ -233,7 +234,7 @@ export default function PharmacyMessagesScreen({navigation}) {
 const styles = (colors) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.backgroundShaded,
+    backgroundColor: colors.background,
   },
   giftedChatContainer: {
     flex: 1,
@@ -269,7 +270,7 @@ const styles = (colors) => StyleSheet.create({
   },
   inputToolbar: {
     borderRadius: 10,
-    backgroundColor: '#fff',
+    backgroundColor: '#ccc',
     marginLeft: 5,
     marginRight: 5,
     paddingTop: 4,

@@ -5,8 +5,7 @@ import firestore from '@react-native-firebase/firestore';
 import Loading from '../components/Loading';
 import useStatusBar from '../utils/useStatusBar';
 import auth from '@react-native-firebase/auth';
-import FooterButton from '../components/FooterButton';
-import FormButton from '../components/FormButton';
+import Notification from '../components/Notification';
 import NavFooter from '../components/NavFooter';
 import { AuthContext } from '../navigation/AuthProvider';
 import { IconButton } from 'react-native-paper';
@@ -126,16 +125,18 @@ export default function PharmacyScreen({ navigation }) {
                 onPress={() => navigation.navigate('Messages')}
               /> */}
               {Boolean(notifications.unreadMessageFromPharmacy) && (
-              <View style={styles(colors).notificationContainer}>
-                <IconButton style={styles(colors).notificationIcon} icon={'alert-circle'} size={30} color={'#fff'}/>
-                <Text style={styles(colors).notificationText}>New message</Text>
-              </View>
+                <Notification
+                navigation={navigation}
+                text='New message'
+                link='Messages'
+                />
               )}
               {showForm &&
-              <View style={styles(colors).notificationContainer}>
-                <IconButton style={styles(colors).notificationIcon} icon={'alert-circle'} size={30} color={'#fff'}/>
-                <Text style={styles(colors).notificationText}>Biweekly form ready</Text>
-              </View>
+              <Notification
+              navigation={navigation}
+              text='Fill out biweekly form'
+              link='Form'
+            />
               }
           </View>
       </View>
@@ -174,17 +175,17 @@ const styles = (colors) => StyleSheet.create({
   },
   card: {
     width: '100%',
-    backgroundColor: '#2F3243',
+    backgroundColor: colors.backgroundShaded,
   },
   cardTitle: {
-    color: '#fff',
+    color: colors.text,
   },
   cardSubTitle: {
-    color: '#fff',
+    color: colors.text,
     fontSize: 18,
   },
   cardText: {
-    color: '#ccc',
+    color: colors.text,
   },
   about: {
     width: '100%',
@@ -194,7 +195,6 @@ const styles = (colors) => StyleSheet.create({
   },
   notificationTitleContainer: {
     width: width * 0.9,
-    backgroundColor: colors.pLight,
     borderBottomWidth: 1,
     borderColor: colors.text,
     padding: 15,
@@ -225,11 +225,10 @@ const styles = (colors) => StyleSheet.create({
   footer: {
     width: '100%',
     alignItems: 'center',
-    // paddingBottom: 20,
   },
   divider: {
     borderWidth: 1,
-    borderColor: '#bbb',
+    borderColor: colors.text,
     marginLeft: 15,
     marginRight: 15,    
   },

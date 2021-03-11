@@ -10,6 +10,7 @@ import {ThemeProvider} from './ThemeProvider';
 
 export default function Routes() {
   const { user, setUser } = useContext(AuthContext);
+  const { ethree } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const [initializing, setInitializing] = useState(true);
 
@@ -32,7 +33,7 @@ export default function Routes() {
     <AppearanceProvider>
       <ThemeProvider>
         <NavigationContainer>
-          {user ? <HomeStack /> : <AuthStack />}
+          {(user && ethree) ? <HomeStack /> : <AuthStack />}
         </NavigationContainer>
       </ThemeProvider>
     </AppearanceProvider>

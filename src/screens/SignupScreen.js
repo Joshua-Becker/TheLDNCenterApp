@@ -27,7 +27,7 @@ export default function SignupScreen({ navigation }) {
   const [isLoading, setIsLoding] = useState(false);
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles(colors).container}>
       <Spinner
           visible={isLoading}
           textContent={'Loading...'}
@@ -193,14 +193,14 @@ const styles = (colors) => StyleSheet.create({
   picker: {
     backgroundColor: 'transparent',
     width: '100%',
-    color: colors.text,
+    color: '#000000',
   },
   pickerItems: {
-    color: colors.text,
+    color: '#000000',
   }, 
   pickerIcon: {
     position: 'absolute',
     right: '10%',
-    color: colors.text,
+    color: '#000000',
   },
 });

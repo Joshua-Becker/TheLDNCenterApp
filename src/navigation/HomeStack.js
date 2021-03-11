@@ -27,7 +27,7 @@ function Home() {
     firstname = ', ' + user.displayName.split(' ')[0];
   } else {
       //navigation.push('Home');
-      console.log('HomeStack displayName not found');
+      //console.log('HomeStack displayName not found');
   }
 
   const { logout } = useContext(AuthContext)

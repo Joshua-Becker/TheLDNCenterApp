@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { View, StyleSheet, Image, Dimensions, Text } from 'react-native';
-import { IconButton } from 'react-native-paper';
 import FormButton from '../components/FormButton';
+import Notification from '../components/Notification';
 import { AuthContext } from '../navigation/AuthProvider';
 import useStatusBar from '../utils/useStatusBar';
 import {useTheme} from '../navigation/ThemeProvider';
@@ -32,17 +32,18 @@ export default function HomeScreen({ navigation }) {
             source={isDark? require('../media/images/logo-light.png') : require('../media/images/logo-dark.png')} 
             style={styles(colors).logo}
         />
+        {Boolean(showMessageNotification) && (
         <View style={styles(colors).notifications}>
           <View style={styles(colors).notificationTitleContainer}>
             <Text style={styles(colors).notificationTitleText}>Notifications</Text>
           </View>
-          {Boolean(showMessageNotification) && (
-          <View style={styles(colors).notificationContainer}>
-            <IconButton style={styles(colors).notificationIcon} icon={'alert-circle'} size={30} color={'#fff'}/>
-            <Text style={styles(colors).notificationText}>My Pharmacy - Message</Text>
-          </View>
-          )}
+          <Notification
+            navigation={navigation}
+            text='My Pharmacy - Message'
+            link='Pharmacy'
+          />
         </View>
+        )}
         <View style={styles(colors).stacks}>
           <View style={styles(colors).buttonContainer}>
             <FormButton
@@ -83,7 +84,6 @@ const styles = (colors) => StyleSheet.create({
   },
   notificationTitleContainer: {
     width: width * 0.9,
-    backgroundColor: colors.pLight,
     borderBottomWidth: 1,
     borderColor: colors.text,
     padding: 15,
@@ -92,23 +92,5 @@ const styles = (colors) => StyleSheet.create({
   notificationTitleText: {
     color: colors.text,
     fontSize: 20,
-  },
-  notificationContainer: {
-    backgroundColor: colors.primary,
-    width: width * 0.9,
-    borderRadius: 5,
-    padding: 5,
-    marginBottom: 10,
-    flexDirection: 'row',
-    alignContent: 'center',
-    alignItems: 'center'
-  },
-  notificationIcon: {
-    margin: 0,
-  },
-  notificationText: {
-    color: colors.text,
-    fontSize: 18,
-    textAlign: 'center',
   },
 });

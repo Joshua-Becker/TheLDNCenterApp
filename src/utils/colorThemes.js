@@ -16,12 +16,14 @@ export const lightColors = {
     text: '#000000',
     accent: '#E97E33',
     error: '#EF9A9A',
+    notificationBackground: '#AAD1DE',
+    notificationText: '#38474F',
   };
   
 // Dark theme colors
 export const darkColors = {
     background: '#3F4253',
-    backgroundShaded: '#3F4253',
+    backgroundShaded: '#1F2233',
     primary: '#005DAC',
     pLight: '#3F4253',
     statusBar: '#171921',
@@ -36,4 +38,6 @@ export const darkColors = {
     text: '#FFFFFF',
     accent: '#E97E33',
     error: '#EF9A9A',
+    notificationBackground: '#AAD1DE',
+    notificationText: '#38474F',
 };
