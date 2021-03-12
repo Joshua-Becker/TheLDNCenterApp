@@ -6,22 +6,26 @@ import SettingsScreen from '../screens/SettingsScreen';
 import { IconButton } from 'react-native-paper';
 import { AuthContext } from '../navigation/AuthProvider';
 import {useTheme} from '../navigation/ThemeProvider';
+import SessionTimeout from '../utils/sessionTimeout'
 
 const Stack = createStackNavigator();
 
 export default function HomeStack() {
     return (
-      <Stack.Navigator initialRouteName='Login' headerMode='none'>
-        <Stack.Screen name='Home' component={Home} />
-        <Stack.Screen name='Settings' component={SettingsScreen} />
-        <Stack.Screen name='Pharmacy' component={PharmacyStack} />
-      </Stack.Navigator>
+      <>
+        <Stack.Navigator initialRouteName='Login' headerMode='none'>
+          <Stack.Screen name='Home' component={Home} />
+          <Stack.Screen name='Settings' component={SettingsScreen} />
+          <Stack.Screen name='Pharmacy' component={PharmacyStack} />
+        </Stack.Navigator>
+        <SessionTimeout/>
+      </>
     );
 }
 
 function Home() {
   let {colors, isDark} = useTheme();
-  const { user } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
   let firstname = '';
   if(user.displayName != null){
     firstname = ', ' + user.displayName.split(' ')[0];
@@ -29,8 +33,6 @@ function Home() {
       //navigation.push('Home');
       //console.log('HomeStack displayName not found');
   }
-
-  const { logout } = useContext(AuthContext)
   return (
       //<HomeScreen />
       <Stack.Navigator
