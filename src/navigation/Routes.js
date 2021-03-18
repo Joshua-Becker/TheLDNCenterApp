@@ -7,7 +7,6 @@ import { AuthContext } from './AuthProvider';
 import Loading from '../components/Loading';
 import {AppearanceProvider} from 'react-native-appearance';
 import {ThemeProvider} from './ThemeProvider';
-import SessionTimeout from '../utils/sessionTimeout'
 
 export default function Routes() {
   const { user, setUser } = useContext(AuthContext);

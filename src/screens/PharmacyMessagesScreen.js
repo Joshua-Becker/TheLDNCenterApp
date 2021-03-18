@@ -20,7 +20,7 @@ export default function PharmacyMessagesScreen({navigation}) {
   const [userData, setUserData] = useState({});
   const [dataLoaded, setDataLoaded] = useState(false);
   const [messages, setMessages] = useState([]);
-  const { ethree } = useContext(AuthContext);
+  const { ethree, auditLog } = useContext(AuthContext);
 
   async function getUserData(){
     await firestore()
@@ -160,6 +160,8 @@ export default function PharmacyMessagesScreen({navigation}) {
         },
         { merge: true }
       );
+    
+    auditLog(user.id, 'Sent message');
   }
 
   useEffect(() => {

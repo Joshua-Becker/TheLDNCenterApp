@@ -5,7 +5,6 @@ import firestore from '@react-native-firebase/firestore';
 import { EThree } from '@virgilsecurity/e3kit-native';
 import functions from '@react-native-firebase/functions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { createNoSubstitutionTemplateLiteral } from 'typescript';
 
 export const AuthContext = createContext({});
 
@@ -34,6 +33,17 @@ export const AuthProvider = ({ fcmToken, children }) => {
     .get();
     const data = snapshot.data();
     return data.pharmacyID;
+  }
+
+  async function auditLog(user_id, message){
+    await firestore()
+    .collection('AUDIT_LOG_USERS')
+    .doc(user_id)
+    .collection('LOGS')
+    .add({
+      timeStamp: new Date().getTime(),
+      action: message,
+    });
   }
 
   async function addNewUser(userExists, newUser, backupPassword, displayName = '', condition = '', painLevel = '', symptomTimeline = '', medications = '', comments = '') {
@@ -102,6 +112,7 @@ export const AuthProvider = ({ fcmToken, children }) => {
       await eThree.backupPrivateKey(backupPassword)
       .then(()=>console.log('EThree backup success'))
       .catch(e => console.error('EThree backup private key error: ', e));
+      auditLog(currentUser.uid, 'Successfully signed up');
     })
     .catch( err => {
       console.log('EThree Initialize fail:' + err);
@@ -185,6 +196,7 @@ export const AuthProvider = ({ fcmToken, children }) => {
         notifications,
         setNotifications,
         checkForNotifications,
+        auditLog,
         login: async (email, password) => {
           let signedIn = false;
           try {
@@ -203,6 +215,7 @@ export const AuthProvider = ({ fcmToken, children }) => {
                   // Delete messages and create new private key with new password
                   addNewUser(true, userCreds.user, backupPassword);
                 });
+              auditLog(userCreds.user.uid, 'Successfully logged in');
               });
             })
             .catch( function(error) {
@@ -262,13 +275,15 @@ export const AuthProvider = ({ fcmToken, children }) => {
             console.error('Error removing private key:' + e);
           }
           try {
+            var user = auth().currentUser;
+            auditLog(user.uid, 'Logging out');
             await auth().signOut();
           } catch (e) {
             console.error('Error signing out:' + e);
           }
         },
         submitForm: async (painLevel, sideEffects, comments) => {
-          var user = auth().currentUser
+          var user = auth().currentUser;
           firestore()
           .collection('USERS')
           .doc(user.uid)
@@ -279,6 +294,7 @@ export const AuthProvider = ({ fcmToken, children }) => {
             comments: comments,
             date: new Date().getTime(),
           });
+          auditLog(user.uid, 'Submitted form');
         },
         forgotPassword: async (email) => {
           await auth().sendPasswordResetEmail(email);

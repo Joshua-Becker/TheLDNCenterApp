@@ -15,7 +15,7 @@ export default function AddPharmacyScreen({ navigation }) {
     const [pharmacy, setPharmacy] = useState([]);
     const [pharmacies, setPharmacies] = useState([]);
     const user = {name: auth().currentUser.displayName, email: auth().currentUser.email, id: auth().currentUser.uid}
-    const { ethree } = useContext(AuthContext);
+    const { ethree, auditLog } = useContext(AuthContext);
 
     async function handleButtonPress() {
         if (Object.keys(pharmacy).length > 0) {
@@ -50,6 +50,8 @@ export default function AddPharmacyScreen({ navigation }) {
                 // name: user.name,
                 joined: new Date().getTime(),
             }, { merge: true });
+
+            auditLog(user.id, 'Joined pharmacy');
         }
         navigation.navigate('My Pharmacy');
     }

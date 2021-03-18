@@ -18,7 +18,7 @@ export default function ChangePharmacyScreen({ navigation }) {
   const [previousPharmacy, setPreviousPharmacy] = useState([]);
   const [pharmacies, setPharmacies] = useState([]);
   const user = {name: auth().currentUser.displayName, email: auth().currentUser.email, id: auth().currentUser.uid}
-  const { ethree } = useContext(AuthContext);
+  const { ethree, auditLog } = useContext(AuthContext);
   
   async function getPreviousPharmacy(){
       const previousPharmacyRaw = await firestore()
@@ -112,6 +112,7 @@ export default function ChangePharmacyScreen({ navigation }) {
         .doc(user.id)
         .delete();
 
+        auditLog(user.id, 'Changed pharmacy');
         navigation.navigate('PharmacyHome');
       }
   }

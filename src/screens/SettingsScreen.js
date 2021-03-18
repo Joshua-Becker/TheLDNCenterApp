@@ -10,7 +10,7 @@ import { AuthContext } from '../navigation/AuthProvider';
 import { EThree } from '@virgilsecurity/e3kit-native';
 
 export default function SettingsScreen(props) {
-    const { user, ethree } = useContext(AuthContext);
+    const { user, ethree, auditLog } = useContext(AuthContext);
     const currentUser = user.toJSON();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -122,6 +122,7 @@ export default function SettingsScreen(props) {
             await ethree.changePassword(oldBackupPassword, newBackupPassword);
             await user.updatePassword(newPass);
         }
+        auditLog(currentUser.uid, 'Adjusted settings');
         props.navigation.goBack();
     }
 
