@@ -612,6 +612,8 @@ PODS:
     - React
   - RNScreens (2.17.1):
     - React-Core
+  - RNSVG (12.1.1):
+    - React
   - RNVectorIcons (8.0.0):
     - React-Core
   - RNVirgilCrypto (0.6.1):
@@ -676,6 +678,7 @@ DEPENDENCIES:
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNKeychain (from `../node_modules/react-native-keychain`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - RNSVG (from `../node_modules/react-native-svg`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - RNVirgilCrypto (from `../node_modules/react-native-virgil-crypto`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -786,6 +789,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-keychain"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  RNSVG:
+    :path: "../node_modules/react-native-svg"
   RNVectorIcons:
     :path: "../node_modules/react-native-vector-icons"
   RNVirgilCrypto:
@@ -853,6 +858,7 @@ SPEC CHECKSUMS:
   RNGestureHandler: 9b7e605a741412e20e13c512738a31bd1611759b
   RNKeychain: a5623de13ec5378bfb8035422e3dee4fa538660d
   RNScreens: b6c9607e6fe47c1b6e2f1910d2acd46dd7ecea3a
+  RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f
   RNVectorIcons: f67a1abce2ec73e62fe4606e8110e95a832bc859
   RNVirgilCrypto: f544b54e63a0d0466c81e630d39f56764354853c
   VirgilCrypto: c2831582c5230eeb2adba2365336c768cd6d8c59

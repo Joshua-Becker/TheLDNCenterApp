@@ -10,6 +10,7 @@ import NavFooter from '../components/NavFooter';
 import { AuthContext } from '../navigation/AuthProvider';
 import { IconButton } from 'react-native-paper';
 import {useTheme} from '../navigation/ThemeProvider';
+import Graph from '../components/Graph';
 
 const { width, height } = Dimensions.get('screen');
 
@@ -17,10 +18,36 @@ export default function PharmacyScreen({ navigation }) {
   const {colors, isDark} = useTheme();
   useStatusBar();
   const [showForm, setShowForm] = useState(false);
+  const [showGraph, setShowGraph] = useState(false);
+  const [graphData, setGraphData] = useState([]);
+  const [graphLabels, setGraphLabels] = useState([]);
   const [thread, setThread] = useState({});
   const [loading, setLoading] = useState(true);
   const user = {email: auth().currentUser.email, id: auth().currentUser.uid}
   const { ethree, notifications, checkForNotifications } = useContext(AuthContext);
+
+  async function showGraphCheck() {
+    const forms = await firestore()
+    .collection('USERS')
+    .doc(user.id)
+    .collection('FORMS')
+    .orderBy('date', 'asc')
+    .get();
+    if(forms.docs.length > 1){
+      let painList = [];
+      let labelList = [];
+      let i;
+      for(i=0; i<forms.docs.length; i++){
+        painList.push(forms.docs[i].data().pain);
+        labelList.push(i);
+      }
+      setGraphData(painList);
+      setGraphLabels(labelList);
+      setShowGraph(true); // Must come after setGraph methods to allow them to populate
+      return;
+    }
+
+  }
 
   async function showFormCheck() {
     const latestForm = await firestore()
@@ -51,7 +78,8 @@ export default function PharmacyScreen({ navigation }) {
    */
   useEffect(() => {
     checkForNotifications();
-    showFormCheck()
+    showFormCheck();
+    showGraphCheck();
     const unsubscribe = firestore()
       .collection('USERS')
       .doc(user.id)
@@ -119,11 +147,6 @@ export default function PharmacyScreen({ navigation }) {
               <View style={styles(colors).notificationTitleContainer}>
                 <Text style={styles(colors).notificationTitleText}>Notifications</Text>
               </View>
-              {/* <FormButton
-                title='Go To Messages'
-                modeValue='contained'
-                onPress={() => navigation.navigate('Messages')}
-              /> */}
               {Boolean(notifications.unreadMessageFromPharmacy) && (
                 <Notification
                 navigation={navigation}
@@ -140,14 +163,14 @@ export default function PharmacyScreen({ navigation }) {
               }
           </View>
       </View>
+      {showGraph &&
+        <Graph
+          graphTitle="Pain Levels"
+          graphData={graphData}
+          graphLabels={graphLabels}
+        />
+      }
       <View style={styles(colors).footer}>
-        {/* {showForm && (
-        <FooterButton
-            title='biweekly form'
-            subTitle={thread.pharmacyName + ' is requesting an update to help you reach your best LDN dose'}
-            onPress={() => navigation.navigate('Form')}
-          />
-          )} */}
           <NavFooter
           navigation={navigation}
           destA=''

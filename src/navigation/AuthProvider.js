@@ -93,19 +93,43 @@ export const AuthProvider = ({ fcmToken, children }) => {
             const encryptedName = await eThree.authEncrypt(currentUser.displayName, findUserIdentity);
             const encryptedEmail = await eThree.authEncrypt(currentUser.email, findUserIdentity);
             await deleteMessages(firestore(), 50);
-            firestore()
-            .collection('USERS')
-            .doc(currentUser.uid)
-            .set({
-              user: {
-                email: encryptedEmail,
-                name: encryptedName,
-              },
-              latestMessage: {
-                text: '',
-              },
-              note: 'Saved Data',
-            }, { merge: true });
+            if(condition != ''){
+              firestore()
+              .collection('USERS')
+              .doc(currentUser.uid)
+              .set({
+                user: {
+                  _id: currentUser.uid,
+                  email: encryptedEmail,
+                  name: encryptedName,
+                  condition: condition,
+                  painLevel: painLevel,
+                  symptomTimeline: symptomTimeline,
+                  medications: medications,
+                  comments: comments,
+                  token: fcmToken,
+                },
+                latestMessage: {
+                  text: '',
+                },
+                note: 'Saved Data',
+              }, { merge: true });
+            }
+            else {
+              firestore()
+              .collection('USERS')
+              .doc(currentUser.uid)
+              .set({
+                user: {
+                  email: encryptedEmail,
+                  name: encryptedName,
+                },
+                latestMessage: {
+                  text: '',
+                },
+                note: 'Saved Data',
+              }, { merge: true });
+            }
           });
         });
       }
