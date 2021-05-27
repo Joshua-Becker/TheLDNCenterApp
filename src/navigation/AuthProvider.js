@@ -55,8 +55,9 @@ export const AuthProvider = ({ fcmToken, children }) => {
       setEthree(eThree);
       await eThree.register()
         .then(async () => {
-          const encryptedName = await eThree.authEncrypt(displayName);
-          const encryptedEmail = await eThree.authEncrypt(currentUser.email);
+          const group = await eThree.createGroup(currentUser.uid);
+          const encryptedName = await group.encrypt(displayName);
+          const encryptedEmail = await group.encrypt(currentUser.email);
           firestore()
           .collection('USERS')
           .doc(currentUser.uid)
@@ -89,9 +90,9 @@ export const AuthProvider = ({ fcmToken, children }) => {
         .then(async () =>{
           await eThree.rotatePrivateKey()
           .then(async () => {
-            const findUserIdentity = await ethree.findUsers(pharmacyID);
-            const encryptedName = await eThree.authEncrypt(currentUser.displayName, findUserIdentity);
-            const encryptedEmail = await eThree.authEncrypt(currentUser.email, findUserIdentity);
+            const group = await eThree.getGroup(currentUser.uid);
+            const encryptedName = await group.encrypt(currentUser.displayName);
+            const encryptedEmail = await group.encrypt(currentUser.email);
             await deleteMessages(firestore(), 50);
             if(condition != ''){
               firestore()

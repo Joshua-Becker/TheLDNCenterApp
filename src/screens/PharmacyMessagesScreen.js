@@ -132,8 +132,9 @@ export default function PharmacyMessagesScreen({navigation}) {
   async function handleSend(messages) {
     setPharmacyUnreadMessageToTrue();
     const text = messages[0].text;
-    const findUserIdentity = await ethree.findUsers(userData.pharmacyID);
-    const encryptedMessage = await ethree.authEncrypt(text, findUserIdentity);
+    const group = await ethree.getGroup(userData.user._id);
+    const encryptedMessage = await group.encrypt(text);
+
     firestore()
       .collection('USERS')
       .doc(userData.user._id)
@@ -176,11 +177,13 @@ export default function PharmacyMessagesScreen({navigation}) {
         const newMessages = querySnapshot.docs.map( async (doc) => {
           const firebaseData = doc.data();
           let decryptedText;
+          const group = await ethree.getGroup(userData.user._id);
           if(firebaseData.user._id == userData.pharmacyID){
             const findUserIdentity = await ethree.findUsers(userData.pharmacyID);
-            decryptedText = await ethree.authDecrypt(firebaseData.text, findUserIdentity);
+            decryptedText = await group.decrypt(firebaseData.text, findUserIdentity);
           } else {
-            decryptedText = await ethree.authDecrypt(firebaseData.text);
+            const findUserIdentity = await ethree.findUsers(userData.user._id);
+            decryptedText = await group.decrypt(firebaseData.text, findUserIdentity);
           }
           const data = {
             _id: doc.id,

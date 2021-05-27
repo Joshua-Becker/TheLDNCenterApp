@@ -20,9 +20,14 @@ export default function AddPharmacyScreen({ navigation }) {
     async function handleButtonPress() {
         if (Object.keys(pharmacy).length > 0) {
             //Must encrypt name and email again with pharmacy key
+
+            const groupId = user.id;
+            const group = await ethree.getGroup(groupId);
             const findUserIdentity = await ethree.findUsers(pharmacy.id);
-            const encryptedEmail = await ethree.authEncrypt(user.email, findUserIdentity);
-            const encryptedName = await ethree.authEncrypt(user.name, findUserIdentity);
+            await group.add(findUserIdentity);
+            const encryptedEmail = await group.encrypt(user.email);
+            const encryptedName = await group.encrypt(user.name);
+
             await firestore()
             .collection('USERS')
             .doc(user.id)

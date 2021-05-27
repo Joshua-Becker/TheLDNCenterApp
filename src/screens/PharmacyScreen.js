@@ -101,10 +101,12 @@ export default function PharmacyScreen({ navigation }) {
           if(thread.latestMessage.text == null || thread.latestMessage.text == undefined || thread.latestMessage.text == '') {
             decryptedText = '';
           } else if(thread.latestMessage.id == thread.pharmacyID){
+            const group = await ethree.getGroup(user.id);
             const findUserIdentity = await ethree.findUsers(thread.pharmacyID);
-            decryptedText = await ethree.authDecrypt(thread.latestMessage.text, findUserIdentity);
+            decryptedText = await group.decrypt(thread.latestMessage.text, findUserIdentity);
           } else {
-            decryptedText = await ethree.authDecrypt(thread.latestMessage.text);
+            const findUserIdentity = await ethree.findUsers(user.id);
+            decryptedText = await group.decrypt(thread.latestMessage.text, findUserIdentity);
           }
         }
         catch(err){

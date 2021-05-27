@@ -81,15 +81,21 @@ export default function ChangePharmacyScreen({ navigation }) {
         }
       }
       if (Object.keys(pharmacy).length > 0) {
-        const findUserIdentity = await ethree.findUsers(pharmacy.id);
-        const encryptedEmail = await ethree.authEncrypt(user.email, findUserIdentity);
-        const encryptedName = await ethree.authEncrypt(user.name, findUserIdentity);
+        const group = await ethree.getGroup(user.id);
+        await group.remove(previousPharmacy.id);
+        const encryptedEmail = await group.encrypt(user.email);
+        const encryptedName = await group.encrypt(user.name);
+
         await firestore()
         .collection('USERS')
         .doc(user.id)
         .set({
             pharmacyName: pharmacy.name,
             pharmacyID: pharmacy.id,
+            user: {
+              name: encryptedName,
+              email: encryptedEmail,
+            }
         }, { merge: true })
         .catch(function(error) {
             console.error("Error saving post : ", error);
