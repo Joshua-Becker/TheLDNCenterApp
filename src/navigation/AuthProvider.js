@@ -90,7 +90,12 @@ export const AuthProvider = ({ fcmToken, children }) => {
         .then(async () =>{
           await eThree.rotatePrivateKey()
           .then(async () => {
-            const group = await eThree.getGroup(currentUser.uid);
+            let group;
+            group = await eThree.getGroup(currentUser.uid);
+            const findUserIdentity = await eThree.findUsers(currentUser.uid);
+            if(group == null){
+              group = await eThree.loadGroup(currentUser.uid, findUserIdentity);
+            }
             const encryptedName = await group.encrypt(currentUser.displayName);
             const encryptedEmail = await group.encrypt(currentUser.email);
             await deleteMessages(firestore(), 50);
@@ -134,7 +139,7 @@ export const AuthProvider = ({ fcmToken, children }) => {
           });
         });
       }
-      await eThree.backupPrivateKey(backupPassword)
+      await eThree.backupPrivateKey(currentUser.uid) //backupPassword
       .then(()=>console.log('EThree backup success'))
       .catch(e => console.error('EThree backup private key error: ', e));
       auditLog(currentUser.uid, 'Successfully signed up');
@@ -235,10 +240,11 @@ export const AuthProvider = ({ fcmToken, children }) => {
                 signedIn = true;
                 setUser(userCreds.user);
                 const hasLocalPrivateKey = await eThree.hasLocalPrivateKey();
-                if (!hasLocalPrivateKey) await eThree.restorePrivateKey(backupPassword).catch(async (e) => {
+                //backupPassword
+                if (!hasLocalPrivateKey) await eThree.restorePrivateKey(userCreds.user.uid).catch(async (e) => {
                   // No private key and backup password does not work. Must be password reset
                   // Delete messages and create new private key with new password
-                  addNewUser(true, userCreds.user, backupPassword);
+                  addNewUser(true, userCreds.user, userCreds.user.uid); //backupPassword
                 });
               auditLog(userCreds.user.uid, 'Successfully logged in');
               });
@@ -307,18 +313,23 @@ export const AuthProvider = ({ fcmToken, children }) => {
             console.error('Error signing out:' + e);
           }
         },
-        submitForm: async (painLevel, sideEffects, comments) => {
+        submitForm: async (symptoms, sideEffects, comments) => {
           var user = auth().currentUser;
+          const pharmacyID = await getPharmacyID(user.uid);
           firestore()
           .collection('USERS')
           .doc(user.uid)
           .collection('FORMS')
           .add({
-            pain: painLevel,
+            symptoms: symptoms,
             sideEffects: sideEffects,
             comments: comments,
             date: new Date().getTime(),
           });
+          firestore().collection('PHARMACIES').doc(pharmacyID).collection('PATIENTS').doc(user.uid)
+          .set({
+            newForm: true,
+          }, { merge: true });
           auditLog(user.uid, 'Submitted form');
         },
         forgotPassword: async (email) => {
@@ -331,4 +342,3 @@ export const AuthProvider = ({ fcmToken, children }) => {
   );
 };
 
-  

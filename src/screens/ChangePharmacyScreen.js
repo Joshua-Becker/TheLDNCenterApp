@@ -14,9 +14,12 @@ import {useTheme} from '../navigation/ThemeProvider';
 export default function ChangePharmacyScreen({ navigation }) {
   const {colors, isDark} = useTheme();
   useStatusBar();
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
   const [pharmacy, setPharmacy] = useState([]);
   const [previousPharmacy, setPreviousPharmacy] = useState([]);
   const [pharmacies, setPharmacies] = useState([]);
+  const [pharmacyIdDict, setPharmacyIdDict] = useState({});
   const user = {name: auth().currentUser.displayName, email: auth().currentUser.email, id: auth().currentUser.uid}
   const { ethree, auditLog } = useContext(AuthContext);
   
@@ -81,8 +84,17 @@ export default function ChangePharmacyScreen({ navigation }) {
         }
       }
       if (Object.keys(pharmacy).length > 0) {
-        const group = await ethree.getGroup(user.id);
-        await group.remove(previousPharmacy.id);
+        console.log(previousPharmacy.id, pharmacy.id);
+        let group;
+        group = await ethree.getGroup(user.id);
+        const findUserIdentity = await ethree.findUsers(user.id);
+        if(group == null){
+          group = await ethree.loadGroup(user.id, findUserIdentity);
+        }
+        const existingPharmacy = await ethree.findUsers(previousPharmacy.id);
+        await group.remove(existingPharmacy);
+        const newPharmacy = await ethree.findUsers(pharmacy.id);
+        await group.add(newPharmacy);
         const encryptedEmail = await group.encrypt(user.email);
         const encryptedName = await group.encrypt(user.name);
 
@@ -109,6 +121,7 @@ export default function ChangePharmacyScreen({ navigation }) {
         .doc(user.id)
         .set({
             joined: new Date().getTime(),
+            newPatient: true,
         }, { merge: true });
 
         await firestore()
@@ -127,10 +140,13 @@ export default function ChangePharmacyScreen({ navigation }) {
       const snapshot = await firestore().collection('PHARMACIES').get()
       const pharmacies = snapshot.docs.map(doc => ({data: doc.data(), id: doc.id}));
       var ret_pharmacies = [];
+      var pharmacies_dict = {};
       pharmacies.forEach(createPharmacyObject);
       function createPharmacyObject(item) {
           ret_pharmacies.push({label: item.data.name, value: item.data.name, icon: () => <Icon name="shield" size={18} color="#900" />, id: item.id})    
-      }
+          pharmacies_dict[item.data.name] = item.id;
+        }
+      setPharmacyIdDict(pharmacies_dict);
       setPharmacies(ret_pharmacies);
   };
 
@@ -151,16 +167,30 @@ export default function ChangePharmacyScreen({ navigation }) {
       );
   },[]);
 
+  function toggleOpen(){
+    if(open == true){
+      setOpen(false)
+    }
+    else{
+      setOpen(true)
+    }
+  }
+
   return (
     <View style={styles(colors).rootContainer}>
       <View style={styles(colors).innerContainer}>
         <DropDownPicker
           items={pharmacies}
-          defaultValue={pharmacy.name}
-          containerStyle={{height: 60}}
-          style={{backgroundColor: colors.formBackground, width: '90%'}}
-          dropDownStyle={{backgroundColor: colors.formBackground, width: '90%'}}
-          onChangeItem={item => setPharmacy({name: item.value, id: item.id})}
+          open={open}
+          setOpen={toggleOpen}
+          value={value}
+          setValue={setValue}
+          // containerStyle={{height: 60}}
+          // style={{backgroundColor: colors.formBackground, width: '90%'}}
+          // dropDownStyle={{backgroundColor: colors.formBackground, width: '90%'}}
+          onChangeValue={item => {
+            setPharmacy({name: item, id: pharmacyIdDict[item]});
+        }}
           searchable={true}
           searchablePlaceholder="Search for an item"
           searchablePlaceholderTextColor="gray"

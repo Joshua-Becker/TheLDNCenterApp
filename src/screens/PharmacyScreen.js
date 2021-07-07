@@ -101,8 +101,13 @@ export default function PharmacyScreen({ navigation }) {
           if(thread.latestMessage.text == null || thread.latestMessage.text == undefined || thread.latestMessage.text == '') {
             decryptedText = '';
           } else if(thread.latestMessage.id == thread.pharmacyID){
-            const group = await ethree.getGroup(user.id);
-            const findUserIdentity = await ethree.findUsers(thread.pharmacyID);
+            let group;
+            group = await ethree.getGroup(user.id);
+            let findUserIdentity = await ethree.findUsers(user.id);
+            if(group == null){
+              group = await ethree.loadGroup(user.id, findUserIdentity);
+            }
+            findUserIdentity = await ethree.findUsers(thread.pharmacyID);
             decryptedText = await group.decrypt(thread.latestMessage.text, findUserIdentity);
           } else {
             const findUserIdentity = await ethree.findUsers(user.id);
