@@ -14,6 +14,7 @@ export default function SettingsScreen(props) {
     const currentUser = user.toJSON();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
     const [newPass, setNewPass] = useState('');
     const [oldPass, setOldPass] = useState('');
     const [condition, setCondition] = useState('');
@@ -21,6 +22,7 @@ export default function SettingsScreen(props) {
     const [symptomTimeline, setSymptomTimeline] = useState('');
     const [medications, setMedications] = useState('');
     const [comments, setComments] = useState('');
+    const [originalPhone, setOriginalPhone] = useState('');
     const [originalCondition, setOriginalCondition] = useState('');
     const [originalPainLevel, setOriginalPainLevel] = useState(0);
     const [originalSymptomTimeline, setOriginalSymptomTimeline] = useState('');
@@ -77,11 +79,13 @@ export default function SettingsScreen(props) {
         const data = snapshot.data()
         setName(currentUser.displayName);
         setEmail(currentUser.email);
+        setPhone(currentUser.phone);
         setCondition(data.user.condition);
         setComments(data.user.comments);
         setMedications(data.user.medications);
         setSymptomTimeline(data.user.symptomTimeline);
         setPainLevel(data.user.painLevel)
+        setOriginalPhone(data.user.phone);
         setOriginalCondition(data.user.condition);
         setOriginalComments(data.user.comments);
         setOriginalMedications(data.user.medications);
@@ -108,6 +112,7 @@ export default function SettingsScreen(props) {
         .doc(currentUser.uid)
         .set({
             user: {
+                phone: phone === '' ? originalPhone : phone,
                 condition: condition === '' ? originalCondition : condition,
                 painLevel: painLevel === -1 ? originalPainLevel : painLevel,
                 symptomTimeline: symptomTimeline === '' ? originalSymptomTimeline : symptomTimeline,
@@ -183,6 +188,18 @@ export default function SettingsScreen(props) {
                     style={styles(colors).formInput}
                     autoCapitalize='none'
                     onChangeText={userNewPass => setNewPass(userNewPass)}
+                    />
+                </View>
+                <View style={styles(colors).listItem}>
+                    <View style={styles(colors).textContainer}>
+                        <Text style={styles(colors).text}>Phone:</Text>
+                        <Text style={styles(colors).userValues}>{originalPhone}</Text>
+                    </View>
+                    <FormInput
+                    labelName="Change field"
+                    style={styles(colors).formInput}
+                    autoCapitalize='none'
+                    onChangeText={userPhone => setPhone(userPhone)}
                     />
                 </View>
                 <View style={styles(colors).listItem}>

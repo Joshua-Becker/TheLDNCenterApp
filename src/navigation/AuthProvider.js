@@ -46,7 +46,7 @@ export const AuthProvider = ({ fcmToken, children }) => {
     });
   }
 
-  async function addNewUser(userExists, newUser, backupPassword, displayName = '', condition = '', painLevel = '', symptomTimeline = '', medications = '', comments = '') {
+  async function addNewUser(userExists, newUser, backupPassword, displayName = '', phoneNumber = '', condition = '', painLevel = '', symptomTimeline = '', medications = '', comments = '') {
     const currentUser = newUser.toJSON();
     let identityExists = false;
     EThree.initialize(initializeFunction, { AsyncStorage }).then(async eThree => {
@@ -66,6 +66,7 @@ export const AuthProvider = ({ fcmToken, children }) => {
               _id: currentUser.uid,
               email: encryptedEmail,
               name: encryptedName,
+              phone: phoneNumber,
               condition: condition,
               painLevel: painLevel,
               symptomTimeline: symptomTimeline,
@@ -259,10 +260,10 @@ export const AuthProvider = ({ fcmToken, children }) => {
             await AsyncAlert('Wrong username or password', 'Please try again');
           }
         },
-        register: async (firstName, lastName, email, password, condition, painLevel, symptomTimeline, medications, comments) => {
+        register: async (firstName, lastName, phoneNumber, email, password, condition, painLevel, symptomTimeline, medications, comments) => {
           const username = firstName + ' ' + lastName;
-          if(firstName == '' || lastName == '' || email == '' || password == '' || condition == '' || symptomTimeline == '') {
-            alert("Please make sure the following fields are not empty: name, email, password, condition, symptom timeline");
+          if(firstName == '' || lastName == '' || phoneNumber == '' || email == '' || password == '' || condition == '' || symptomTimeline == '') {
+            alert("Please make sure the following fields are not empty: name, email, phone number, password, condition, symptom timeline");
             return;
           }
           try {
@@ -276,7 +277,7 @@ export const AuthProvider = ({ fcmToken, children }) => {
                   displayName: username
               }).then( async function() {
                   setUser(user);
-                  addNewUser(false, user, backupPassword, username, condition, painLevel, symptomTimeline, medications, comments);
+                  addNewUser(false, user, backupPassword, username, phoneNumber, condition, painLevel, symptomTimeline, medications, comments);
               }, function(error) {
                 console.error("Error adding new user" + error);
                   // An error happened.
@@ -313,7 +314,7 @@ export const AuthProvider = ({ fcmToken, children }) => {
             console.error('Error signing out:' + e);
           }
         },
-        submitForm: async (symptoms, sideEffects, comments) => {
+        submitForm: async (symptoms, comments) => {
           var user = auth().currentUser;
           const pharmacyID = await getPharmacyID(user.uid);
           firestore()
@@ -322,7 +323,6 @@ export const AuthProvider = ({ fcmToken, children }) => {
           .collection('FORMS')
           .add({
             symptoms: symptoms,
-            sideEffects: sideEffects,
             comments: comments,
             date: new Date().getTime(),
           });

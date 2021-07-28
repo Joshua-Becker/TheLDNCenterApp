@@ -18,6 +18,7 @@ export default function SignupScreen({ navigation }) {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [phoneNumber, setPhone] = useState('');
   const [condition, setCondition] = useState('');
   const { register } = useContext(AuthContext);
   const [painLevel, setPainLevel] = useState(0);
@@ -25,6 +26,51 @@ export default function SignupScreen({ navigation }) {
   const [medications, setMedications] = useState('');
   const [comments, setComments] = useState('');
   const [isLoading, setIsLoding] = useState(false);
+
+  function registerFilter(firstName, lastName, phoneNumber, email, password, condition, painLevel, symptomTimeline, medications, comments){
+    if(password.length < 8){
+      alert('Password must be least 8 characters in length and contain at least 1 number, special character, and capital letter.');
+      return;
+    }
+    const capitals = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const numbers = '0123456789';
+    const specialChars = '[]&/\|!@^-_=`#,+()$~%.:*?<>{}';
+    let hasCapitalLetter = false;
+    let hasNumber = false;
+    let hasSpecialChar = false;
+    for (let i = 0; i < password.length; i++) {
+      if(capitals.includes(password[i])){
+        hasCapitalLetter = true;
+      }
+      if(numbers.includes(password[i])){
+        hasNumber = true;
+      }
+      if(specialChars.includes(password[i])){
+        hasSpecialChar = true;
+      }
+    }
+    if(!hasCapitalLetter || !hasNumber || !hasSpecialChar){
+      alert('Password must be least 8 characters in length and contain at least 1 number, special character, and capital letter.');
+      return;
+    }
+    register(firstName, lastName, phoneNumber, email, password, condition, painLevel, symptomTimeline, medications, comments);
+  }
+
+  function setPhoneFilter(text){
+    let newText = '';
+    let numbers = '0123456789';
+
+    for (var i=0; i < text.length; i++) {
+        if(numbers.indexOf(text[i]) > -1 ) {
+            newText = newText + text[i];
+        }
+        else {
+            // your call back function
+            alert("Please enter numbers only");
+        }
+    }
+    setPhone(newText);
+  }
 
   return (
     <ScrollView style={styles(colors).container}>
@@ -37,14 +83,21 @@ export default function SignupScreen({ navigation }) {
         <FormInput
           labelName='First name'
           value={firstName}
-          autoCapitalize='none'
+          autoCapitalize='words'
           onChangeText={userFirstName => setFirstName(userFirstName)}
         />
         <FormInput
           labelName='Last name'
           value={lastName}
-          autoCapitalize='none'
+          autoCapitalize='words'
           onChangeText={userLastName => setLastName(userLastName)}
+        />
+        <FormInput
+          labelName='Phone Number'
+          value={phoneNumber}
+          keyboardType='numeric'
+          maxLength={15}
+          onChangeText={phone => setPhoneFilter(phone)}
         />
         <FormInput
           labelName='Email'
@@ -56,12 +109,13 @@ export default function SignupScreen({ navigation }) {
           labelName='Password'
           value={password}
           secureTextEntry={true}
+          autoCapitalize='none'
           onChangeText={userPassword => setPassword(userPassword)}
         />
         <FormInput
           labelName='Reason for taking LDN'
           value={condition}
-          autoCapitalize='none'
+          autoCapitalize='words'
           onChangeText={userCondition => setCondition(userCondition)}
         />
         <Divider style={styles(colors).divider} />
@@ -92,7 +146,7 @@ export default function SignupScreen({ navigation }) {
         <FormInput
           labelName='Symptoms timeline'
           value={symptomTimeline}
-          autoCapitalize='none'
+          // autoCapitalize='none'
           onChangeText={timeline => setSymptomTimeline(timeline)}
         />
         <Divider style={styles(colors).divider} />
@@ -118,7 +172,7 @@ export default function SignupScreen({ navigation }) {
             labelStyle={styles(colors).signUpButtonLabel}
             onPress={() => {
                 setIsLoding(true);
-                register(firstName, lastName, email, password, condition, painLevel, symptomTimeline, medications, comments);
+                registerFilter(firstName, lastName, phoneNumber, email, password, condition, painLevel, symptomTimeline, medications, comments);
               }
             }
           />
@@ -133,15 +187,15 @@ const styles = (colors) => StyleSheet.create({
     backgroundColor: colors.background,
   },
   commentsContainer: {
-    marginLeft: 12,
-    marginRight: 12,
+    marginLeft: 5,
+    marginRight: 5,
   },
   form: {
     // backgroundColor: '#2F3243',
     flex: 1,
     justifyContent: 'center',
-    marginRight: 25,
-    marginLeft: 25,
+    marginRight: 5,
+    marginLeft: 5,
     marginTop: 20,
     marginBottom: 40,
   },
@@ -165,8 +219,8 @@ const styles = (colors) => StyleSheet.create({
     marginTop: 10
   },
   formHeader: {
-    marginLeft: 10,
-    marginRight: 10,
+    marginLeft: 15,
+    marginRight: 15,
     textAlign: 'left',
     alignSelf: 'stretch',
     color : colors.text,
@@ -176,8 +230,8 @@ const styles = (colors) => StyleSheet.create({
     marginBottom: 15,
     borderWidth: 1,
     borderColor: colors.text,
-    marginLeft: 10,
-    marginRight: 10,
+    marginLeft: 15,
+    marginRight: 15,
   },
   spinnerTextStyle: {
     color: colors.text
@@ -187,7 +241,7 @@ const styles = (colors) => StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: colors.formBackground,
-    margin: 20,
+    margin: 15,
     borderRadius: 5,
   },
   picker: {

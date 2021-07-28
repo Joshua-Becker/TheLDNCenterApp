@@ -13,8 +13,6 @@ import  DropDown  from  'react-native-paper-dropdown';
 export default function FormScreen({ navigation }) {
     let {colors, isDark} = useTheme();
     const [comments, setComments] = useState('');
-    const [symptoms, setSymptoms] = useState('0');
-    const [openSymptoms, setOpenSymptoms] = useState(false);
     const { submitForm } = useContext(AuthContext);
     const [open, setOpen] = useState({
         'anxiety': false,
@@ -26,7 +24,7 @@ export default function FormScreen({ navigation }) {
         'constipation': false,
         'heartburn': false,
         'swelling': false,
-        'sleep': false,
+        'insomnia': false,
         'pain': false,
         'neuropathy': false,
         'aches': false,
@@ -40,8 +38,9 @@ export default function FormScreen({ navigation }) {
         'inflammation': false,
         'pmsSymptoms': false,
         'weightControl': false,
+        'vividDreams': false,
     });
-    const [sideEffects, setSideEffects] = useState({
+    const [symptoms, setSymptoms] = useState({
         'anxiety': '0',
         'depression': '0',
         'fatigue': '0',
@@ -51,7 +50,7 @@ export default function FormScreen({ navigation }) {
         'constipation': '0',
         'heartburn': '0',
         'swelling': '0',
-        'sleep': '0',
+        'insomnia': '0',
         'pain': '0',
         'neuropathy': '0',
         'aches': '0',
@@ -65,6 +64,7 @@ export default function FormScreen({ navigation }) {
         'inflammation': '0',
         'pmsSymptoms': '0',
         'weightControl': '0',
+        'vividDreams': '0',
     });
     const [numbers, setNumbers] = useState([
         {label: '1', value: '1'},
@@ -80,7 +80,7 @@ export default function FormScreen({ navigation }) {
       ]);
 
     function handleChange(name, value) {
-        setSideEffects(prevState => ({
+        setSymptoms(prevState => ({
             ...prevState,
             [name]: value
         }));
@@ -98,7 +98,7 @@ export default function FormScreen({ navigation }) {
         <ScrollView style={styles(colors).form} contentContainerStyle={styles(colors).formContainer}>
             <View style={styles(colors).textBox}>
                 <IconButton style={styles(colors).notificationIcon} icon={'alert-circle'} size={30}/>
-                <Text style={styles(colors).disclaimer}>The following symptoms do not occur often, but when they do they are temporary and usually resolve when you adjust your dose.</Text>
+                <Text style={styles(colors).disclaimer}>Please find the symptoms you are treating with LDN below and rate them. </Text>
             </View>
             <View style={styles(colors).textBox}>
                 <Text style={styles(colors).disclaimer}>Scale: 0(none) - 10(severe)</Text>
@@ -107,36 +107,13 @@ export default function FormScreen({ navigation }) {
                 <Card style={styles(colors).cards}>
                     <Text style={styles(colors).cardTitle}>Symptoms</Text>
                     <View style={styles(colors).symptomBox}>
-                        <Text style={styles(colors).symptomText}>Your Current Pain/Symptom Level</Text>
-                        <View style={styles(colors).dropdown}>
-                            <DropDown
-                                label={'0'}
-                                defaultValue={'0'}
-                                mode={'outlined'}
-                                value={symptoms}
-                                setValue={setSymptoms}
-                                list={numbers}
-                                visible={openSymptoms}
-                                dropDownContainerMaxHeight={300}
-                                showDropDown={() => setOpenSymptoms(true)}
-                                onDismiss={() => setOpenSymptoms(false)}
-                                inputProps={{
-                                    right:  <TextInput.Icon  name={'menu-down'} style={styles(colors).dropdownIcon} size={30} />,
-                                }}
-                            />
-                        </View>
-                    </View>
-                </Card>
-                <Card style={styles(colors).cards}>
-                    <Text style={styles(colors).cardTitle}>Side Effects</Text>
-                    <View style={styles(colors).symptomBox}>
                         <Text style={styles(colors).symptomText}>Anxiety</Text>
                         <View style={styles(colors).dropdown}>
                             <DropDown
                                 label={'0'}
                                 defaultValue={'0'}
                                 mode={'outlined'}
-                                value={sideEffects.anxiety}
+                                value={symptoms.anxiety}
                                 setValue={event => handleChange('anxiety',event)}
                                 list={numbers}
                                 visible={open.anxiety}
@@ -156,7 +133,7 @@ export default function FormScreen({ navigation }) {
                                 label={'0'}
                                 defaultValue={'0'}
                                 mode={'outlined'}
-                                value={sideEffects.depression}
+                                value={symptoms.depression}
                                 setValue={event => handleChange('depression',event)}
                                 list={numbers}
                                 visible={open.depression}
@@ -176,7 +153,7 @@ export default function FormScreen({ navigation }) {
                                 label={'0'}
                                 defaultValue={'0'}
                                 mode={'outlined'}
-                                value={sideEffects.fatigue}
+                                value={symptoms.fatigue}
                                 setValue={event => handleChange('fatigue',event)}
                                 list={numbers}
                                 visible={open.fatigue}
@@ -196,7 +173,7 @@ export default function FormScreen({ navigation }) {
                                 label={'0'}
                                 defaultValue={'0'}
                                 mode={'outlined'}
-                                value={sideEffects.memory}
+                                value={symptoms.memory}
                                 setValue={event => handleChange('memory',event)}
                                 list={numbers}
                                 visible={open.memory}
@@ -216,7 +193,7 @@ export default function FormScreen({ navigation }) {
                                 label={'0'}
                                 defaultValue={'0'}
                                 mode={'outlined'}
-                                value={sideEffects.headaches}
+                                value={symptoms.headaches}
                                 setValue={event => handleChange('headaches',event)}
                                 list={numbers}
                                 visible={open.headaches}
@@ -236,7 +213,7 @@ export default function FormScreen({ navigation }) {
                                 label={'0'}
                                 defaultValue={'0'}
                                 mode={'outlined'}
-                                value={sideEffects.nausea}
+                                value={symptoms.nausea}
                                 setValue={event => handleChange('nausea',event)}
                                 list={numbers}
                                 visible={open.nausea}
@@ -256,7 +233,7 @@ export default function FormScreen({ navigation }) {
                                 label={'0'}
                                 defaultValue={'0'}
                                 mode={'outlined'}
-                                value={sideEffects.constipation}
+                                value={symptoms.constipation}
                                 setValue={event => handleChange('constipation',event)}
                                 list={numbers}
                                 visible={open.constipation}
@@ -276,7 +253,7 @@ export default function FormScreen({ navigation }) {
                                 label={'0'}
                                 defaultValue={'0'}
                                 mode={'outlined'}
-                                value={sideEffects.heartburn}
+                                value={symptoms.heartburn}
                                 setValue={event => handleChange('heartburn',event)}
                                 list={numbers}
                                 visible={open.heartburn}
@@ -296,7 +273,7 @@ export default function FormScreen({ navigation }) {
                                 label={'0'}
                                 defaultValue={'0'}
                                 mode={'outlined'}
-                                value={sideEffects.swelling}
+                                value={symptoms.swelling}
                                 setValue={event => handleChange('swelling',event)}
                                 list={numbers}
                                 visible={open.swelling}
@@ -310,19 +287,19 @@ export default function FormScreen({ navigation }) {
                         </View>
                     </View>
                     <View style={styles(colors).symptomBox}>
-                        <Text style={styles(colors).symptomText}>Sleep</Text>
+                        <Text style={styles(colors).symptomText}>Insomnia</Text>
                         <View style={styles(colors).dropdown}>
                             <DropDown
                                 label={'0'}
                                 defaultValue={'0'}
                                 mode={'outlined'}
-                                value={sideEffects.sleep}
-                                setValue={event => handleChange('sleep',event)}
+                                value={symptoms.insomnia}
+                                setValue={event => handleChange('insomnia',event)}
                                 list={numbers}
-                                visible={open.sleep}
+                                visible={open.insomnia}
                                 dropDownContainerMaxHeight={300}
-                                showDropDown={() =>  handleDropdown('sleep', true)}
-                                onDismiss={() =>  handleDropdown('sleep', false)}
+                                showDropDown={() =>  handleDropdown('insomnia', true)}
+                                onDismiss={() =>  handleDropdown('insomnia', false)}
                                 inputProps={{
                                     right:  <TextInput.Icon  name={'menu-down'} style={styles(colors).dropdownIcon} size={30} />,
                                 }}
@@ -336,7 +313,7 @@ export default function FormScreen({ navigation }) {
                                 label={'0'}
                                 defaultValue={'0'}
                                 mode={'outlined'}
-                                value={sideEffects.pain}
+                                value={symptoms.pain}
                                 setValue={event => handleChange('pain',event)}
                                 list={numbers}
                                 visible={open.pain}
@@ -356,7 +333,7 @@ export default function FormScreen({ navigation }) {
                                 label={'0'}
                                 defaultValue={'0'}
                                 mode={'outlined'}
-                                value={sideEffects.neuropathy}
+                                value={symptoms.neuropathy}
                                 setValue={event => handleChange('neuropathy',event)}
                                 list={numbers}
                                 visible={open.neuropathy}
@@ -376,7 +353,7 @@ export default function FormScreen({ navigation }) {
                                 label={'0'}
                                 defaultValue={'0'}
                                 mode={'outlined'}
-                                value={sideEffects.aches}
+                                value={symptoms.aches}
                                 setValue={event => handleChange('aches',event)}
                                 list={numbers}
                                 visible={open.aches}
@@ -396,7 +373,7 @@ export default function FormScreen({ navigation }) {
                                 label={'0'}
                                 defaultValue={'0'}
                                 mode={'outlined'}
-                                value={sideEffects.eczema}
+                                value={symptoms.eczema}
                                 setValue={event => handleChange('eczema',event)}
                                 list={numbers}
                                 visible={open.eczema}
@@ -416,7 +393,7 @@ export default function FormScreen({ navigation }) {
                                 label={'0'}
                                 defaultValue={'0'}
                                 mode={'outlined'}
-                                value={sideEffects.rash}
+                                value={symptoms.rash}
                                 setValue={event => handleChange('rash',event)}
                                 list={numbers}
                                 visible={open.rash}
@@ -436,7 +413,7 @@ export default function FormScreen({ navigation }) {
                                 label={'0'}
                                 defaultValue={'0'}
                                 mode={'outlined'}
-                                value={sideEffects.drySkinHair}
+                                value={symptoms.drySkinHair}
                                 setValue={event => handleChange('drySkinHair',event)}
                                 list={numbers}
                                 visible={open.drySkinHair}
@@ -456,7 +433,7 @@ export default function FormScreen({ navigation }) {
                                 label={'0'}
                                 defaultValue={'0'}
                                 mode={'outlined'}
-                                value={sideEffects.acne}
+                                value={symptoms.acne}
                                 setValue={event => handleChange('acne',event)}
                                 list={numbers}
                                 visible={open.acne}
@@ -476,7 +453,7 @@ export default function FormScreen({ navigation }) {
                                 label={'0'}
                                 defaultValue={'0'}
                                 mode={'outlined'}
-                                value={sideEffects.brainFog}
+                                value={symptoms.brainFog}
                                 setValue={event => handleChange('brainFog',event)}
                                 list={numbers}
                                 visible={open.brainFog}
@@ -496,7 +473,7 @@ export default function FormScreen({ navigation }) {
                                 label={'0'}
                                 defaultValue={'0'}
                                 mode={'outlined'}
-                                value={sideEffects.irregularPeriods}
+                                value={symptoms.irregularPeriods}
                                 setValue={event => handleChange('irregularPeriods',event)}
                                 list={numbers}
                                 visible={open.irregularPeriods}
@@ -516,7 +493,7 @@ export default function FormScreen({ navigation }) {
                                 label={'0'}
                                 defaultValue={'0'}
                                 mode={'outlined'}
-                                value={sideEffects.dizziness}
+                                value={symptoms.dizziness}
                                 setValue={event => handleChange('dizziness',event)}
                                 list={numbers}
                                 visible={open.dizziness}
@@ -536,7 +513,7 @@ export default function FormScreen({ navigation }) {
                                 label={'0'}
                                 defaultValue={'0'}
                                 mode={'outlined'}
-                                value={sideEffects.inflammation}
+                                value={symptoms.inflammation}
                                 setValue={event => handleChange('inflammation',event)}
                                 list={numbers}
                                 visible={open.inflammation}
@@ -556,7 +533,7 @@ export default function FormScreen({ navigation }) {
                                 label={'0'}
                                 defaultValue={'0'}
                                 mode={'outlined'}
-                                value={sideEffects.pmsSymptoms}
+                                value={symptoms.pmsSymptoms}
                                 setValue={event => handleChange('pmsSymptoms',event)}
                                 list={numbers}
                                 visible={open.pmsSymptoms}
@@ -576,7 +553,7 @@ export default function FormScreen({ navigation }) {
                                 label={'0'}
                                 defaultValue={'0'}
                                 mode={'outlined'}
-                                value={sideEffects.weightControl}
+                                value={symptoms.weightControl}
                                 setValue={event => handleChange('weightControl',event)}
                                 list={numbers}
                                 visible={open.weightControl}
@@ -589,9 +566,29 @@ export default function FormScreen({ navigation }) {
                             />
                         </View>
                     </View>
+                    <View style={styles(colors).symptomBox}>
+                        <Text style={styles(colors).symptomText}>Vivid Dreams</Text>
+                        <View style={styles(colors).dropdown}>
+                            <DropDown
+                                label={'0'}
+                                defaultValue={'0'}
+                                mode={'outlined'}
+                                value={symptoms.weightControl}
+                                setValue={event => handleChange('vividDreams',event)}
+                                list={numbers}
+                                visible={open.vividDreams}
+                                dropDownContainerMaxHeight={300}
+                                showDropDown={() =>  handleDropdown('vividDreams', true)}
+                                onDismiss={() =>  handleDropdown('vividDreams', false)}
+                                inputProps={{
+                                    right:  <TextInput.Icon  name={'menu-down'} style={styles(colors).dropdownIcon} size={30} />,
+                                }}
+                            />
+                        </View>
+                    </View>
                 </Card>
                 <FormComments
-                    labelName='Other Comments'
+                    labelName='Other comments or side effects?'
                     value={comments}
                     onChangeText={comment => setComments(comment)}
                     style={styles(colors).comments}
@@ -604,9 +601,8 @@ export default function FormScreen({ navigation }) {
                 modeValue='contained'
                 labelStyle={styles(colors).submitButtonLabel}
                 onPress={() => {
-                    console.log(symptoms)
-                    console.log(JSON.stringify(sideEffects))
-                    submitForm(symptoms, sideEffects, comments)
+                    console.log(JSON.stringify(symptoms))
+                    submitForm(symptoms, comments)
                     navigation.navigate('Home')
                 }}
                 />
@@ -636,7 +632,7 @@ const styles = (colors) => StyleSheet.create({
         padding: 10,
         lineHeight: 20,
         color: colors.notificationText,
-        width: 300,
+        width: 270,
         fontStyle: 'italic',
     },
     notificationIcon: {

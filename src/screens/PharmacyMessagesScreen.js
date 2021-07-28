@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { GiftedChat, Bubble, Send, SystemMessage, InputToolbar } from 'react-native-gifted-chat';
 import { IconButton } from 'react-native-paper';
-import { ActivityIndicator, View, StyleSheet, LogBox } from 'react-native';
+import { ActivityIndicator, View, StyleSheet, LogBox, Text } from 'react-native';
 import { AuthContext } from '../navigation/AuthProvider';
 import firestore from '@react-native-firebase/firestore';
 import useStatusBar from '../utils/useStatusBar';
@@ -73,32 +73,35 @@ export default function PharmacyMessagesScreen({navigation}) {
   function renderBubble(props) {
       return (
           // Step 3: return the component
-          <Bubble
-          {...props}
-          wrapperStyle={{
-            right: {
-            // Here is the color change
-              backgroundColor: '#0C5FAA',
-            },
-            left: {
+          <View>
+            {/* {props.position === 'left' ? <Text style={styles(colors).messageSender}>{props.currentMessage.user.type}</Text> : <Text></Text>} */}
+            <Bubble
+            {...props}
+            wrapperStyle={{
+              right: {
               // Here is the color change
-              backgroundColor: '#171921',
-            },
-          }}
-          textStyle={{
-            right: {
-              color: '#fff',
-            },
-            left: {
-              color: '#fff',
-            },
-          }}
-          textProps={{
-            style: {
-              color: props.position === 'left' ? '#fff' : '#fff',
-            },
-          }}
-          />
+                backgroundColor: '#0C5FAA',
+              },
+              left: {
+                // Here is the color change
+                backgroundColor: '#171921',
+              },
+            }}
+            textStyle={{
+              right: {
+                color: '#fff',
+              },
+              left: {
+                color: '#fff',
+              },
+            }}
+            textProps={{
+              style: {
+                color: props.position === 'left' ? '#fff' : '#fff',
+              },
+            }}
+            />
+        </View>
       );
   }
 
@@ -149,6 +152,7 @@ export default function PharmacyMessagesScreen({navigation}) {
         createdAt: new Date().getTime(),
         user: {
           _id: currentUser.uid,
+          type: 'patient',
           // email: currentUser.email
         }
       });
@@ -168,6 +172,22 @@ export default function PharmacyMessagesScreen({navigation}) {
       );
     
     auditLog(user.id, 'Sent message');
+  }
+
+  function renderAvatar(props){
+    console.log(props.currentMessage.user.type);
+    const userType = props.currentMessage.user.type;
+    let iconName = '';
+    if(userType === 'pharmacy'){
+      iconName = 'pill';
+    } else{
+      iconName = 'stethoscope';
+    }
+    return (
+      <View style={styles(colors).avatarContainer}>
+        <IconButton style={styles(colors).avatarIcon} icon={iconName} size={36} color={colors.text} />
+      </View>
+  );
   }
 
   useEffect(() => {
@@ -220,12 +240,13 @@ export default function PharmacyMessagesScreen({navigation}) {
         <GiftedChat
             messages={messages}
             onSend={handleSend}
-            user={{ _id: currentUser.uid }}
+            user={{ _id: currentUser.uid}}
             renderBubble={renderBubble}
             placeholder='Type your message here...'
             // showUserAvatar
             alwaysShowSend
-            renderAvatar={() => null}
+            // renderAvatar={() => null}
+            renderAvatar={renderAvatar}
             renderSend={renderSend}
             scrollToBottomComponent={scrollToBottomComponent}
             renderLoading={renderLoading}
@@ -250,6 +271,15 @@ const styles = (colors) => StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
+  },
+  avatarIcon: {
+    margin: 0,
+    bottom: 3,
+  },
+  messageSender : {
+    color: '#fff',
+    fontSize: 14,
+    marginBottom: 5,
   },
   giftedChatContainer: {
     flex: 1,

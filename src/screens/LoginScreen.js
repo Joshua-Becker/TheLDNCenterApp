@@ -7,6 +7,7 @@ import { AuthContext } from '../navigation/AuthProvider';
 import useStatusBar from '../utils/useStatusBar';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {useTheme} from '../navigation/ThemeProvider';
+import { ImageBackground } from 'react-native';
 
 const { width, height } = Dimensions.get('screen');
 
@@ -22,7 +23,8 @@ export default function LoginScreen({ navigation }) {
       setIsLoading(false);
     }, []);
     return (
-      <View style={styles(colors).container}>
+      //<View style={styles(colors).container}>
+      <ImageBackground source={ require('../media/images/mainpage_photo.jpeg')}  style={styles(colors).container} imageStyle={styles(colors).backgroundImage}>
         <Spinner
           visible={isLoading}
           textContent={'Loading...'}
@@ -77,7 +79,8 @@ export default function LoginScreen({ navigation }) {
             }
           }
         />
-      </View>
+      </ImageBackground>
+      //</View>
     );
 }
 
@@ -89,6 +92,13 @@ const styles = (colors) => StyleSheet.create({
     alignItems: 'center',
     color: colors.text,
     paddingBottom: 20,
+  },
+  backgroundImage: {
+    resizeMode: "cover",
+    height: '100%', // the image height
+    left: -400,
+    top: undefined,
+    opacity: 0.3,
   },
   header: {
     alignItems: 'center',
@@ -142,6 +152,7 @@ const styles = (colors) => StyleSheet.create({
   },
   forgotPasswordText: {
     color: colors.accent,
-    fontSize: 18,
+    fontSize: 24,
+    fontWeight: 'bold',
   }
 });

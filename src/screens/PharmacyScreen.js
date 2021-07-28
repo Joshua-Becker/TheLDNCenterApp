@@ -19,12 +19,28 @@ export default function PharmacyScreen({ navigation }) {
   useStatusBar();
   const [showForm, setShowForm] = useState(false);
   const [showGraph, setShowGraph] = useState(false);
-  const [graphData, setGraphData] = useState([]);
+  const [graphData, setGraphData] = useState({});
   const [graphLabels, setGraphLabels] = useState([]);
   const [thread, setThread] = useState({});
   const [loading, setLoading] = useState(true);
   const user = {email: auth().currentUser.email, id: auth().currentUser.uid}
   const { ethree, notifications, checkForNotifications } = useContext(AuthContext);
+
+  function formatDate(date){
+    return ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '/' + ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate())) + '/' + date.getFullYear();
+  }
+
+  function allZeroes(items){
+    if(items.length == 0){
+      return true;
+    }
+    for(item of items){
+      if(item != '0'){
+        return false;
+      }
+    }
+    return true;
+  }
 
   async function showGraphCheck() {
     const forms = await firestore()
@@ -32,20 +48,58 @@ export default function PharmacyScreen({ navigation }) {
     .doc(user.id)
     .collection('FORMS')
     .orderBy('date', 'asc')
-    .get();
-    if(forms.docs.length > 1){
-      let painList = [];
+    .get().then((querySnapshot) => {
       let labelList = [];
-      let i;
-      for(i=0; i<forms.docs.length; i++){
-        painList.push(forms.docs[i].data().pain);
-        labelList.push(i);
+      let graphDataTmp = {
+        'anxiety': [],
+        'depression': [],
+        'fatigue': [],
+        'memory': [],
+        'headaches': [],
+        'nausea': [],
+        'constipation': [],
+        'heartburn': [],
+        'swelling': [],
+        'insomnia': [],
+        'pain': [],
+        'neuropathy': [],
+        'aches': [],
+        'eczema': [],
+        'rash': [],
+        'drySkinHair': [],
+        'acne': [],
+        'brainFog': [],
+        'irregularPeriods': [],
+        'dizziness': [],
+        'inflammation': [],
+        'pmsSymptoms': [],
+        'weightControl': [],
+        'vividDreams': [],
+      };
+      let symptomKeys = [];
+      if(querySnapshot.docs.length > 1){
+        for(var i=0; i<querySnapshot.docs.length; i++){
+          symptomKeys = Object.keys(querySnapshot.docs[i].data().symptoms);
+          for(key of symptomKeys){
+            graphDataTmp[key].push(querySnapshot.docs[i].data().symptoms[key]);
+          }
+          if(i == 0 || i == (querySnapshot.docs.length -1)){
+            labelList.push(formatDate(new Date(querySnapshot.docs[i].data().date)));
+          } else {
+            labelList.push('');
+          }
+        }
+        for(key of symptomKeys){
+          if(allZeroes(graphDataTmp[key]) || graphDataTmp[key].length == 0){
+            delete graphDataTmp[key];
+          }
+        }
+        setGraphData(graphDataTmp);
+        setGraphLabels([labelList]);
+        setShowGraph(true); // Must come after setGraph methods to allow them to populate
+        return;
       }
-      setGraphData(painList);
-      setGraphLabels(labelList);
-      setShowGraph(true); // Must come after setGraph methods to allow them to populate
-      return;
-    }
+    });
 
   }
 
@@ -135,7 +189,7 @@ export default function PharmacyScreen({ navigation }) {
   }
 
   return (
-    <View style={styles(colors).container}>
+    <ScrollView style={styles(colors).container} scrollIndicatorInsets={{ right: 1 }}>
       <View style={styles(colors).content}>
         <ScrollView style={styles(colors).about}>
           <Card style={styles(colors).card}>
@@ -168,14 +222,26 @@ export default function PharmacyScreen({ navigation }) {
               link='Form'
             />
               }
+        </View>
+        {showGraph && 
+          <View style={styles(colors).graphTitleContainer}>
+            <Text style={styles(colors).graphTitleText}>Graphs</Text>
           </View>
+        }
       </View>
       {showGraph &&
-        <Graph
-          graphTitle="Pain Levels"
-          graphData={graphData}
-          graphLabels={graphLabels}
-        />
+          Object.keys(graphData).map((key) => {
+            //console.log(JSON.stringify(graphData))
+            return(
+              <View style={styles(colors).graph}>
+                <Graph
+                  graphTitle={key}
+                  graphData={graphData[key]}
+                  graphLabels={graphLabels}
+                />
+              </View>
+            );
+          }) 
       }
       <View style={styles(colors).footer}>
           <NavFooter
@@ -188,7 +254,7 @@ export default function PharmacyScreen({ navigation }) {
           iconC='folder-information'
           />
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -196,7 +262,7 @@ const styles = (colors) => StyleSheet.create({
   container: {
     backgroundColor: colors.background,
     flex: 1,
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
   },
   content: {
     width: '100%',
@@ -261,5 +327,19 @@ const styles = (colors) => StyleSheet.create({
     borderColor: colors.text,
     marginLeft: 15,
     marginRight: 15,    
+  },
+  graph: {
+    marginBottom: 20,
+  },
+  graphTitleContainer: {
+    width: width * 0.9,
+    borderBottomWidth: 1,
+    borderColor: colors.text,
+    padding: 15,
+    marginTop: 20,
+  },
+  graphTitleText: {
+    color: colors.text,
+    fontSize: 20,
   },
 });
