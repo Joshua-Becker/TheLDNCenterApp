@@ -610,7 +610,7 @@ export default function FormScreen({ navigation }) {
         </ScrollView>
         <NavFooter
           navigation={navigation}
-          destA='PharmacyHome'
+          destA='TeamHome'
           destB='Messages'
           destC=''
           iconA='account-details'

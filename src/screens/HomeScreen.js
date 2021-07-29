@@ -39,17 +39,17 @@ export default function HomeScreen({ navigation }) {
           </View>
           <Notification
             navigation={navigation}
-            text='My Pharmacy - Message'
-            link='Pharmacy'
+            text='My Team - Message'
+            link='Team'
           />
         </View>
         )}
         <View style={styles(colors).stacks}>
           <View style={styles(colors).buttonContainer}>
             <FormButton
-              title='My Pharmacy'
+              title='My Team'
               modeValue='contained'
-              onPress={() => navigation.push('Pharmacy')}
+              onPress={() => navigation.push('Team')}
             />
           </View>
           {/* <FormButton

@@ -14,7 +14,7 @@ import Graph from '../components/Graph';
 
 const { width, height } = Dimensions.get('screen');
 
-export default function PharmacyScreen({ navigation }) {
+export default function TeamScreen({ navigation }) {
   const {colors, isDark} = useTheme();
   useStatusBar();
   const [showForm, setShowForm] = useState(false);
@@ -148,7 +148,7 @@ export default function PharmacyScreen({ navigation }) {
           ...data
         };
         if(thread.pharmacyName == '' || thread.pharmacyName == undefined){
-          navigation.navigate('AddPharmacy');
+          navigation.navigate('AddTeam');
         }
         let decryptedText;
         try {
@@ -189,72 +189,74 @@ export default function PharmacyScreen({ navigation }) {
   }
 
   return (
-    <ScrollView style={styles(colors).container} scrollIndicatorInsets={{ right: 1 }}>
-      <View style={styles(colors).content}>
-        <ScrollView style={styles(colors).about}>
-          <Card style={styles(colors).card}>
-            <Card.Title
-              title={thread.pharmacyName}
-              titleStyle={styles(colors).cardTitle}
-            />
-            <Divider style={styles(colors).divider}></Divider>
-            <Card.Content>
-              <Title style={styles(colors).cardSubTitle}>Latest Message:</Title>
-              <Paragraph style={styles(colors).cardText}>{thread.latestMessage.text}</Paragraph>
-            </Card.Content>
-          </Card>
-        </ScrollView>
-        <View style={styles(colors).messages}>
-              <View style={styles(colors).notificationTitleContainer}>
-                <Text style={styles(colors).notificationTitleText}>Notifications</Text>
-              </View>
-              {Boolean(notifications.unreadMessageFromPharmacy) && (
+    <View style={styles(colors).container}>
+      <ScrollView style={styles(colors).scrollContainer} scrollIndicatorInsets={{ right: 1 }}>
+        <View style={styles(colors).content}>
+          <ScrollView style={styles(colors).about}>
+            <Card style={styles(colors).card}>
+              <Card.Title
+                title={thread.pharmacyName}
+                titleStyle={styles(colors).cardTitle}
+              />
+              <Divider style={styles(colors).divider}></Divider>
+              <Card.Content>
+                <Title style={styles(colors).cardSubTitle}>Latest Message:</Title>
+                <Paragraph style={styles(colors).cardText}>{thread.latestMessage.text}</Paragraph>
+              </Card.Content>
+            </Card>
+          </ScrollView>
+          <View style={styles(colors).messages}>
+                <View style={styles(colors).notificationTitleContainer}>
+                  <Text style={styles(colors).notificationTitleText}>Notifications</Text>
+                </View>
+                {Boolean(notifications.unreadMessageFromPharmacy) && (
+                  <Notification
+                  navigation={navigation}
+                  text='New message'
+                  link='Messages'
+                  />
+                )}
+                {showForm &&
                 <Notification
                 navigation={navigation}
-                text='New message'
-                link='Messages'
-                />
-              )}
-              {showForm &&
-              <Notification
-              navigation={navigation}
-              text='Fill out biweekly form'
-              link='Form'
-            />
-              }
-        </View>
-        {showGraph && 
-          <View style={styles(colors).graphTitleContainer}>
-            <Text style={styles(colors).graphTitleText}>Graphs</Text>
+                text='Fill out biweekly form'
+                link='Form'
+              />
+                }
           </View>
+          {showGraph && 
+            <View style={styles(colors).graphTitleContainer}>
+              <Text style={styles(colors).graphTitleText}>Graphs</Text>
+            </View>
+          }
+        </View>
+        {showGraph &&
+            Object.keys(graphData).map((key) => {
+              //console.log(JSON.stringify(graphData))
+              return(
+                <View style={styles(colors).graph}>
+                  <Graph
+                    graphTitle={key}
+                    graphData={graphData[key]}
+                    graphLabels={graphLabels}
+                  />
+                </View>
+              );
+            }) 
         }
-      </View>
-      {showGraph &&
-          Object.keys(graphData).map((key) => {
-            //console.log(JSON.stringify(graphData))
-            return(
-              <View style={styles(colors).graph}>
-                <Graph
-                  graphTitle={key}
-                  graphData={graphData[key]}
-                  graphLabels={graphLabels}
-                />
-              </View>
-            );
-          }) 
-      }
+      </ScrollView>
       <View style={styles(colors).footer}>
-          <NavFooter
-          navigation={navigation}
-          destA=''
-          destB='Messages'
-          destC='Form'
-          iconA='account-details'
-          iconB='message'
-          iconC='folder-information'
-          />
+            <NavFooter
+            navigation={navigation}
+            destA=''
+            destB='Messages'
+            destC='Form'
+            iconA='account-details'
+            iconB='message'
+            iconC='folder-information'
+            />
       </View>
-    </ScrollView>
+    </View>
   );
 }
 
@@ -262,7 +264,9 @@ const styles = (colors) => StyleSheet.create({
   container: {
     backgroundColor: colors.background,
     flex: 1,
-    // justifyContent: 'space-between',
+  },
+  scrollContainer: {
+
   },
   content: {
     width: '100%',

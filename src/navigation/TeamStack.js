@@ -1,58 +1,58 @@
 import React, { useState, useEffect } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import PharmacyScreen from '../screens/PharmacyScreen';
-import AddPharmacyScreen from '../screens/AddPharmacyScreen';
-import PharmacyMessagesScreen from '../screens/PharmacyMessagesScreen';
+import TeamScreen from '../screens/TeamScreen';
+import AddTeamScreen from '../screens/AddTeamScreen';
+import TeamMessagesScreen from '../screens/TeamMessagesScreen';
 import FormScreen from '../screens/FormScreen';
-import ChangePharmacyScreen from '../screens/ChangePharmacyScreen';
+import ChangeTeamScreen from '../screens/ChangeTeamScreen';
 import { IconButton } from 'react-native-paper';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import HomeStack from '../navigation/HomeStack';
-import {useTheme} from '../navigation/ThemeProvider';
+import HomeStack from './HomeStack';
+import {useTheme} from './ThemeProvider';
 
 
-const PharmacyStack = createStackNavigator();
+const TeamStack = createStackNavigator();
 
-export default function Pharmacy() {
+export default function Team() {
     return (
-      <PharmacyStack.Navigator mode='modal' headerMode='none'>
-        <PharmacyStack.Screen name='PharmacyHome' component={PharmacyHome} />
-        <PharmacyStack.Screen name='AddPharmacy' component={AddPharmacyScreen} />
-        <PharmacyStack.Screen name='Form' component={FormScreen} />
-        <PharmacyStack.Screen name='ChangePharmacy' component={ChangePharmacyScreen} />
-        <PharmacyStack.Screen name='Home' component={HomeStack} />
-        <PharmacyStack.Screen name='Messages' component={PharmacyMessagesScreen} />
-      </PharmacyStack.Navigator>
+      <TeamStack.Navigator mode='modal' headerMode='none'>
+        <TeamStack.Screen name='TeamHome' component={TeamHome} />
+        <TeamStack.Screen name='AddTeam' component={AddTeamScreen} />
+        <TeamStack.Screen name='Form' component={FormScreen} />
+        <TeamStack.Screen name='ChangeTeam' component={ChangeTeamScreen} />
+        <TeamStack.Screen name='Home' component={HomeStack} />
+        <TeamStack.Screen name='Messages' component={TeamMessagesScreen} />
+      </TeamStack.Navigator>
     );
 }
 
-function PharmacyHome() {
+function TeamHome() {
   let {colors, isDark} = useTheme();
-  const [hasPharmacy, setHasPharmacy] = useState(true)
+  const [hasTeam, setHasTeam] = useState(true)
   const user = auth().currentUser
 
-  async function userHasPharmacy(){
+  async function userHasTeam(){
     const userInfoRaw = await firestore()
     .collection('USERS')
     .doc(user.uid)
     .get()
     const userInfoData = userInfoRaw.data()
-    if(userInfoData.pharmacyName != '' && userInfoData.pharmacyName != undefined){
-      setHasPharmacy(true)
+    if((userInfoData.pharmacyName != '' && userInfoData.pharmacyName != undefined) || (userInfoData.providerName != '' && userInfoData.providerName != undefined)){
+      setHasTeam(true)
     } else {
-      setHasPharmacy(false)
+      setHasTeam(false)
     }
   }
 
   useEffect(
     React.useCallback(() => {
-      userHasPharmacy()
+      userHasTeam()
     }, [])
   );  
 
   return (
-    <PharmacyStack.Navigator
+    <TeamStack.Navigator
       screenOptions={{
         headerStyle: {
           backgroundColor: colors.navBar
@@ -63,20 +63,20 @@ function PharmacyHome() {
         }
       }}
     >
-      <PharmacyStack.Screen
-      name='My Pharmacy'
-      component={PharmacyScreen}
+      <TeamStack.Screen
+      name='My Team'
+      component={TeamScreen}
       options={({ navigation }) => ({
         headerRight: () => (
           <IconButton
-              icon ={ hasPharmacy ? 'account-switch' : 'message-plus'}
+              icon ={ hasTeam ? 'account-switch' : 'message-plus'}
               size={28}
               color='#ffffff'
               onPress={() => {
-                if(hasPharmacy) {
-                  navigation.navigate('ChangePharmacy')
+                if(hasTeam) {
+                  navigation.navigate('ChangeTeam')
                 } else {
-                  navigation.navigate('AddPharmacy')
+                  navigation.navigate('AddTeam')
                 }
               }}
           />
@@ -91,11 +91,11 @@ function PharmacyHome() {
         )
       })}
       />
-      <PharmacyStack.Screen
-      name='AddPharmacy'
-      component={AddPharmacyScreen}
+      <TeamStack.Screen
+      name='AddTeam'
+      component={AddTeamScreen}
       options={({ navigation }) => ({
-          title: 'Choose your pharmacy',
+          title: 'Choose your team',
           headerLeft: () => (
             <IconButton
                 icon='home'
@@ -106,11 +106,11 @@ function PharmacyHome() {
           )
       })}
       />
-      <PharmacyStack.Screen
-      name='ChangePharmacy'
-      component={ChangePharmacyScreen}
+      <TeamStack.Screen
+      name='ChangeTeam'
+      component={ChangeTeamScreen}
       options={({ navigation }) => ({
-          title: 'Change Pharmacy',
+          title: 'Change team',
           headerLeft: () => (
             <IconButton
                 icon='home'
@@ -137,9 +137,9 @@ function PharmacyHome() {
           )
       })}
       />
-      <PharmacyStack.Screen
+      <TeamStack.Screen
       name='Messages'
-      component={PharmacyMessagesScreen}
+      component={TeamMessagesScreen}
       options={({ navigation }) => ({
           title: 'Messages',
           headerLeft: () => (
@@ -152,7 +152,7 @@ function PharmacyHome() {
           )
       })}
       />
-      <PharmacyStack.Screen
+      <TeamStack.Screen
       name='Form'
       component={FormScreen}
       options={({ navigation }) => ({
@@ -167,6 +167,6 @@ function PharmacyHome() {
           )
       })}
       />
-    </PharmacyStack.Navigator>
+    </TeamStack.Navigator>
   );
 }

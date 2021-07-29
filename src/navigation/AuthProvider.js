@@ -26,13 +26,13 @@ export const AuthProvider = ({ fcmToken, children }) => {
     return out;
   }
 
-  async function getPharmacyID(userID){
+  async function getCaregiversIDs(userID){
     const snapshot = await firestore()
     .collection('USERS')
     .doc(userID)
     .get();
     const data = snapshot.data();
-    return data.pharmacyID;
+    return {'pharmacy' : data.pharmacyID, 'provider': data.providerID};
   }
 
   async function auditLog(user_id, message){
@@ -86,7 +86,7 @@ export const AuthProvider = ({ fcmToken, children }) => {
           }
         });
       if(identityExists){
-        const pharmacyID = await getPharmacyID(currentUser.uid);
+        const caregiversIDs = await getCaregiversIDs(currentUser.uid);
         await eThree.resetPrivateKeyBackup()
         .then(async () =>{
           await eThree.rotatePrivateKey()
@@ -191,12 +191,17 @@ export const AuthProvider = ({ fcmToken, children }) => {
       //console.log(doc.data());
       const data = doc.data();
       if(data.latestMessage != undefined && data.latestMessage.unreadMessageFromPharmacy != null && data.latestMessage.unreadMessageFromPharmacy != undefined){
-        setNotifications({unreadMessageFromPharmacy: data.latestMessage.unreadMessageFromPharmacy});
+        setNotifications((oldState) => ({...oldState, unreadMessageFromPharmacy: data.latestMessage.unreadMessageFromPharmacy}));
       } else {
-        setNotifications({unreadMessageFromPharmacy: false});
+        setNotifications((oldState) => ({...oldState, unreadMessageFromPharmacy: false}));
+      }
+      if(data.latestMessage != undefined && data.latestMessage.unreadMessageFromProvider != null && data.latestMessage.unreadMessageFromProvider != undefined){
+        setNotifications((oldState) => ({...oldState, unreadMessageFromProvider: data.latestMessage.unreadMessageFromProvider}));
+      } else {
+        setNotifications((oldState) => ({...oldState, unreadMessageFromProvider: false}));
       }
     }).catch((error) => {
-      setNotifications({unreadMessageFromPharmacy: false});
+      setNotifications((oldState) => ({...oldState, unreadMessageFromPharmacy: false, unreadMessageFromProvider: false}));
       console.log('Error getting user notifications: ' + error);
     });
   }
@@ -316,7 +321,7 @@ export const AuthProvider = ({ fcmToken, children }) => {
         },
         submitForm: async (symptoms, comments) => {
           var user = auth().currentUser;
-          const pharmacyID = await getPharmacyID(user.uid);
+          const caregiversIDs = await getCaregiversIDs(user.uid);
           firestore()
           .collection('USERS')
           .doc(user.uid)
@@ -326,7 +331,7 @@ export const AuthProvider = ({ fcmToken, children }) => {
             comments: comments,
             date: new Date().getTime(),
           });
-          firestore().collection('PHARMACIES').doc(pharmacyID).collection('PATIENTS').doc(user.uid)
+          firestore().collection('CAREGIVERS').doc(caregiversIDs.pharmacy).collection('PATIENTS').doc(user.uid)
           .set({
             newForm: true,
           }, { merge: true });

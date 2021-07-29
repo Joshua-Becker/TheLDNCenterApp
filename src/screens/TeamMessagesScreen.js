@@ -12,7 +12,7 @@ import NavFooter from '../components/NavFooter';
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs();//Ignore all log notifications
 
-export default function PharmacyMessagesScreen({navigation}) {
+export default function TeamMessagesScreen({navigation}) {
   const {colors, isDark} = useTheme();
   useStatusBar();
   const { user, checkForNotifications } = useContext(AuthContext);
@@ -114,19 +114,23 @@ export default function PharmacyMessagesScreen({navigation}) {
   }
 
   function setPharmacyUnreadMessageToTrue(){
-    firestore().collection('PHARMACIES').doc(userData.pharmacyID).collection('PATIENTS').doc(userData.user._id)
+    firestore().collection('CAREGIVERS').doc(userData.pharmacyID).collection('PATIENTS').doc(userData.user._id)
     .set({
-      unreadMessageFromPatient: true,
+      unreadMessage: true,
+    }, { merge: true });
+    firestore().collection('CAREGIVERS').doc(userData.providerID).collection('PATIENTS').doc(userData.user._id)
+    .set({
+      unreadMessage: true,
     }, { merge: true });
   }
 
   function setPatientUnreadMessageToFalse(){
-    console.log('Setting unreadMessageFromPharmacy to false');
+    console.log('Setting unreadMessage to false');
     checkForNotifications();
     firestore().collection('USERS').doc(userData.user._id)
     .set({
       latestMessage: {
-        unreadMessageFromPharmacy: false,
+        unreadMessage: false,
       }
     }, { merge: true });
   }
@@ -202,8 +206,7 @@ export default function PharmacyMessagesScreen({navigation}) {
         const newMessages = querySnapshot.docs.map( async (doc) => {
           const firebaseData = doc.data();
           let decryptedText;
-          let group;
-          group = await ethree.getGroup(userData.user._id);
+          let group = await ethree.getGroup(userData.user._id);
           const findUserIdentity = await ethree.findUsers(userData.user._id);
           if(group == null){
             group = await ethree.loadGroup(userData.user._id, findUserIdentity);
@@ -211,7 +214,12 @@ export default function PharmacyMessagesScreen({navigation}) {
           if(firebaseData.user._id == userData.pharmacyID){
             const findUserIdentity = await ethree.findUsers(userData.pharmacyID);
             decryptedText = await group.decrypt(firebaseData.text, findUserIdentity);
-          } else {
+          } 
+          else if(firebaseData.user._id == userData.providerID){
+            const findUserIdentity = await ethree.findUsers(userData.providerID);
+            decryptedText = await group.decrypt(firebaseData.text, findUserIdentity);
+          }
+           else {
             const findUserIdentity = await ethree.findUsers(userData.user._id);
             decryptedText = await group.decrypt(firebaseData.text, findUserIdentity);
           }
@@ -256,7 +264,7 @@ export default function PharmacyMessagesScreen({navigation}) {
       </View>
         <NavFooter
             navigation={navigation}
-            destA='PharmacyHome'
+            destA='TeamHome'
             destB=''
             destC='Form'
             iconA='account-details'

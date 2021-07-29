@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../screens/HomeScreen';
-import PharmacyStack from './PharmacyStack';
+import TeamStack from './TeamStack';
 import SettingsScreen from '../screens/SettingsScreen';
 import { IconButton } from 'react-native-paper';
 import { AuthContext } from '../navigation/AuthProvider';
@@ -16,7 +16,7 @@ export default function HomeStack() {
         <Stack.Navigator initialRouteName='Login' headerMode='none'>
           <Stack.Screen name='Home' component={Home} />
           <Stack.Screen name='Settings' component={SettingsScreen} />
-          <Stack.Screen name='Pharmacy' component={PharmacyStack} />
+          <Stack.Screen name='Team' component={TeamStack} />
         </Stack.Navigator>
         <SessionTimeout/>
       </>
