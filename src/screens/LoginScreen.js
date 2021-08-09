@@ -6,14 +6,12 @@ import FormButton from '../components/FormButton';
 import { AuthContext } from '../navigation/AuthProvider';
 import useStatusBar from '../utils/useStatusBar';
 import Spinner from 'react-native-loading-spinner-overlay';
-import {useTheme} from '../navigation/ThemeProvider';
 import { ImageBackground } from 'react-native';
 
 const { width, height } = Dimensions.get('screen');
 
 export default function LoginScreen({ navigation }) {
     useStatusBar();
-    const {colors, isDark} = useTheme();
     const { login } = useContext(AuthContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -23,17 +21,17 @@ export default function LoginScreen({ navigation }) {
       setIsLoading(false);
     }, []);
     return (
-      //<View style={styles(colors).container}>
-      <ImageBackground source={ require('../media/images/mainpage_photo.jpeg')}  style={styles(colors).container} imageStyle={styles(colors).backgroundImage}>
+      //<View style={styles.container}>
+      <ImageBackground source={require('../media/images/mainpage_photo.jpeg')}  style={styles.container} imageStyle={styles.backgroundImage}>
         <Spinner
           visible={isLoading}
           textContent={'Loading...'}
-          textStyle={styles(colors).spinnerTextStyle}
+          textStyle={styles.spinnerTextStyle}
         />
-        <View style={styles(colors).header}>
-          <TouchableOpacity style={Platform.OS === 'ios' ? styles(colors).signUpBoxIOS : styles(colors).signUpBox} onPress={() => navigation.navigate('Signup')}>
+        <View style={styles.header}>
+          <TouchableOpacity style={Platform.OS === 'ios' ? styles.signUpBoxIOS : styles.signUpBox} onPress={() => navigation.navigate('Signup')}>
             <Text 
-            style={styles(colors).signUpText} 
+            style={styles.signUpText} 
             >Don't have an account? Sign up</Text>
             <IconButton
                   icon='arrow-right'
@@ -42,8 +40,8 @@ export default function LoginScreen({ navigation }) {
             />
           </TouchableOpacity>
           <Image 
-              source={ isDark? require('../media/images/logo-light.png') : require('../media/images/logo-dark.png')} 
-              style={styles(colors).logo}
+              source={require('../media/images/logo-dark.png')} 
+              style={styles.logo}
           />
         </View>
         <View>
@@ -60,16 +58,16 @@ export default function LoginScreen({ navigation }) {
             onChangeText={userPassword => setPassword(userPassword)}
           />
           <TouchableOpacity 
-            style={styles(colors).forgotPasswordContainer}
+            style={styles.forgotPasswordContainer}
             onPress={() => {navigation.navigate('ForgotPassword')}}
             >
-            <Text style={styles(colors).forgotPasswordText}>Forgot Password?</Text>
+            <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
           </TouchableOpacity>
         </View>
         <FormButton
           title='Login'
           modeValue='contained'
-          labelStyle={styles(colors).loginButtonLabel}
+          labelStyle={styles.loginButtonLabel}
           onPress={async () => {
               setIsLoading(true);
               setEmail('');
@@ -84,13 +82,13 @@ export default function LoginScreen({ navigation }) {
     );
 }
 
-const styles = (colors) => StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.background,
+    backgroundColor: '#ffffff',
     flex: 1,
     justifyContent: 'space-between',
     alignItems: 'center',
-    color: colors.text,
+    color: '#000000',
     paddingBottom: 20,
   },
   backgroundImage: {
@@ -98,7 +96,7 @@ const styles = (colors) => StyleSheet.create({
     height: '100%', // the image height
     left: -400,
     top: undefined,
-    opacity: 0.3,
+    opacity: 0.4,
   },
   header: {
     alignItems: 'center',
@@ -106,17 +104,17 @@ const styles = (colors) => StyleSheet.create({
   titleText: {
     fontSize: 24,
     marginBottom: 10,
-    color: colors.text,
+    color: '#000000',
   },
   loginButtonLabel: {
     fontSize: 22,
-    color: colors.buttonText,
+    color: '#fff',
   },
   navButtonText: {
     fontSize: 16
   },
   spinnerTextStyle: {
-    color: colors.text
+    color: '#000000'
   },
   logo: {
     width: width / 1.5,
@@ -126,7 +124,7 @@ const styles = (colors) => StyleSheet.create({
   signUpBox: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: colors.accent,
+    backgroundColor: '#E97E33',
     width: width,
     justifyContent: 'flex-end',
     paddingBottom: 5,
@@ -135,7 +133,7 @@ const styles = (colors) => StyleSheet.create({
   signUpBoxIOS: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: colors.statusBar,
+    backgroundColor: '#002e45',
     width: width,
     justifyContent: 'flex-end',
     paddingBottom: 5,
@@ -143,7 +141,7 @@ const styles = (colors) => StyleSheet.create({
     paddingTop: 30,
   },
   signUpText: {
-    color: colors.buttonText,
+    color: '#fff',
     fontSize: 20,
   },
   forgotPasswordContainer: {
@@ -151,7 +149,7 @@ const styles = (colors) => StyleSheet.create({
     alignItems: 'center',
   },
   forgotPasswordText: {
-    color: colors.accent,
+    color: '#E97E33',
     fontSize: 24,
     fontWeight: 'bold',
   }

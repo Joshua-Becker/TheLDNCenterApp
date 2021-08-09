@@ -158,6 +158,7 @@ export default function ChangeTeamScreen({ navigation }) {
           .doc(user.id)
           .set({
               joined: new Date().getTime(),
+              status: 'pending',
               newPatient: true,
           }, { merge: true });
   
@@ -178,6 +179,7 @@ export default function ChangeTeamScreen({ navigation }) {
           .doc(user.id)
           .set({
               joined: new Date().getTime(),
+              status: 'pending',
               newPatient: true,
           }, { merge: true });
   

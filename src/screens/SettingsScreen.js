@@ -5,7 +5,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
 import firestore from '@react-native-firebase/firestore';
-import auth from '@react-native-firebase/auth';
 import { AuthContext } from '../navigation/AuthProvider';
 import { EThree } from '@virgilsecurity/e3kit-native';
 
@@ -29,6 +28,7 @@ export default function SettingsScreen(props) {
     const [originalMedications, setOriginalMedications] = useState('');
     const [originalComments, setOriginalComments] = useState('');
     const {children} = props;
+
     //props.navigation.setParams({ backgroundColor: '#ccc' })
     // Using the custom hook we made to pull the theme colors
     let {colors, isDark} = useTheme();
@@ -40,6 +40,7 @@ export default function SettingsScreen(props) {
         * with the new color scheme
         */
         isDark ? setScheme('light') : setScheme('dark');
+        storeColorSceme(!isDark);
     }
 
     // Alert put into a promise to be called asynchronously (Pause JS flow)
@@ -146,7 +147,6 @@ export default function SettingsScreen(props) {
                     },
             });
         }
-        storeColorSceme(isDark);
     }, [isDark]);
 
     return (

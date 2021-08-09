@@ -206,6 +206,81 @@ export const AuthProvider = ({ fcmToken, children }) => {
     });
   }
 
+  function setAdviceNotification(userId){
+    firestore().collection('USERS').doc(userId).get().then((doc) => {
+      const userInfo = doc.data();
+      if(userInfo.pharmacyID != undefined){
+        firestore()
+        .collection('CAREGIVERS')
+        .doc(userInfo.pharmacyID)
+        .collection('PATIENTS')
+        .doc(userId)
+        .set({
+          symptomAlert: true,
+        }, { merge: true });
+      }
+      if(userInfo.providerID != undefined){
+        firestore()
+          .collection('CAREGIVERS')
+          .doc(userInfo.providerID)
+          .collection('PATIENTS')
+          .doc(userId)
+          .set({
+              symptomAlert: true,
+          }, { merge: true });
+      }
+    });
+  }
+
+  async function checkFomSubmission(userId){
+    let formDataObj = { 
+      'dates': [],
+      'anxiety': [],
+      'depression': [],
+      'fatigue': [],
+      'memory': [],
+      'headaches': [],
+      'nausea': [],
+      'constipation': [],
+      'heartburn': [],
+      'swelling': [],
+      'insomnia': [],
+      'pain': [],
+      'neuropathy': [],
+      'aches': [],
+      'eczema': [],
+      'rash': [],
+      'drySkinHair': [],
+      'acne': [],
+      'brainFog': [],
+      'irregularPeriods': [],
+      'dizziness': [],
+      'inflammation': [],
+      'pmsSymptoms': [],
+      'weightControl': [],
+      'vividDreams': [],
+    };
+    const keys = Object.keys(formDataObj);
+    await firestore().collection('USERS').doc(user.uid).collection('FORMS').orderBy('date', 'desc').get()
+    .then((query) => {
+      query.docs.map(doc => {
+        const data = doc.data();
+        for(key of keys){
+          formDataObj[key].unshift(parseInt(data.symptoms[key]));
+        }
+      });
+      if(formDataObj['dates'].length > 1){
+        for(key of keys){
+          if(key != 'dates'){
+            if(Math.abs(formDataObj[key][formDataObj[key].length - 1] - formDataObj[key][formDataObj[key].length - 2]) >= 2){
+              setAdviceNotification(userId);
+            }
+          }
+        }
+      }
+    });
+  }
+
   // Alert put into a promise to be called asynchronously (Pause JS flow)
   const AsyncAlert = (title, msg) => new Promise((resolve) => {
     Alert.alert(
@@ -330,6 +405,8 @@ export const AuthProvider = ({ fcmToken, children }) => {
             symptoms: symptoms,
             comments: comments,
             date: new Date().getTime(),
+          }).then((data)=> {          
+            checkFomSubmission(user.uid);
           });
           firestore().collection('CAREGIVERS').doc(caregiversIDs.pharmacy).collection('PATIENTS').doc(user.uid)
           .set({

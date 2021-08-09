@@ -601,7 +601,6 @@ export default function FormScreen({ navigation }) {
                 modeValue='contained'
                 labelStyle={styles(colors).submitButtonLabel}
                 onPress={() => {
-                    console.log(JSON.stringify(symptoms))
                     submitForm(symptoms, comments)
                     navigation.navigate('Home')
                 }}

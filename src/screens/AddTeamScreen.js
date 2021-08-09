@@ -76,6 +76,7 @@ export default function AddTeamScreen({ navigation }) {
                     // email: user.email,
                     // name: user.name,
                     joined: new Date().getTime(),
+                    status: 'pending',
                     newPatient: true,
                 }, { merge: true });
                 auditLog(user.id, 'Joined pharmacy');
@@ -91,6 +92,7 @@ export default function AddTeamScreen({ navigation }) {
                     // email: user.email,
                     // name: user.name,
                     joined: new Date().getTime(),
+                    status: 'pending',
                     newPatient: true,
                 }, { merge: true });
                 auditLog(user.id, 'Joined provider');
