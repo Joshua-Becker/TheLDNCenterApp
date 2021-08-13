@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../screens/HomeScreen';
 import TeamStack from './TeamStack';
+import ResourcesStack from './ResourcesStack';
 import SettingsScreen from '../screens/SettingsScreen';
 import { IconButton } from 'react-native-paper';
 import { AuthContext } from '../navigation/AuthProvider';
@@ -17,6 +18,7 @@ export default function HomeStack() {
           <Stack.Screen name='Home' component={Home} />
           <Stack.Screen name='Settings' component={SettingsScreen} />
           <Stack.Screen name='Team' component={TeamStack} />
+          <Stack.Screen name='Resources' component={ResourcesStack} />
         </Stack.Navigator>
         <SessionTimeout/>
       </>

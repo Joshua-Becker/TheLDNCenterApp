@@ -52,12 +52,13 @@ export default function HomeScreen({ navigation }) {
               onPress={() => navigation.push('Team')}
             />
           </View>
-          {/* <FormButton
-            title='About Me'
-            modeValue='contained'
-            onPress={() => navigation.push('Pharmacy')}
-          /> */}
-        </View>
+          <View style={styles(colors).buttonContainer}></View>
+            <FormButton
+              title='My Resources'
+              modeValue='contained'
+              onPress={() => navigation.push('Resources')}
+            />
+          </View>
       </View>
     );
 }
@@ -81,6 +82,7 @@ const styles = (colors) => StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: 'row',
+    marginBottom: 10,
   },
   notificationTitleContainer: {
     width: width * 0.9,
