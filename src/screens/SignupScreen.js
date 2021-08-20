@@ -80,6 +80,8 @@ export default function SignupScreen({ navigation }) {
           textStyle={styles(colors).spinnerTextStyle}
       />
       <View style={styles(colors).form}>
+      <Divider style={styles(colors).dividerFirst} />
+        <Text style={styles(colors).formHeader}>Basic Information</Text>
         <FormInput
           labelName='First name'
           value={firstName}
@@ -226,7 +228,15 @@ const styles = (colors) => StyleSheet.create({
     color : colors.text,
   },
   divider: {
-    marginTop: 15,
+    marginTop: 30,
+    marginBottom: 15,
+    borderWidth: 1,
+    borderColor: colors.text,
+    marginLeft: 15,
+    marginRight: 15,
+  },
+  dividerFirst: {
+    marginTop: 10,
     marginBottom: 15,
     borderWidth: 1,
     borderColor: colors.text,

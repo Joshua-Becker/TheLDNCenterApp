@@ -123,9 +123,9 @@ export default function SettingsScreen(props) {
           }, { merge: true });
         AsyncAlert('Settings saved', 'Your information has been updated!');
         if(newPass != '' && oldPass != ''){
-            const oldBackupPassword = deriveE3BackupPass(oldPass);
-            const newBackupPassword = deriveE3BackupPass(newPass);
-            await ethree.changePassword(oldBackupPassword, newBackupPassword);
+            //const oldBackupPassword = deriveE3BackupPass(oldPass);
+            //const newBackupPassword = deriveE3BackupPass(newPass);
+            //await ethree.changePassword(oldBackupPassword, newBackupPassword);
             await user.updatePassword(newPass);
         }
         auditLog(currentUser.uid, 'Adjusted settings');
@@ -166,8 +166,6 @@ export default function SettingsScreen(props) {
                         <Text style={styles(colors).text}>Name:</Text>
                         <Text style={styles(colors).userValues}>{name}</Text>
                     </View>
-                </View>
-                <View style={styles(colors).listItem}>
                     <View style={styles(colors).textContainer}>
                         <Text style={styles(colors).text}>Email:</Text>
                         <Text style={styles(colors).userValues}>{email}</Text>
@@ -300,6 +298,7 @@ const styles = (colors) => StyleSheet.create({
         paddingTop: 10,
         paddingBottom: 10,
         borderColor: colors.text,
+        marginBottom: 30,
     },
     listItemToggle: {
         borderBottomWidth: 0.5,

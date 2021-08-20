@@ -272,11 +272,6 @@ return (
                 onChangeValue={item => {
                     setPharmacy({name: item, id: pharmacyIdDict[item]});
                 }}
-                // defaultValue={pharmacy.name}
-                // containerStyle={{height: 60}}
-                // style={{backgroundColor: colors.formBackground, width: '90%'}}
-                // dropDownStyle={{backgroundColor: colors.formBackground, width: '90%'}}
-                // onChangeItem={item => setPharmacy({name: item.value, id: item.id})}
                 searchable={true}
                 searchablePlaceholder="Search for a pharmacy"
                 searchablePlaceholderTextColor="gray"

@@ -19,6 +19,7 @@ export default function LoginScreen({ navigation }) {
 
     useEffect(() => {
       setIsLoading(false);
+      return () => setIsLoading(false);
     }, []);
     return (
       //<View style={styles.container}>
@@ -73,7 +74,7 @@ export default function LoginScreen({ navigation }) {
               setEmail('');
               setPassword('');
               await login(email, password);
-              setIsLoading(false); // Will throw warning if there is a successful login
+              //setIsLoading(false); // Will throw warning if there is a successful login
             }
           }
         />
@@ -114,7 +115,7 @@ const styles = StyleSheet.create({
     fontSize: 16
   },
   spinnerTextStyle: {
-    color: '#000000'
+    color: '#fff'
   },
   logo: {
     width: width / 1.5,
