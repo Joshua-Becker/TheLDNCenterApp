@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, Linking } from 'react-native';
 import FormButton from '../components/FormButton';
 import firestore from '@react-native-firebase/firestore';
 import useStatusBar from '../utils/useStatusBar';
@@ -202,6 +202,13 @@ export default function AddTeamScreen({ navigation }) {
                     placeholder={'Select a provider'}
                     />
                 </View>
+                <FormButton
+                title='Find the right team for you'
+                modeValue='contained'
+                labelStyle={styles(colors).linkingButtonLabel}
+                onPress={() => Linking.openURL('https://theldnhealthcenter.com/create-your-ldn-journey/')}
+                disabled={Object.keys(pharmacy).length === 0 && Object.keys(provider).length === 0}
+                />
             </View>
             <FormButton
             title='Join'
@@ -241,16 +248,21 @@ buttonLabel: {
     fontSize: 22,
     color: colors.buttonText,
 },
+linkingButtonLabel: {
+    fontSize: 15,
+    color: colors.buttonText,
+    zIndex: 0,
+},
 dropDowns: {
     width: '90%',
 },
 dropDownsPharmacy: {
     marginTop: 20,
-    marginBottom: 50,
-    zIndex: 1,
+    marginBottom: 20,
+    zIndex: 2,
 },
 dropDownsProvider: {
     marginBottom: 20,
-    zIndex: 0,
+    zIndex: 1,
 }
 });

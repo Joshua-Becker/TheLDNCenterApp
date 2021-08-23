@@ -25,19 +25,17 @@ export default function ResourcesScreen({ navigation }) {
     const [loading, setLoading] = useState(false);
 
     async function getResources(){
-        console.log('Get Resources Triggered');
         let resourcesObj = {};
         await firestore()
-        .collection('RESOURCES_CATEGORIES')
+        .collection('RESOURCES_CATEGORIES').limit(1000)
         .get().then(async (snapShotCategories) => {
             return await Promise.all(snapShotCategories.docs.map(async (snapShotCategory) => {
                 resourcesObj[snapShotCategory.id] = {'Articles': [], 'Modules': []};
                 await firestore()
                 .collection('RESOURCES_CATEGORIES')
                 .doc(snapShotCategory.id)
-                .collection('Articles').get()
+                .collection('Articles').limit(1000).get()
                 .then((snapShotArticles) => {
-                    console.log(snapShotCategory.id,snapShotArticles.docs.length);
                     snapShotArticles.docs.map((article) => {
                         resourcesObj[snapShotCategory.id]['Articles'].push(article.data());
                     });
@@ -50,7 +48,7 @@ export default function ResourcesScreen({ navigation }) {
                     await firestore()
                     .collection('RESOURCES_CATEGORIES')
                     .doc(snapShotCategory.id)
-                    .collection('Modules').get()
+                    .collection('Modules').limit(1000).get()
                     .then((snapShotModules) => {
                         snapShotModules.docs.map((module) => {
                             resourcesObj[snapShotCategory.id]['Modules'].push(module.data());
@@ -71,9 +69,6 @@ export default function ResourcesScreen({ navigation }) {
     function reformatList(){
         let newList = [];
         for(resource in resources){
-            console.log(resource);
-            console.log(resources[resource]['Articles'].length);
-            console.log(resources[resource]['Modules'].length);
             for(article of resources[resource]['Articles']){
                 newList.push({
                     category: resource,
@@ -93,10 +88,7 @@ export default function ResourcesScreen({ navigation }) {
     }
 
     function searchResources(){
-        console.log('Searching Resources...');
-        console.log(category, condition, filterType);
         let reformattedReources = reformatList();
-        console.log(reformattedReources.length);
         navigation.navigate('SearchedResources', {
             category: category,
             condition: condition,

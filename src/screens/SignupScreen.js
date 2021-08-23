@@ -30,6 +30,7 @@ export default function SignupScreen({ navigation }) {
   function registerFilter(firstName, lastName, phoneNumber, email, password, condition, painLevel, symptomTimeline, medications, comments){
     if(password.length < 8){
       alert('Password must be least 8 characters in length and contain at least 1 number, special character, and capital letter.');
+      setIsLoding(false);
       return;
     }
     const capitals = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -51,6 +52,7 @@ export default function SignupScreen({ navigation }) {
     }
     if(!hasCapitalLetter || !hasNumber || !hasSpecialChar){
       alert('Password must be least 8 characters in length and contain at least 1 number, special character, and capital letter.');
+      setIsLoding(false);
       return;
     }
     register(firstName, lastName, phoneNumber, email, password, condition, painLevel, symptomTimeline, medications, comments);

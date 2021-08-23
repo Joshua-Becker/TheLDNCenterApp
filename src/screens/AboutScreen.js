@@ -42,8 +42,8 @@ export default function ResourcesScreen({ navigation }) {
                     cyj.push(obj);
                 }
                 setWebData(cyj);
-                setLoading(false);
             }
+            setLoading(false);
         });
         return () => aboutListener();
     }, []);

@@ -573,7 +573,7 @@ export default function FormScreen({ navigation }) {
                                 label={'0'}
                                 defaultValue={'0'}
                                 mode={'outlined'}
-                                value={symptoms.weightControl}
+                                value={symptoms.vividDreams}
                                 setValue={event => handleChange('vividDreams',event)}
                                 list={numbers}
                                 visible={open.vividDreams}

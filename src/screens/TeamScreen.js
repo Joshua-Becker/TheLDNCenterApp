@@ -194,12 +194,14 @@ export default function TeamScreen({ navigation }) {
         <View style={styles(colors).content}>
           <ScrollView style={styles(colors).about}>
             <Card style={styles(colors).card}>
-              <Card.Title
+              {/* <Card.Title
                 title={thread.pharmacyName}
                 titleStyle={styles(colors).cardTitle}
-              />
-              <Divider style={styles(colors).divider}></Divider>
+              /> */}
               <Card.Content>
+              <Title style={styles(colors).cardSubTitle}>{thread.pharmacyName}</Title>
+              <Title style={styles(colors).cardSubTitle}>{thread.providerName}</Title>
+                <Divider style={styles(colors).divider}></Divider>
                 <Title style={styles(colors).cardSubTitle}>Latest Message:</Title>
                 <Paragraph style={styles(colors).cardText}>{thread.latestMessage.text}</Paragraph>
               </Card.Content>
@@ -329,8 +331,8 @@ const styles = (colors) => StyleSheet.create({
   divider: {
     borderWidth: 1,
     borderColor: colors.text,
-    marginLeft: 15,
-    marginRight: 15,    
+    marginTop: 5,
+    marginBottom: 5,    
   },
   graph: {
     marginBottom: 20,
