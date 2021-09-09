@@ -74,6 +74,7 @@ export const AuthProvider = ({ fcmToken, children }) => {
               comments: comments,
               token: fcmToken,
             },
+            formReminders: 'on',
             note: 'Saved Data',
           });
         })
@@ -190,10 +191,10 @@ export const AuthProvider = ({ fcmToken, children }) => {
     .then((doc) => {
       //console.log(doc.data());
       const data = doc.data();
-      if(data.latestMessage != undefined && data.latestMessage.unreadMessageFromPharmacy != null && data.latestMessage.unreadMessageFromPharmacy != undefined){
-        setNotifications((oldState) => ({...oldState, unreadMessageFromPharmacy: data.latestMessage.unreadMessageFromPharmacy}));
+      if(data.latestMessage != undefined && data.latestMessage.unreadMessage != null && data.latestMessage.unreadMessage != undefined){
+        setNotifications((oldState) => ({...oldState, unreadMessage: data.latestMessage.unreadMessage}));
       } else {
-        setNotifications((oldState) => ({...oldState, unreadMessageFromPharmacy: false}));
+        setNotifications((oldState) => ({...oldState, unreadMessage: false}));
       }
       if(data.latestMessage != undefined && data.latestMessage.unreadMessageFromProvider != null && data.latestMessage.unreadMessageFromProvider != undefined){
         setNotifications((oldState) => ({...oldState, unreadMessageFromProvider: data.latestMessage.unreadMessageFromProvider}));
@@ -201,7 +202,7 @@ export const AuthProvider = ({ fcmToken, children }) => {
         setNotifications((oldState) => ({...oldState, unreadMessageFromProvider: false}));
       }
     }).catch((error) => {
-      setNotifications((oldState) => ({...oldState, unreadMessageFromPharmacy: false, unreadMessageFromProvider: false}));
+      setNotifications((oldState) => ({...oldState, unreadMessage: false, unreadMessageFromProvider: false}));
       console.log('Error getting user notifications: ' + error);
     });
   }
@@ -338,7 +339,9 @@ export const AuthProvider = ({ fcmToken, children }) => {
           }
           if(!signedIn){
             await AsyncAlert('Wrong username or password', 'Please try again');
+            return false;
           }
+          return true;
         },
         register: async (firstName, lastName, phoneNumber, email, password, condition, painLevel, symptomTimeline, medications, comments) => {
           const username = firstName + ' ' + lastName;

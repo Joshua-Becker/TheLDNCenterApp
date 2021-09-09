@@ -19,7 +19,7 @@ const styles = (colors) => StyleSheet.create({
     notificationContainer: {
         backgroundColor: colors.notificationBackground,
         width: width * 0.9,
-        borderRadius: 5,
+        borderRadius: 25,
         padding: 2,
         marginBottom: 10,
         flexDirection: 'row',

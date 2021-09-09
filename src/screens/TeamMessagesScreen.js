@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { GiftedChat, Bubble, Send, SystemMessage, InputToolbar } from 'react-native-gifted-chat';
+import { GiftedChat, Bubble, Send, SystemMessage, InputToolbar, Time } from 'react-native-gifted-chat';
 import { IconButton } from 'react-native-paper';
 import { ActivityIndicator, View, StyleSheet, LogBox, Text } from 'react-native';
 import { AuthContext } from '../navigation/AuthProvider';
@@ -70,6 +70,24 @@ export default function TeamMessagesScreen({navigation}) {
     );
   }
 
+  function renderTime(props) {
+    return (
+      <Time
+          {...props}
+          timeTextStyle={{
+              right: {
+                  color: '#333',
+                  fontSize: 14
+              },
+              left: {
+                  color: '#fff',
+                  fontSize: 14
+              }
+          }}
+      />
+  );
+}
+
   function renderBubble(props) {
       return (
           // Step 3: return the component
@@ -80,16 +98,16 @@ export default function TeamMessagesScreen({navigation}) {
             wrapperStyle={{
               right: {
               // Here is the color change
-                backgroundColor: '#0C5FAA',
+                backgroundColor: '#76c3fc',//'#0C5FAA',
               },
               left: {
                 // Here is the color change
-                backgroundColor: '#171921',
+                backgroundColor: '#328ff8',//'#171921',
               },
             }}
             textStyle={{
               right: {
-                color: '#fff',
+                color: '#333',
               },
               left: {
                 color: '#fff',
@@ -97,7 +115,7 @@ export default function TeamMessagesScreen({navigation}) {
             }}
             textProps={{
               style: {
-                color: props.position === 'left' ? '#fff' : '#fff',
+                color: props.position === 'left' ? '#fff' : '#333',
               },
             }}
             />
@@ -179,7 +197,6 @@ export default function TeamMessagesScreen({navigation}) {
   }
 
   function renderAvatar(props){
-    console.log(props.currentMessage.user.type);
     const userType = props.currentMessage.user.type;
     let iconName = '';
     if(userType === 'pharmacy'){
@@ -260,6 +277,7 @@ export default function TeamMessagesScreen({navigation}) {
             renderLoading={renderLoading}
             renderSystemMessage={renderSystemMessage}
             renderInputToolbar={renderInputToolbar}
+            renderTime={renderTime}
         />
       </View>
         <NavFooter
@@ -285,7 +303,7 @@ const styles = (colors) => StyleSheet.create({
     bottom: 3,
   },
   messageSender : {
-    color: '#fff',
+    color: '#000',
     fontSize: 14,
     marginBottom: 5,
   },

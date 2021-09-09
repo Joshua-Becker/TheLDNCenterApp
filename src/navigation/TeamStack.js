@@ -64,7 +64,7 @@ function TeamHome() {
       }}
     >
       <TeamStack.Screen
-      name='My Team'
+      name='My Healthcare Team'
       component={TeamScreen}
       options={({ navigation }) => ({
         headerRight: () => (

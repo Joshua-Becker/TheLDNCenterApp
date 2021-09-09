@@ -12,7 +12,7 @@ export default function Graph({ graphTitle, graphData, graphLabels, ...rest }) {
     const chartConfig = {
         backgroundGradientFrom: "#fff",
         backgroundGradientFromOpacity: 0.5,
-        backgroundGradientTo: "#ccc",
+        backgroundGradientTo: "#aaa",
         backgroundGradientToOpacity: .8,
         color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
         strokeWidth: 2, // optional, default 3

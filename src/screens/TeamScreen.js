@@ -193,11 +193,7 @@ export default function TeamScreen({ navigation }) {
       <ScrollView style={styles(colors).scrollContainer} scrollIndicatorInsets={{ right: 1 }}>
         <View style={styles(colors).content}>
           <ScrollView style={styles(colors).about}>
-            <Card style={styles(colors).card}>
-              {/* <Card.Title
-                title={thread.pharmacyName}
-                titleStyle={styles(colors).cardTitle}
-              /> */}
+            <Card style={styles(colors).card} key='UNIQUE_KEY'>
               <Card.Content>
               <Title style={styles(colors).cardSubTitle}>{thread.pharmacyName}</Title>
               <Title style={styles(colors).cardSubTitle}>{thread.providerName}</Title>
@@ -211,7 +207,7 @@ export default function TeamScreen({ navigation }) {
                 <View style={styles(colors).notificationTitleContainer}>
                   <Text style={styles(colors).notificationTitleText}>Notifications</Text>
                 </View>
-                {Boolean(notifications.unreadMessageFromPharmacy) && (
+                {Boolean(notifications.unreadMessage) && (
                   <Notification
                   navigation={navigation}
                   text='New message'
@@ -236,7 +232,7 @@ export default function TeamScreen({ navigation }) {
             Object.keys(graphData).map((key) => {
               //console.log(JSON.stringify(graphData))
               return(
-                <View style={styles(colors).graph}>
+                <View key={key} style={styles(colors).graph}>
                   <Graph
                     graphTitle={key}
                     graphData={graphData[key]}
@@ -283,7 +279,7 @@ const styles = (colors) => StyleSheet.create({
     color: colors.text,
   },
   cardSubTitle: {
-    color: colors.text,
+    color: colors.accent,
     fontSize: 18,
   },
   cardText: {

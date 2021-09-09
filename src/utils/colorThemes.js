@@ -1,22 +1,23 @@
 // Light theme colors
 export const lightColors = {
     background: '#ffffff',
-    backgroundShaded: '#bbbbbb',
+    backgroundShaded: '#d7e0ea',
+    backgroundDarker: '#a7b0ba',
     primary: '#005DAC',
     pLight: '#99bedd',
     statusBar: '#002e45',
-    navBar: '#002e45',
+    navBar: '#1f65a6',
     formBackground: '#ddd',
     formText: '#555',
     buttonBackground: '#E97E33',
     buttonText: '#fff',
-    footerNav: '#002e45',
+    footerNav: '#1f65a6',
     footerButtonBackground: '#1E6EB4',
     footerButtonText: '#fff',
     text: '#000000',
-    accent: '#E97E33',
+    accent: '#ef9742',//'#E97E33',
     error: '#EF9A9A',
-    notificationBackground: '#AAD1DE',
+    notificationBackground: '#76c3fc',
     notificationText: '#38474F',
   };
   

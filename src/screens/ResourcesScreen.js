@@ -7,6 +7,7 @@ import NavFooter from '../components/NavFooter';
 import firestore from '@react-native-firebase/firestore';
 import DropDownPicker from 'react-native-dropdown-picker';
 import FormButton from '../components/FormButton';
+import FormInput from '../components/FormInput';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 
@@ -22,9 +23,11 @@ export default function ResourcesScreen({ navigation }) {
     const [filterTypes, setFilterTypes] = useState([]);
     const [filterTypesOpen, setFilterTypesOpen] = useState(false);
     const [filterType, setFilterType] = useState('');
+    const [search, setSearch] = useState('');
     const [loading, setLoading] = useState(false);
 
     async function getResources(){
+        setLoading(true);
         let resourcesObj = {};
         await firestore()
         .collection('RESOURCES_CATEGORIES').limit(1000)
@@ -66,17 +69,80 @@ export default function ResourcesScreen({ navigation }) {
         });
     }
 
+    function checkCategory(resource, category){
+        if(resource.category == category || category == ''){
+            return true;
+        }
+        return false;
+    }
+    function checkCondition(resource, condition){
+        if(condition == '' || resource.data.tags.includes(condition)){
+            return true;
+        }
+        return false;
+    }
+    function checkType(resource, filterType){
+        if(resource.filterType == filterType || filterType == ''){
+            return true;
+        }
+        return false;
+    }
+    function checkSearch(resource, search){
+        if(search == ''){
+            return true;
+        }
+        for(let searchWord of search.split(" ")) {
+            if(searchWord.length > 2){
+                if(resource.data.title.toLowerCase().includes(searchWord.toLowerCase())){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    function filterResources(search, category, condition, filterType, reformattedReources){
+
+        let counter = 0;
+        let retArray = [];
+        let allTitles = [];
+
+        for(let resource of reformattedReources){
+            if(allTitles.includes(resource.data.title)){
+                continue;
+            } else {
+                allTitles.push(resource.data.title);
+            }
+            let allClear = [];
+            if(resource.data.tags == undefined || typeof resource.data.tags == 'string'){
+                resource.data['tags'] = [];
+            }
+           
+            allClear.push(checkCategory(resource, category));
+            allClear.push(checkCondition(resource, condition));
+            allClear.push(checkType(resource, filterType));
+            allClear.push(checkSearch(resource, search));
+           
+            resource.data.tags = resource.data.tags.join(' ');
+            if(!allClear.includes(false)){
+                retArray.push(resource);
+                counter += 1;
+            }
+        }
+        return retArray;
+    }
+
     function reformatList(){
         let newList = [];
-        for(resource in resources){
-            for(article of resources[resource]['Articles']){
+        for(let resource in resources){
+            for(let article of resources[resource]['Articles']){
                 newList.push({
                     category: resource,
                     filterType: 'Article',
                     data: article
                 });
             }
-            for(module of resources[resource]['Modules']){
+            for(let module of resources[resource]['Modules']){
                 newList.push({
                     category: resource,
                     filterType: 'Module',
@@ -89,20 +155,23 @@ export default function ResourcesScreen({ navigation }) {
 
     function searchResources(){
         let reformattedReources = reformatList();
+        let filteredResources = filterResources(search, category, condition, filterType, reformattedReources);        
         navigation.navigate('SearchedResources', {
+            data: filteredResources,
+            numberOfResourcesFound: filteredResources.length,
             category: category,
             condition: condition,
             filterType: filterType,
-            data: reformattedReources,
-        })
+            search: search,
+        });
     }
 
     function setFilters(){
         if(filterTypes.length === 0) {
-            setFilterTypes([{label: 'Articles', value: 'Articles'},{label: 'Modules', value: 'Modules'}])
+            setFilterTypes([{label: 'Type', value: ''},{label: 'Articles', value: 'Article'},{label: 'Modules', value: 'Module'}])
         }
         let categoriesList = [];
-        setCategories([]);
+        setCategories([{label: 'Category', value: ''}]);
         for( const resource in resources){
             if(!categoriesList.includes(resource)){
                 setCategories(oldArray => [...oldArray, {label: resource, value: resource}]);
@@ -110,7 +179,7 @@ export default function ResourcesScreen({ navigation }) {
             }
         }
         let conditionsList = [];
-        setConditions([]);
+        setConditions([{label: 'Condition', value: ''}]);
         for(const resource in resources){
             for(const article of resources[resource]['Articles']){
                 for(const tag of article.tags){
@@ -125,14 +194,11 @@ export default function ResourcesScreen({ navigation }) {
     }
 
     useEffect(() => {
-        setLoading(true);
         if(Object.keys(resources).length == 0){
             getResources();
-        } else {
-            setLoading(false);
         }
         setFilters();
-    }, [resources]);
+    }, []);
 
     return (
     <View style={styles(colors).container}>
@@ -196,6 +262,15 @@ export default function ResourcesScreen({ navigation }) {
                     seachableStyle={{}}
                     searchableError={() => <Text>Not Found</Text>}
                     placeholder={'Select a type'}
+                    />
+                </View>
+                <View style={styles(colors).searchTermContainer}>
+                    <FormInput
+                        labelName='Search text...'
+                        value={search}
+                        autoCapitalize='none'
+                        onChangeText={userSearch => setSearch(userSearch)}
+                        style={styles(colors).searchTerm}
                     />
                 </View>
               </Card.Content>
@@ -292,4 +367,14 @@ const styles = (colors) => StyleSheet.create({
     spinnerTextStyle: {
         color: 'white'
     },
+    searchTermContainer: {
+        marginTop: 20,
+    },
+    searchTerm: {
+        marginTop: 10,
+        marginBottom: 10,
+        backgroundColor: colors.formBackground,
+        borderRadius: 5,
+        padding: 10,
+    }
 });

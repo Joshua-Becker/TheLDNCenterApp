@@ -73,7 +73,10 @@ export default function LoginScreen({ navigation }) {
               setIsLoading(true);
               setEmail('');
               setPassword('');
-              await login(email, password);
+              let loggedIn = await login(email, password);
+              if(!loggedIn){
+                setIsLoading(false);
+              }
               //setIsLoading(false); // Will throw warning if there is a successful login
             }
           }

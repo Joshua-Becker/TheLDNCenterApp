@@ -19,6 +19,7 @@ export default function Resources() {
         <ResourcesStack.Screen name='About' component={AboutScreen} />
         <ResourcesStack.Screen name='MyResources' component={MyResourcesScreen} />
         <ResourcesStack.Screen name='GetCYJ' component={GetCYJScreen} />
+        <ResourcesStack.Screen name='SearchedResources' component={SearchedResourcesScreen} />
         <ResourcesStack.Screen name='Home' component={HomeStack} />
       </ResourcesStack.Navigator>
     );
@@ -73,6 +74,7 @@ function ResourcesHome() {
       name='SearchedResources'
       component={SearchedResourcesScreen}
       options={({ navigation }) => ({
+        title: 'Searched Resources',
         headerLeft: () => (
           <IconButton
               icon='arrow-left'

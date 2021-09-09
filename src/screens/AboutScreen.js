@@ -117,11 +117,12 @@ const styles = (colors) => StyleSheet.create({
     cardTitle: {
         color: colors.text,
         fontWeight: 'bold',
+        fontSize: 30,
     },
     cardSubTitle: {
         marginTop: 20,
         marginBottom: 5,
-        color: colors.text,
+        color: colors.accent,
         fontSize: 18,
     },
     cardText: {

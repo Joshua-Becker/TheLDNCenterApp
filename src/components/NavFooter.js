@@ -51,16 +51,22 @@ const styles = (colors) => StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         backgroundColor: colors.footerNav,
-        paddingBottom: Platform.OS === 'ios' ? 25 : 0,
+        //paddingBottom: Platform.OS === 'ios' ? 25 : 0,
     },
     icon: {
         flex: 1,
         margin: 0,
+        //Bottom: Platform.OS === 'ios' ? 25 : 0,
+        paddingBottom: 10,
+        height: 70,
+        borderRadius: 0,
     },
     iconCurrent: {
         flex: 1,
         backgroundColor: colors.accent,
         borderRadius: 0,
         margin: 0,
+        paddingBottom: 10,
+        height: 70,
     }
 });

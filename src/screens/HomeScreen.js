@@ -1,10 +1,13 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { View, StyleSheet, Image, Dimensions, Text } from 'react-native';
+import React, { useState, useContext, useEffect, useReducer } from 'react';
+import { ScrollView, View, StyleSheet, Image, Dimensions, Text } from 'react-native';
 import FormButton from '../components/FormButton';
 import Notification from '../components/Notification';
 import { AuthContext } from '../navigation/AuthProvider';
 import useStatusBar from '../utils/useStatusBar';
 import {useTheme} from '../navigation/ThemeProvider';
+import { Card, Title, Paragraph, Divider, Button } from 'react-native-paper';
+import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 
 const { width, height } = Dimensions.get('screen');
 
@@ -13,25 +16,105 @@ export default function HomeScreen({ navigation }) {
     const {colors, isDark} = useTheme();
 
     const { notifications, checkForNotifications } = useContext(AuthContext);
-    const [email, setEmail] = useState('');
     const [showMessageNotification, setShowMessageNotification] = useState(false);
-    const [password, setPassword] = useState('');
+    const [latestMessage, setLatestMessage] = useState({});
+    const [latestMessagePharmacy, setLatestMessagePharmacy] = useState({});
+    const [latestMessageProvider, setLatestMessageProvider] = useState({});
+    const [pharmacyName, setPharmacyName] = useState('');
+    const [providerName, setProviderName] = useState('');
+    const user = {email: auth().currentUser.email, id: auth().currentUser.uid}
 
-    useEffect(() => {
-      checkForNotifications(); 
-      if(notifications == null){
-        setShowMessageNotification(false);
-      } else if (notifications.unreadMessageFromPharmacy == true){
-        setShowMessageNotification(true);
-      }
-    }, []);
+  async function getLatestmessage(userInfo){
+    firestore()
+    .collection('ANNOUNCEMENTS').orderBy('date', 'asc').get().then( query => {
+      query.forEach(doc => {
+        if(Object.keys(latestMessage).length == 0 && (doc.data().type == 'general' || doc.data().type == userInfo.condition) && doc.data().for == 'patient') {
+          setLatestMessage(doc.data());
+        }
+      })
+    });
+    if(userInfo.pharmacyID != undefined){
+      setPharmacyName(userInfo.pharmacyName);
+      firestore()
+      .collection('CAREGIVERS').doc(userInfo.pharmacyID).collection('ANNOUNCEMENTS').orderBy('date', 'asc').get().then( query => {
+        if(query != null){
+          query.forEach(doc => {
+            if(Object.keys(latestMessagePharmacy).length == 0) {
+              setLatestMessagePharmacy(doc.data());
+            }
+          })
+        }
+      });
+    }
+    if(userInfo.providerID != undefined){
+      setProviderName(userInfo.providerName);
+      firestore()
+      .collection('CAREGIVERS').doc(userInfo.providerID).collection('ANNOUNCEMENTS').orderBy('date', 'asc').get().then( query => {
+        if(query != null){
+          query.forEach(doc => {
+            if(Object.keys(latestMessageProvider).length == 0) {
+              setLatestMessageProvider(doc.data());
+            }
+          })
+        }
+      });
+    }
+  }
 
-    return (
-      <View style={styles(colors).container}>
+  async function setup(){
+    let thread = {};
+    await firestore()
+    .collection('USERS')
+    .doc(user.id)
+    .get().then(async querySnapshot => {
+      const data = querySnapshot.data();
+      thread = {
+        _id: querySnapshot.id,
+        name: '',
+        latestMessage: {
+          text: ''
+        },
+        ...data
+      };
+    });
+    checkForNotifications(); 
+    if(notifications == null){
+      setShowMessageNotification(false);
+    } else if (notifications.unreadMessage == true){
+      setShowMessageNotification(true);
+    }
+    if(Object.keys(latestMessage).length == 0 ) {
+      getLatestmessage(thread);
+    }
+  }
+
+  useEffect(() => {
+    setup();
+  }, [latestMessage]);
+
+  return (
+    <View style={styles(colors).container}>
+      <View style={styles(colors).content}>
         <Image 
             source={isDark? require('../media/images/logo-light.png') : require('../media/images/logo-dark.png')} 
             style={styles(colors).logo}
         />
+        <View style={styles(colors).stacks}>
+          <View style={styles(colors).buttonContainer}>
+            <FormButton
+              title='My Healthcare Team'
+              modeValue='contained'
+              onPress={() => navigation.push('Team')}
+            />
+          </View>
+          <View style={styles(colors).buttonContainer}>
+            <FormButton
+              title='My Resources'
+              modeValue='contained'
+              onPress={() => navigation.push('Resources')}
+            />
+          </View>
+        </View>
         {Boolean(showMessageNotification) && (
         <View style={styles(colors).notifications}>
           <View style={styles(colors).notificationTitleContainer}>
@@ -39,46 +122,77 @@ export default function HomeScreen({ navigation }) {
           </View>
           <Notification
             navigation={navigation}
-            text='My Team - Message'
+            text='My Healthcare Team - Message'
             link='Team'
           />
         </View>
         )}
-        <View style={styles(colors).stacks}>
-          <View style={styles(colors).buttonContainer}>
-            <FormButton
-              title='My Team'
-              modeValue='contained'
-              onPress={() => navigation.push('Team')}
-            />
+        <ScrollView style={styles(colors).newsScroll} persistentScrollbar={true} showsVerticalScrollIndicator={true}>
+        { Boolean(Object.keys(latestMessage).length > 0) && (
+          <View>
+            <View style={styles(colors).notificationTitleContainer}>
+              <Text style={styles(colors).notificationTitleText}>Announcements</Text>
+            </View>
+            <Card style={styles(colors).card}>
+              <Card.Content>
+                <Title style={styles(colors).cardSubTitle}>{latestMessage.title}</Title>
+                <Paragraph style={styles(colors).cardText}>The LDN Health Center</Paragraph>
+                <Divider style={styles(colors).divider}></Divider>
+                <Paragraph style={styles(colors).cardText}>{latestMessage.content}</Paragraph>
+                <Button style={styles(colors).cardView} onPress={() => Linking.openURL(latestMessage.link)}>View</Button>
+              </Card.Content>
+            </Card>
           </View>
-          <View style={styles(colors).buttonContainer}></View>
-            <FormButton
-              title='My Resources'
-              modeValue='contained'
-              onPress={() => navigation.push('Resources')}
-            />
-          </View>
+        )}
+        { Boolean(Object.keys(latestMessagePharmacy).length > 0) && (
+            <Card style={styles(colors).card}>
+              <Card.Content>
+                <Title style={styles(colors).cardSubTitle}>{latestMessagePharmacy.title}</Title>
+                <Paragraph style={styles(colors).cardText}>{pharmacyName}</Paragraph>
+                <Divider style={styles(colors).divider}></Divider>
+                <Paragraph style={styles(colors).cardText}>{latestMessagePharmacy.content}</Paragraph>
+                <Button style={styles(colors).cardView} onPress={() => Linking.openURL(latestMessagePharmacy.link)}>View</Button>
+              </Card.Content>
+            </Card>
+        )}
+        { Boolean(Object.keys(latestMessageProvider).length > 0) && (
+            <Card style={styles(colors).card}>
+              <Card.Content>
+                <Title style={styles(colors).cardSubTitle}>{latestMessageProvider.title}</Title>
+                <Paragraph style={styles(colors).cardText}>{providerName}</Paragraph>
+                <Divider style={styles(colors).divider}></Divider>
+                <Paragraph style={styles(colors).cardText}>{latestMessageProvider.content}</Paragraph>
+                <Button style={styles(colors).cardView} onPress={() => Linking.openURL(latestMessageProvider.link)}>View</Button>
+              </Card.Content>
+            </Card>
+        )}
+        </ScrollView>
       </View>
-    );
+    </View>
+  );
 }
 
 const styles = (colors) => StyleSheet.create({
   container: {
     backgroundColor: colors.background,
     flex: 1,
+  },
+  content: {
+    padding: 20,
+    // paddingBottom: height / 9,
+    width: '100%',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingBottom: height / 9,
-    paddingTop: height / 9,
+    flex: 1,
   },
   titleText: {
     fontSize: 24,
     marginBottom: 10
   },
   logo: {
-      width: width / 1.5,
-      height: width / 3,
+    width: width / 3,
+    height: width / 6,
+    alignSelf: 'flex-start',
+    marginBottom: 20,
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -94,5 +208,37 @@ const styles = (colors) => StyleSheet.create({
   notificationTitleText: {
     color: colors.text,
     fontSize: 20,
+    fontWeight: 'bold',
   },
+  newsScroll: {
+    flex: 1,
+  },
+  card: {
+    width: '100%',
+    backgroundColor: colors.backgroundShaded,
+    marginBottom: 10,
+  },
+  cardTitle: {
+    color: colors.text,
+  },
+  cardSubTitle: {
+    color: colors.accent,
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  cardText: {
+    color: colors.text,
+  },
+  cardView: {
+    alignSelf: 'flex-end',
+  },
+  divider: {
+    borderWidth: 1,
+    borderColor: colors.text,
+    marginTop: 5,
+    marginBottom: 5,    
+  },
+  stacks: {
+    marginBottom: 20,
+  }
 });
