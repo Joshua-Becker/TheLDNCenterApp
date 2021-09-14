@@ -33,7 +33,7 @@ export default function HomeScreen({ navigation }) {
         }
       })
     });
-    if(userInfo.pharmacyID != undefined){
+    if(userInfo.pharmacyID != undefined && userInfo.pharmacyID != ''){
       setPharmacyName(userInfo.pharmacyName);
       firestore()
       .collection('CAREGIVERS').doc(userInfo.pharmacyID).collection('ANNOUNCEMENTS').orderBy('date', 'asc').get().then( query => {
@@ -46,7 +46,7 @@ export default function HomeScreen({ navigation }) {
         }
       });
     }
-    if(userInfo.providerID != undefined){
+    if(userInfo.providerID != undefined && userInfo.providerID != ''){
       setProviderName(userInfo.providerName);
       firestore()
       .collection('CAREGIVERS').doc(userInfo.providerID).collection('ANNOUNCEMENTS').orderBy('date', 'asc').get().then( query => {

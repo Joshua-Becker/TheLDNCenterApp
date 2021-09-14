@@ -15,9 +15,9 @@ export default function FormScreen({ navigation }) {
         <View></View>
         <View>
             <View style={styles(colors).warningContainer}>
-                <Text style={styles(colors).warningTitle}>Warning!</Text>
+                <Text style={styles(colors).warningTitle}>Reset Password</Text>
                 <Text>
-                    For your security, resetting your password may result in deletion of all your LDN Center App messages.
+                    Enter your email below and press send email to begin the password reset process.
                 </Text>
             </View>
             <FormInput

@@ -147,7 +147,7 @@ export default function TeamScreen({ navigation }) {
           },
           ...data
         };
-        if(thread.pharmacyName == '' || thread.pharmacyName == undefined){
+        if((thread.pharmacyName == '' || thread.pharmacyName == undefined) && (thread.providerName == '' || thread.providerName == undefined)){
           navigation.navigate('AddTeam');
         }
         let decryptedText;

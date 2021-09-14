@@ -99,7 +99,7 @@ export default function AddTeamScreen({ navigation }) {
             }
 
         }
-        navigation.navigate('My Team');
+        navigation.navigate('TeamHome');
     }
     
     const getCaregivers = async () => {

@@ -109,19 +109,18 @@ export default function ChangeTeamScreen({ navigation }) {
           await group.remove(existingProvider);
         }
 
-        if(Object.keys(pharmacy).length > 0){
+        if(Object.keys(pharmacy).length > 0 && pharmacy.id != undefined){
           console.log('pharmacy: ', pharmacy.id);
           findTeamIdentity = await ethree.findUsers(pharmacy.id);
         }
-        if(Object.keys(provider).length > 0){
-          console.log('provider');
+        if(Object.keys(provider).length > 0 && provider.id != undefined){
+          console.log('provider: ', provider.id);
           findTeamIdentity = await ethree.findUsers(provider.id);
         }
-        if(Object.keys(pharmacy).length > 0 && Object.keys(provider).length > 0) {
+        if(Object.keys(pharmacy).length > 0 && pharmacy.id != undefined && Object.keys(provider).length > 0 && provider.id != undefined) {
           console.log('pharmacy and provider');
           findTeamIdentity = await ethree.findUsers([pharmacy.id, provider.id]);
         }
-        console.log(findTeamIdentity);
         await group.add(findTeamIdentity).catch((error)=>{console.log(error)});
         const encryptedEmail = await group.encrypt(user.email);
         const encryptedName = await group.encrypt(user.name);
@@ -148,8 +147,10 @@ export default function ChangeTeamScreen({ navigation }) {
         .catch(function(error) {
             console.error("Error saving post : ", error);
         });
+        console.log('User info set');
 
         await deleteMessages(firestore(), 50);
+        console.log('Messages deleted');
         if(previousPharmacy.id != pharmacy.id && pharmacy.id != undefined){
           await firestore()
           .collection('CAREGIVERS')
@@ -171,6 +172,7 @@ export default function ChangeTeamScreen({ navigation }) {
 
           auditLog(user.id, 'Changed pharmacy');
         }
+
         if(previousProvider.id != provider.id && provider.id != undefined){
           await firestore()
           .collection('CAREGIVERS')
@@ -227,7 +229,7 @@ export default function ChangeTeamScreen({ navigation }) {
     getPreviousTeam();
       Alert.alert(
           "Transferring Teams",
-          "Are you sure you want to transfer pharmacies and/or providers?",
+          "Leaving pharmacy/provider fields blank will remove you from your current pharmacy/provider. Are you sure you want to transfer pharmacies and/or providers?",
           [
             {
               text: "Cancel",

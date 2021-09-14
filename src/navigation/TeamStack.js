@@ -37,7 +37,7 @@ function TeamHome() {
     .collection('USERS')
     .doc(user.uid)
     .get()
-    const userInfoData = userInfoRaw.data()
+    const userInfoData = userInfoRaw.data();
     if((userInfoData.pharmacyName != '' && userInfoData.pharmacyName != undefined) || (userInfoData.providerName != '' && userInfoData.providerName != undefined)){
       setHasTeam(true)
     } else {
