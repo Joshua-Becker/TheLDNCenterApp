@@ -263,9 +263,6 @@ const styles = (colors) => StyleSheet.create({
     backgroundColor: colors.background,
     flex: 1,
   },
-  scrollContainer: {
-
-  },
   content: {
     width: '100%',
     padding: 20,

@@ -7,6 +7,7 @@ const { width, height } = Dimensions.get('screen');
 
 export default function NavFooter({ navigation, destA, destB, destC, iconA, iconB, iconC, ...otherStyles}) {
   const {colors, isDark} = useTheme();
+  const iconSize = Platform.OS === 'ios' ? 35: 25;
   return (
     <View style={styles(colors).container}>
         <IconButton 
@@ -18,7 +19,7 @@ export default function NavFooter({ navigation, destA, destB, destC, iconA, icon
             style={destA != '' ? styles(colors).icon : styles(colors).iconCurrent} 
             icon={iconA} 
             color='white' 
-            size={35} 
+            size={iconSize} 
             {...otherStyles}/>
         <IconButton 
             onPress={() => {
@@ -29,7 +30,7 @@ export default function NavFooter({ navigation, destA, destB, destC, iconA, icon
             style={destB != '' ? styles(colors).icon : styles(colors).iconCurrent}  
             icon={iconB}
             color='white' 
-            size={35} 
+            size={iconSize} 
             {...otherStyles}/>
         <IconButton 
             onPress={() => {
@@ -40,7 +41,7 @@ export default function NavFooter({ navigation, destA, destB, destC, iconA, icon
             style={destC != '' ? styles(colors).icon : styles(colors).iconCurrent}  
             icon={iconC} 
             color='white' 
-            size={35} 
+            size={iconSize} 
             {...otherStyles}/>
     </View>
   );
@@ -57,8 +58,8 @@ const styles = (colors) => StyleSheet.create({
         flex: 1,
         margin: 0,
         //Bottom: Platform.OS === 'ios' ? 25 : 0,
-        paddingBottom: 10,
-        height: 70,
+        paddingBottom: Platform.OS === 'ios' ? 10: 0,
+        height: Platform.OS === 'ios' ? 70: 50,
         borderRadius: 0,
     },
     iconCurrent: {
@@ -66,7 +67,7 @@ const styles = (colors) => StyleSheet.create({
         backgroundColor: colors.accent,
         borderRadius: 0,
         margin: 0,
-        paddingBottom: 10,
-        height: 70,
+        paddingBottom: Platform.OS === 'ios' ? 10: 0,
+        height: Platform.OS === 'ios' ? 70: 50,
     }
 });

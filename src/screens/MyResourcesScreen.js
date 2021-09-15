@@ -18,6 +18,7 @@ export default function MyResourcesScreen({ navigation }) {
     const [toggleSavedResources, setToggleSavedResources] = useState(false);
     const [toggleTeamResources, setToggleTeamResources] = useState(false);
     const user = auth().currentUser;
+    const dropDownChevronSize = 35;
 
     function handleToggle(toggleType) {
         if(toggleType == 'Saved') {
@@ -108,7 +109,7 @@ export default function MyResourcesScreen({ navigation }) {
                         toggleTeamResources ? 
                         <IconButton
                             icon='chevron-down'
-                            size={50}
+                            size={dropDownChevronSize}
                             color='#5DA8E7' 
                             onPress={() => handleToggle('Team')}
                             style={styles(colors).dropdownChevron}
@@ -116,7 +117,7 @@ export default function MyResourcesScreen({ navigation }) {
                         :
                         <IconButton
                             icon='chevron-right'
-                            size={50}
+                            size={dropDownChevronSize}
                             color='#5DA8E7' 
                             onPress={() => handleToggle('Team')}
                             style={styles(colors).dropdownChevron}
@@ -162,7 +163,7 @@ export default function MyResourcesScreen({ navigation }) {
                         toggleSavedResources ? 
                         <IconButton
                             icon='chevron-down'
-                            size={50}
+                            size={dropDownChevronSize}
                             color='#5DA8E7' 
                             onPress={() => handleToggle('Saved')}
                             style={styles(colors).dropdownChevron}
@@ -170,7 +171,7 @@ export default function MyResourcesScreen({ navigation }) {
                         :
                         <IconButton
                             icon='chevron-right'
-                            size={50}
+                            size={dropDownChevronSize}
                             color='#5DA8E7' 
                             onPress={() => handleToggle('Saved')}
                             style={styles(colors).dropdownChevron}
@@ -260,7 +261,7 @@ const styles = (colors) => StyleSheet.create({
         color: 'white'
     },
     title: {
-        fontSize: 25,
+        fontSize: 18,
         color: 'white',
         textAlign: 'center',
     },
@@ -281,5 +282,6 @@ const styles = (colors) => StyleSheet.create({
         paddingLeft: 20,
     },
     dropdownChevron: {
+
     }
 });

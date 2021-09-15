@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { ScrollView, View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { ScrollView, View, StyleSheet, Text, TouchableOpacity, Platform } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import { Divider, Checkbox, Card, TextInput } from 'react-native-paper';
 import FormComments from '../components/FormComments';
@@ -627,11 +627,11 @@ const styles = (colors) => StyleSheet.create({
         // justifyContent: 'space-between',
     },
     disclaimer: {
+        flex: 1, 
+        flexWrap: 'wrap',
         fontSize: 18,
         padding: 10,
-        lineHeight: 20,
         color: colors.notificationText,
-        width: 270,
         fontStyle: 'italic',
     },
     notificationIcon: {
@@ -651,7 +651,7 @@ const styles = (colors) => StyleSheet.create({
         backgroundColor: colors.notificationBackground,
         borderRadius: 5,
         marginBottom: 10,
-        flexDirection: 'row',
+        flexDirection: 'row'
     },
     symptomBox: {
         flexDirection: 'row',
@@ -666,7 +666,6 @@ const styles = (colors) => StyleSheet.create({
         maxWidth: 200,
     },
     formContainer: {
-        margin: 20,
         padding: 20,
     },
     form: {

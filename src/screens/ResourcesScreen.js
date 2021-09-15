@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { Card, Title, Paragraph, Divider } from 'react-native-paper';
 import { AuthContext } from '../navigation/AuthProvider';
 import {useTheme} from '../navigation/ThemeProvider';
@@ -208,7 +208,7 @@ export default function ResourcesScreen({ navigation }) {
           textStyle={styles(colors).spinnerTextStyle}
           color={'white'}
         />
-        <View style={styles(colors).content}>
+        <ScrollView style={styles(colors).content}>
         <Card style={styles(colors).card}>
               <Card.Title
                 title={'Filter Resources'}
@@ -276,15 +276,15 @@ export default function ResourcesScreen({ navigation }) {
               </Card.Content>
             </Card>
             <View style={styles(colors).stacks}>
-                    <View style={styles(colors).buttonContainer}>
-                        <FormButton
-                        title='Search'
-                        modeValue='contained'
-                        onPress={() => searchResources()}
-                        />
-                    </View>
+                <View style={styles(colors).buttonContainer}>
+                    <FormButton
+                    title='Search'
+                    modeValue='contained'
+                    onPress={() => searchResources()}
+                    />
                 </View>
-        </View>
+            </View>
+        </ScrollView>
         <NavFooter
           navigation={navigation}
           destA='About'
@@ -376,5 +376,8 @@ const styles = (colors) => StyleSheet.create({
         backgroundColor: colors.formBackground,
         borderRadius: 5,
         padding: 10,
+    },
+    stacks: {
+        marginBottom: 40,
     }
 });
