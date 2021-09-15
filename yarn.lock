@@ -8603,14 +8603,6 @@ react-native-view-shot@3.1.2:
   resolved "https://registry.npmjs.org/react-native-view-shot/-/react-native-view-shot-3.1.2.tgz"
   integrity sha512-9u9fPtp6a52UMoZ/UCPrCjKZk8tnkI9To0Eh6yYnLKFEGkRZ7Chm6DqwDJbYJHeZrheCCopaD5oEOnRqhF4L2Q==
 
-react-native-virgil-crypto@^0.6.1:
-  version "0.6.1"
-  resolved "https://registry.npmjs.org/react-native-virgil-crypto/-/react-native-virgil-crypto-0.6.1.tgz"
-  integrity sha512-Ww7osI/NMfFskP6VMhm2YjKg6a1x7+qyZPJUsRdIPBejgubFdsB5Og5ldkYCSy45bGOHWAdD097m3/YSGgGtYA==
-  dependencies:
-    "@virgilsecurity/crypto-types" "1.1.1"
-    buffer "^5.4.3"
-
 react-native@^0.63.3:
   version "0.63.4"
   resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.63.4.tgz#2210fdd404c94a5fa6b423c6de86f8e48810ec36"

@@ -33,7 +33,7 @@ export default function LoginScreen({ navigation }) {
           <TouchableOpacity style={Platform.OS === 'ios' ? styles.signUpBoxIOS : styles.signUpBox} onPress={() => navigation.navigate('Signup')}>
             <Text 
             style={styles.signUpText} 
-            >Don't have an account? Sign up</Text>
+            >Sign up</Text>
             <IconButton
                   icon='arrow-right'
                   size={20}
