@@ -1,0 +1,237 @@
+diff --git a/src/navigation/AuthProvider.js b/src/navigation/AuthProvider.js
+index 956f1e6..8c1bffa 100644
+--- a/src/navigation/AuthProvider.js
++++ b/src/navigation/AuthProvider.js
+@@ -17,6 +17,9 @@ export const AuthProvider = ({ fcmToken, children }) => {
+   const initializeFunction = () => getToken().then(result => result.data.token);
+   const delay = ms => new Promise(res => setTimeout(res, ms));
+ 
++  function getFormType(condition){
++    return '';
++  }
+ 
+   function ethreeDerivedToStr(array) {
+     let out = '';
+@@ -58,6 +61,7 @@ export const AuthProvider = ({ fcmToken, children }) => {
+           const group = await eThree.createGroup(currentUser.uid);
+           const encryptedName = await group.encrypt(displayName);
+           const encryptedEmail = await group.encrypt(currentUser.email);
++          const formType = getFormType(condition);
+           firestore()
+           .collection('USERS')
+           .doc(currentUser.uid)
+@@ -74,6 +78,8 @@ export const AuthProvider = ({ fcmToken, children }) => {
+               comments: comments,
+               token: fcmToken,
+             },
++            formType: formType,
++            formInterval: 14,
+             formReminders: 'on',
+             note: 'Saved Data',
+           });
+diff --git a/src/screens/FormScreen.js b/src/screens/FormScreen.js
+index dfe4c5c..10325da 100644
+--- a/src/screens/FormScreen.js
++++ b/src/screens/FormScreen.js
+@@ -13,59 +13,10 @@ import  DropDown  from  'react-native-paper-dropdown';
+ export default function FormScreen({ navigation }) {
+     let {colors, isDark} = useTheme();
+     const [comments, setComments] = useState('');
++    const [formSymptoms, setFormSymptoms] = useState([]);
+     const { submitForm } = useContext(AuthContext);
+-    const [open, setOpen] = useState({
+-        'anxiety': false,
+-        'depression': false,
+-        'fatigue': false,
+-        'memory': false,
+-        'headaches': false,
+-        'nausea': false,
+-        'constipation': false,
+-        'heartburn': false,
+-        'swelling': false,
+-        'insomnia': false,
+-        'pain': false,
+-        'neuropathy': false,
+-        'aches': false,
+-        'eczema': false,
+-        'rash': false,
+-        'drySkinHair': false,
+-        'acne': false,
+-        'brainFog': false,
+-        'irregularPeriods': false,
+-        'dizziness': false,
+-        'inflammation': false,
+-        'pmsSymptoms': false,
+-        'weightControl': false,
+-        'vividDreams': false,
+-    });
+-    const [symptoms, setSymptoms] = useState({
+-        'anxiety': '0',
+-        'depression': '0',
+-        'fatigue': '0',
+-        'memory': '0',
+-        'headaches': '0',
+-        'nausea': '0',
+-        'constipation': '0',
+-        'heartburn': '0',
+-        'swelling': '0',
+-        'insomnia': '0',
+-        'pain': '0',
+-        'neuropathy': '0',
+-        'aches': '0',
+-        'eczema': '0',
+-        'rash': '0',
+-        'drySkinHair': '0',
+-        'acne': '0',
+-        'brainFog': '0',
+-        'irregularPeriods': '0',
+-        'dizziness': '0',
+-        'inflammation': '0',
+-        'pmsSymptoms': '0',
+-        'weightControl': '0',
+-        'vividDreams': '0',
+-    });
++    const [open, setOpen] = useState();
++    const [symptoms, setSymptoms] = useState();
+     const [numbers, setNumbers] = useState([
+         {label: '1', value: '1'},
+         {label: '2', value: '2'},
+@@ -93,6 +44,55 @@ export default function FormScreen({ navigation }) {
+         }));
+     }
+ 
++    function camelize(str) {
++        return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, index) {
++          if (+match === 0) return ""; // or if (/\s+/.test(match)) for white spaces
++          return index === 0 ? match.toLowerCase() : match.toUpperCase();
++        });
++    }
++
++    function getPatientForm(){
++        var openHolder = {};
++        var symptomsHolder = {};
++        var formSymptomsHolder = [
++            {'title': 'Anxiety', 'var': camelize('Anxiety')},
++            {'title': 'Depression', 'var': camelize('Despression')},
++            {'title': 'Fatigue', 'var': camelize('Fatigue')},
++            {'title': 'Memory', 'var': camelize('Memory')},
++            {'title': 'Headaches', 'var': camelize('Headaches')},
++            {'title': 'Nausea', 'var': camelize('Nausea')},
++            {'title': 'Constipation', 'var': camelize('Constipation')},
++            {'title': 'Heartburn', 'var': camelize('Heartburn')},
++            {'title': 'Swelling', 'var': camelize('Swelling')},
++            {'title': 'Insomnia', 'var': camelize('Insomnia')},
++            {'title': 'Pain', 'var': camelize('Pain')},
++            {'title': 'Neuropathy', 'var': camelize('Neuropathy')},
++            {'title': 'Aches', 'var': camelize('Aches')},
++            {'title': 'Eczema', 'var': camelize('Eczema')},
++            {'title': 'Rash', 'var': camelize('Rash')},
++            {'title': 'Dry Skin/Hair', 'var': 'drySkinHair'},
++            {'title': 'Acne', 'var': camelize('Acne')},
++            {'title': 'Brain Fog', 'var': camelize('Brain Fog')},
++            {'title': 'Irregular Periods', 'var': camelize('Irregular Periods')},
++            {'title': 'Dizziness', 'var': camelize('Dizziness')},
++            {'title': 'Inflammation', 'var': camelize('Inflammation')},
++            {'title': 'PMS Symptoms', 'var': 'pmsSymptoms'},
++            {'title': 'Weight Control', 'var': camelize('Weight Control')},
++            {'title': 'Vivid Dreams', 'var': camelize('Vivid Dreams')},
++        ];
++        setFormSymptoms(formSymptomsHolder);
++        for(const item of formSymptoms){
++            openHolder[item.var] = false;
++            symptomsHolder[item.var] = '0';
++        }
++        setSymptoms(symptomsHolder);
++        setOpen(openHolder);
++    }
++
++    useEffect(() => {
++        getPatientForm();
++    },[]);
++
+     return (
+     <View style={styles(colors).container}>
+         <ScrollView style={styles(colors).form} contentContainerStyle={styles(colors).formContainer}>
+@@ -106,7 +106,31 @@ export default function FormScreen({ navigation }) {
+             <View style={styles(colors).formQuestions}>
+                 <Card style={styles(colors).cards}>
+                     <Text style={styles(colors).cardTitle}>Symptoms</Text>
+-                    <View style={styles(colors).symptomBox}>
++                    {
++                    formSymptoms.map(formItem => {
++                        <View style={styles(colors).symptomBox}>
++                            <Text style={styles(colors).symptomText}>formItem.title</Text>
++                            <View style={styles(colors).dropdown}>
++                                <DropDown
++                                    label={'0'}
++                                    defaultValue={'0'}
++                                    mode={'outlined'}
++                                    value={symptoms[formItem.val]}
++                                    setValue={event => handleChange(formItem.var,event)}
++                                    list={numbers}
++                                    visible={open[formItem.val]}
++                                    dropDownContainerMaxHeight={300}
++                                    showDropDown={() =>  handleDropdown(formItem.var, true)}
++                                    onDismiss={() =>  handleDropdown(formItem.var, false)}
++                                    inputProps={{
++                                        right:  <TextInput.Icon  name={'menu-down'} style={styles(colors).dropdownIcon} size={30} />,
++                                    }}
++                                />
++                            </View>
++                        </View>
++                    })
++                    }
++                    {/* <View style={styles(colors).symptomBox}>
+                         <Text style={styles(colors).symptomText}>Anxiety</Text>
+                         <View style={styles(colors).dropdown}>
+                             <DropDown
+@@ -585,7 +609,7 @@ export default function FormScreen({ navigation }) {
+                                 }}
+                             />
+                         </View>
+-                    </View>
++                    </View> */}
+                 </Card>
+                 <FormComments
+                     labelName='Other comments or side effects?'
+diff --git a/src/screens/TeamScreen.js b/src/screens/TeamScreen.js
+index dfe0300..9e19480 100644
+--- a/src/screens/TeamScreen.js
++++ b/src/screens/TeamScreen.js
+@@ -103,7 +103,7 @@ export default function TeamScreen({ navigation }) {
+ 
+   }
+ 
+-  async function showFormCheck() {
++  async function showFormCheck(formInterval) {
+     const latestForm = await firestore()
+     .collection('USERS')
+     .doc(user.id)
+@@ -118,8 +118,10 @@ export default function TeamScreen({ navigation }) {
+     }
+     const latestFormDate = (latestForm.docs[0].data()).date
+     const timeSinceLastEntry = dateNow - latestFormDate
++    const dayInMS = 86400000;
++    const formIntervalMs = formInterval * dayInMS;
+     // Check if 2 weeks have elapsed since the last form entry in milliseconds
+-    if(timeSinceLastEntry > 1209600000) {
++    if(timeSinceLastEntry > formInterval) {
+       setShowForm(true)
+       //console.log('TEST TRUE:' + timeSinceLastEntry )
+     } else {
+@@ -132,7 +134,6 @@ export default function TeamScreen({ navigation }) {
+    */
+   useEffect(() => {
+     checkForNotifications();
+-    showFormCheck();
+     showGraphCheck();
+     const unsubscribe = firestore()
+       .collection('USERS')
+@@ -150,6 +151,7 @@ export default function TeamScreen({ navigation }) {
+         if((thread.pharmacyName == '' || thread.pharmacyName == undefined) && (thread.providerName == '' || thread.providerName == undefined)){
+           navigation.navigate('AddTeam');
+         }
++        showFormCheck(thread.formInterval);
+         let decryptedText;
+         try {
+           if(thread.latestMessage.text == null || thread.latestMessage.text == undefined || thread.latestMessage.text == '') {

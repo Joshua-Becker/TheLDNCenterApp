@@ -103,7 +103,7 @@ export default function TeamScreen({ navigation }) {
 
   }
 
-  async function showFormCheck() {
+  async function showFormCheck(formInterval) {
     const latestForm = await firestore()
     .collection('USERS')
     .doc(user.id)
@@ -118,8 +118,10 @@ export default function TeamScreen({ navigation }) {
     }
     const latestFormDate = (latestForm.docs[0].data()).date
     const timeSinceLastEntry = dateNow - latestFormDate
+    const dayInMS = 86400000;
+    const formIntervalMs = formInterval * dayInMS;
     // Check if 2 weeks have elapsed since the last form entry in milliseconds
-    if(timeSinceLastEntry > 1209600000) {
+    if(timeSinceLastEntry > formInterval) {
       setShowForm(true)
       //console.log('TEST TRUE:' + timeSinceLastEntry )
     } else {
@@ -132,7 +134,6 @@ export default function TeamScreen({ navigation }) {
    */
   useEffect(() => {
     checkForNotifications();
-    showFormCheck();
     showGraphCheck();
     const unsubscribe = firestore()
       .collection('USERS')
@@ -150,6 +151,7 @@ export default function TeamScreen({ navigation }) {
         if((thread.pharmacyName == '' || thread.pharmacyName == undefined) && (thread.providerName == '' || thread.providerName == undefined)){
           navigation.navigate('AddTeam');
         }
+        showFormCheck(thread.formInterval);
         let decryptedText;
         try {
           if(thread.latestMessage.text == null || thread.latestMessage.text == undefined || thread.latestMessage.text == '') {

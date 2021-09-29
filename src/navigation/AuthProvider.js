@@ -17,6 +17,9 @@ export const AuthProvider = ({ fcmToken, children }) => {
   const initializeFunction = () => getToken().then(result => result.data.token);
   const delay = ms => new Promise(res => setTimeout(res, ms));
 
+  function getFormType(condition){
+    return '';
+  }
 
   function ethreeDerivedToStr(array) {
     let out = '';
@@ -58,6 +61,7 @@ export const AuthProvider = ({ fcmToken, children }) => {
           const group = await eThree.createGroup(currentUser.uid);
           const encryptedName = await group.encrypt(displayName);
           const encryptedEmail = await group.encrypt(currentUser.email);
+          const formType = getFormType(condition);
           firestore()
           .collection('USERS')
           .doc(currentUser.uid)
@@ -74,6 +78,8 @@ export const AuthProvider = ({ fcmToken, children }) => {
               comments: comments,
               token: fcmToken,
             },
+            formType: formType,
+            formInterval: 14,
             formReminders: 'on',
             note: 'Saved Data',
           });
