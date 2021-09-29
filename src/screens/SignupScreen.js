@@ -1,8 +1,9 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { View, StyleSheet, Text, ScrollView } from 'react-native';
 import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
 import { AuthContext } from '../navigation/AuthProvider';
+import drugList from '../components/DrugList.json';
 import {Picker} from '@react-native-picker/picker';
 import FormComments from '../components/FormComments';
 import { Divider } from 'react-native-paper';
@@ -10,10 +11,13 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import useStatusBar from '../utils/useStatusBar';
 import { IconButton } from 'react-native-paper';
 import {useTheme} from '../navigation/ThemeProvider';
+import DropDownPicker from 'react-native-dropdown-picker';
+import { setSourceMapRange } from 'typescript';
 
 export default function SignupScreen({ navigation }) {
   const {colors, isDark} = useTheme();
   useStatusBar();
+  const [page, setPage] = useState(1);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -26,6 +30,9 @@ export default function SignupScreen({ navigation }) {
   const [medications, setMedications] = useState('');
   const [comments, setComments] = useState('');
   const [isLoading, setIsLoding] = useState(false);
+  const [openMeds, setOpenMeds] = useState(false);
+  const [medValue, setMedValue] = useState(null);
+  const [medItems, setMedItems] = useState(drugList['data']);
 
   function registerFilter(firstName, lastName, phoneNumber, email, password, condition, painLevel, symptomTimeline, medications, comments){
     if(password.length < 8){
@@ -73,9 +80,60 @@ export default function SignupScreen({ navigation }) {
     }
     setPhone(newText);
   }
+  
+  // useEffect(() => {
+  //   setIsLoding(false);
+  //   console.log(drugList['data'][0]);
+  // }, []);
 
   return (
-    <ScrollView style={styles(colors).container}>
+    <View style={styles(colors).container}>
+      { page == 2 && (
+      <View style={styles(colors).page2}>
+        <Text style={styles(colors).formHeader}>Please select other medications you are taking. If you cannot find your medication then please list it in the comment section.</Text>
+        <DropDownPicker
+              open={openMeds}
+              value={medValue}
+              items={medItems}
+              setOpen={setOpenMeds}
+              setValue={setMedValue}
+              setItems={setMedItems}
+              multiple={true}
+              searchable={true}
+              listMode="FLATLIST"
+              containerStyle={styles(colors).medications} 
+          />
+        <Divider style={styles(colors).divider} />
+        <View style={styles(colors).commentsContainer}>
+          <Text style={styles(colors).formHeader}>Other Comments</Text>
+          <FormComments
+            labelName='Comments'
+            value={comments}
+            onChangeText={comment => setComments(comment)}
+          />
+        </View>
+        <FormButton
+            title='Go Back'
+            modeValue='contained'
+            labelStyle={styles(colors).signUpButtonLabel}
+            onPress={() => {
+                setPage(1);              }
+            }
+          />
+        <FormButton
+            title='Sign Up'
+            modeValue='contained'
+            labelStyle={styles(colors).signUpButtonLabel}
+            onPress={() => {
+              setIsLoding(true);
+              registerFilter(firstName, lastName, phoneNumber, email, password, condition, painLevel, symptomTimeline, retMedications, comments);
+              }
+            }
+          />
+      </View>
+      )}
+    { page == 1 && (
+    <ScrollView style={styles(colors).page1}>
       <Spinner
           visible={isLoading}
           textContent={'Loading...'}
@@ -153,42 +211,33 @@ export default function SignupScreen({ navigation }) {
           // autoCapitalize='none'
           onChangeText={timeline => setSymptomTimeline(timeline)}
         />
-        <Divider style={styles(colors).divider} />
-        <Text style={styles(colors).formHeader}>Please list other medications you are taking and for how long</Text>
-        <View style={styles(colors).commentsContainer}>
-          <FormComments
-            labelName='Medications'
-            value={medications}
-            onChangeText={medicationList => setMedications(medicationList)}
-          />
-          <Divider style={styles(colors).divider} />
-          <Text style={styles(colors).formHeader}>Other Comments</Text>
-          <FormComments
-            labelName='Comments'
-            value={comments}
-            onChangeText={comment => setComments(comment)}
-          />
-        </View>
         <View style={styles(colors).signUpButtonContainer}>
           <FormButton
-            title='Sign Up'
+            title='Next'
             modeValue='contained'
             labelStyle={styles(colors).signUpButtonLabel}
             onPress={() => {
-                setIsLoding(true);
-                registerFilter(firstName, lastName, phoneNumber, email, password, condition, painLevel, symptomTimeline, medications, comments);
-              }
+              setPage(2);
+            }
             }
           />
         </View>
       </View>
     </ScrollView>
+    )}
+  </View>
   );
 }
 
 const styles = (colors) => StyleSheet.create({
   container: {
     backgroundColor: colors.background,
+    flex: 1,
+  },
+  page2: {
+    flex: 1,
+    justifyContent: 'center',
+    padding: 20,
   },
   commentsContainer: {
     marginLeft: 5,
@@ -269,4 +318,9 @@ const styles = (colors) => StyleSheet.create({
     right: '10%',
     color: '#000000',
   },
+  medications: {
+    marginTop: 20,
+    width: '95%',
+    alignSelf: 'center',
+  }
 });
