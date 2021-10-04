@@ -24,7 +24,7 @@ export default function GetCYJScreen({ navigation }) {
 
     async function loginUser() {
         console.log("Logging in...");
-        const siteUrl = 'https://tlhc-staging.cloudaccess.host';
+        const siteUrl = 'https://theldnhealthcenter.com'; //'https://tlhc-staging.cloudaccess.host';
         const loginData = {
           username: email,
           password: password
@@ -69,7 +69,7 @@ export default function GetCYJScreen({ navigation }) {
     async function getData(){
         setLoading(true);
         console.log(token);
-        const PROFILE = 'https://tlhc-staging.cloudaccess.host/wp-json/cyj/v1/all';
+        const PROFILE = 'https://theldnhealthcenter.com/wp-json/cyj/v1/all'; // 'https://tlhc-staging.cloudaccess.host/wp-json/cyj/v1/all';
         fetch(PROFILE, {
             method: 'GET',
             headers: {

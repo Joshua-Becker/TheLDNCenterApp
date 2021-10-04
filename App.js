@@ -4,6 +4,10 @@ import {fcmService} from './src/utils/FCMService';
 import {localNotificationService} from './src/utils/LocalNotificationService';
 import {YellowBox} from 'react-native';
 
+if (true) {
+  console.log = () => {};
+}
+
 export default function App() {
   const [fcmToken, setToken] = useState(null);
 
