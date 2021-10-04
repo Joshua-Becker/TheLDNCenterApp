@@ -5,12 +5,14 @@ import firestore from '@react-native-firebase/firestore';
 import { EThree } from '@virgilsecurity/e3kit-native';
 import functions from '@react-native-firebase/functions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { min } from 'moment';
 
 export const AuthContext = createContext({});
 
 
 export const AuthProvider = ({ fcmToken, children }) => {
   const [user, setUser] = useState(null);
+  const [userInfo, setUserInfo] = useState(null);
   const [notifications, setNotifications] = useState(null);
   const [ethree, setEthree] = useState(null);
   const getToken = functions().httpsCallable('getVirgilJwt');
@@ -48,6 +50,24 @@ export const AuthProvider = ({ fcmToken, children }) => {
       action: message,
     });
   }
+
+  async function getUserInfo(){
+    console.log('TESTING:', user.uid);
+    firestore()
+      .collection('USERS')
+      .doc(user.uid)
+      .get()
+      .then(querySnapshot => {
+        const data = querySnapshot.data();
+        setUserInfo(data);
+      });
+  }
+
+  useEffect(() => {
+    if(user?.uid){
+        getUserInfo();
+    }
+},[user]);
 
   async function addNewUser(userExists, newUser, backupPassword, displayName = '', phoneNumber = '', condition = '', painLevel = '', symptomTimeline = '', medications = '', comments = '') {
     const currentUser = newUser.toJSON();
@@ -310,6 +330,7 @@ export const AuthProvider = ({ fcmToken, children }) => {
       value={{
         user,
         setUser,
+        userInfo,
         ethree,
         notifications,
         setNotifications,
@@ -335,6 +356,7 @@ export const AuthProvider = ({ fcmToken, children }) => {
                   addNewUser(true, userCreds.user, userCreds.user.uid); //backupPassword
                 });
               auditLog(userCreds.user.uid, 'Successfully logged in');
+              // getUserInfo();
               });
             })
             .catch( function(error) {

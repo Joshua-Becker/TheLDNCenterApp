@@ -7,6 +7,7 @@ import { AuthContext } from '../navigation/AuthProvider';
 import useStatusBar from '../utils/useStatusBar';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { ImageBackground } from 'react-native';
+import PushNotification from "react-native-push-notification";
 
 const { width, height } = Dimensions.get('screen');
 
@@ -17,7 +18,15 @@ export default function LoginScreen({ navigation }) {
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
+    function createNotificationChannel(){
+      PushNotification.createChannel({
+        channelId: 'login-channel',
+        channelName: 'Login Channel',
+      });
+    }
+
     useEffect(() => {
+      createNotificationChannel();
       setIsLoading(false);
       return () => setIsLoading(false);
     }, []);

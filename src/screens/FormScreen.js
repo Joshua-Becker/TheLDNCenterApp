@@ -15,7 +15,7 @@ export default function FormScreen({ navigation }) {
     let {colors, isDark} = useTheme();
     const [comments, setComments] = useState('');
     const [formSymptoms, setFormSymptoms] = useState([]);
-    const { submitForm } = useContext(AuthContext);
+    const { submitForm, userInfo } = useContext(AuthContext);
     const [open, setOpen] = useState({});
     const [symptoms, setSymptoms] = useState({});
     const [numbers, setNumbers] = useState([
@@ -53,6 +53,7 @@ export default function FormScreen({ navigation }) {
     }
 
     function getPatientForm(){
+        console.log(userInfo.formType);
         var openHolder = {};
         var symptomsHolder = {};
         var formSymptomsHolder = [
@@ -94,7 +95,6 @@ export default function FormScreen({ navigation }) {
         if(Object.keys(symptoms).length == 0){
             getPatientForm();
         }
-        console.log(JSON.stringify(open));
     },[formSymptoms]);
 
     return (

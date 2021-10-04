@@ -8,6 +8,7 @@ import {useTheme} from '../navigation/ThemeProvider';
 import { Card, Title, Paragraph, Divider, Button } from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
+import PushNotification from "react-native-push-notification";
 
 const { width, height } = Dimensions.get('screen');
 
@@ -16,6 +17,7 @@ export default function HomeScreen({ navigation }) {
     const {colors, isDark} = useTheme();
 
     const { notifications, checkForNotifications } = useContext(AuthContext);
+    const [showForm, setShowForm] = useState(false);
     const [showMessageNotification, setShowMessageNotification] = useState(false);
     const [latestMessage, setLatestMessage] = useState({});
     const [latestMessagePharmacy, setLatestMessagePharmacy] = useState({});
@@ -61,6 +63,33 @@ export default function HomeScreen({ navigation }) {
     }
   }
 
+  async function showFormCheck(formInterval) {
+    const latestForm = await firestore()
+    .collection('USERS')
+    .doc(user.id)
+    .collection('FORMS')
+    .orderBy('date', 'desc')
+    .limit(1)
+    .get();
+    const dateNow = new Date().getTime()
+    if(latestForm.docs.length == 0){
+      setShowForm(true)
+      return
+    }
+    const latestFormDate = (latestForm.docs[0].data()).date
+    const timeSinceLastEntry = dateNow - latestFormDate
+    const dayInMS = 86400000;
+    const formIntervalMs = formInterval * dayInMS;
+    // Check if 2 weeks have elapsed since the last form entry in milliseconds
+    if(timeSinceLastEntry > formInterval) {
+      setShowForm(true)
+      //console.log('TEST TRUE:' + timeSinceLastEntry )
+    } else {
+      setShowForm(false)
+      //console.log('TEST FALSE:' + timeSinceLastEntry)
+    }
+  }
+
   async function setup(){
     let thread = {};
     await firestore()
@@ -76,6 +105,7 @@ export default function HomeScreen({ navigation }) {
         },
         ...data
       };
+      showFormCheck(thread.formInterval);
     });
     checkForNotifications(); 
     if(notifications == null){
@@ -88,9 +118,20 @@ export default function HomeScreen({ navigation }) {
     }
   }
 
+  function handleNotification(){
+    PushNotification.localNotification({
+      channelId: 'login-channel',
+      title: 'Health Center',
+      message: 'Fill out form reminder',
+    });
+  }
+
   useEffect(() => {
     setup();
-  }, [latestMessage]);
+    if(showForm){
+      handleNotification();
+    }
+  }, [latestMessage, showForm]);
 
   return (
     <View style={styles(colors).container}>
@@ -115,18 +156,25 @@ export default function HomeScreen({ navigation }) {
             />
           </View>
         </View>
-        {Boolean(showMessageNotification) && (
         <View style={styles(colors).notifications}>
-          <View style={styles(colors).notificationTitleContainer}>
-            <Text style={styles(colors).notificationTitleText}>Notifications</Text>
-          </View>
+        <View style={styles(colors).notificationTitleContainer}>
+          <Text style={styles(colors).notificationTitleText}>Notifications</Text>
+        </View>
+        {Boolean(showMessageNotification) && (
           <Notification
             navigation={navigation}
             text='My Healthcare Team - Message'
             link='Team'
           />
-        </View>
         )}
+        {showForm &&
+          <Notification
+          navigation={navigation}
+          text='Fill out form'
+          link='Form'
+          />
+        }
+        </View>
         <ScrollView style={styles(colors).newsScroll} persistentScrollbar={true} showsVerticalScrollIndicator={true}>
         { Boolean(Object.keys(latestMessage).length > 0) && (
           <View>

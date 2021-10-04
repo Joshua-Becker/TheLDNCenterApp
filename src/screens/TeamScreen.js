@@ -219,7 +219,7 @@ export default function TeamScreen({ navigation }) {
                 {showForm &&
                 <Notification
                 navigation={navigation}
-                text='Fill out biweekly form'
+                text='Fill out form'
                 link='Form'
               />
                 }
