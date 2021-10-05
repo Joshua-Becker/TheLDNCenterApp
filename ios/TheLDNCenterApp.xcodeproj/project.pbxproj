@@ -15,6 +15,7 @@
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* theldncenterappTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* theldncenterappTests.m */; };
+		3264A855270CECA20087379B /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 008F07F21AC5B25A0029DE68 /* main.jsbundle */; };
 		326E410525A7901A00672487 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 326E410425A7901A00672487 /* GoogleService-Info.plist */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		B31C0DA8C901FD6AE41B0830 /* libPods-theldncenterapp-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 35F51E33648F3ACBE9303EA1 /* libPods-theldncenterapp-tvOSTests.a */; };
@@ -55,7 +56,7 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = theldncenterapp/main.m; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* theldncenterapp-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "theldncenterapp-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* theldncenterapp-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "theldncenterapp-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		326E410425A7901A00672487 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		326E410425A7901A00672487 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Documents/Work/LDN/apps/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		35F51E33648F3ACBE9303EA1 /* libPods-theldncenterapp-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-theldncenterapp-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		36CDB9A7AE2211959A3B3B5A /* Pods-theldncenterapp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-theldncenterapp.release.xcconfig"; path = "Target Support Files/Pods-theldncenterapp/Pods-theldncenterapp.release.xcconfig"; sourceTree = "<group>"; };
 		383BCD47B007C70BF13C3FCA /* Pods-theldncenterapp-theldncenterappTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-theldncenterapp-theldncenterappTests.release.xcconfig"; path = "Target Support Files/Pods-theldncenterapp-theldncenterappTests/Pods-theldncenterapp-theldncenterappTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -313,7 +314,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "TheLDNCenterApp" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "theldncenterapp" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -346,6 +347,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3264A855270CECA20087379B /* main.jsbundle in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				326E410525A7901A00672487 /* GoogleService-Info.plist in Resources */,
@@ -793,8 +795,9 @@
 				DEVELOPMENT_TEAM = 448N28V8NA;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = theldncenterapp/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -817,8 +820,9 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 448N28V8NA;
 				INFOPLIST_FILE = theldncenterapp/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1095,7 +1099,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "TheLDNCenterApp" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "theldncenterapp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
