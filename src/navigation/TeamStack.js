@@ -8,7 +8,6 @@ import ChangeTeamScreen from '../screens/ChangeTeamScreen';
 import { IconButton } from 'react-native-paper';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import HomeStack from './HomeStack';
 import {useTheme} from './ThemeProvider';
 
 
@@ -21,7 +20,7 @@ export default function Team() {
         <TeamStack.Screen name='AddTeam' component={AddTeamScreen} />
         <TeamStack.Screen name='Form' component={FormScreen} />
         <TeamStack.Screen name='ChangeTeam' component={ChangeTeamScreen} />
-        <TeamStack.Screen name='Home' component={HomeStack} />
+        {/* <TeamStack.Screen name='Home' component={HomeStack} /> */}
         <TeamStack.Screen name='Messages' component={TeamMessagesScreen} />
       </TeamStack.Navigator>
     );

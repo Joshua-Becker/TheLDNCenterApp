@@ -1,8 +1,8 @@
 import React, { useContext, useEffect } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../screens/HomeScreen';
-// import TeamStack from './TeamStack';
-// import ResourcesStack from './ResourcesStack';
+import TeamStack from './TeamStack';
+import ResourcesStack from './ResourcesStack';
 import SettingsScreen from '../screens/SettingsScreen';
 import { IconButton } from 'react-native-paper';
 import { AuthContext } from '../navigation/AuthProvider';

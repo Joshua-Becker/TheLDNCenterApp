@@ -9,7 +9,6 @@ import {useTheme} from '../navigation/ThemeProvider';
 import NavFooter from '../components/NavFooter';
 import { IconButton } from 'react-native-paper';
 import  DropDown  from  'react-native-paper-dropdown';
-import { OBJECTMEMBER_TYPES } from '@babel/types';
 
 export default function FormScreen({ navigation }) {
     let {colors, isDark} = useTheme();

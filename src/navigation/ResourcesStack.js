@@ -7,8 +7,6 @@ import AboutScreen from '../screens/AboutScreen';
 import MyResourcesScreen from '../screens/MyResourcesScreen';
 import { IconButton } from 'react-native-paper';
 import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
-import HomeStack from './HomeStack';
 import {useTheme} from './ThemeProvider';
 
 const ResourcesStack = createStackNavigator();
@@ -20,7 +18,7 @@ export default function Resources() {
         <ResourcesStack.Screen name='MyResources' component={MyResourcesScreen} />
         <ResourcesStack.Screen name='GetCYJ' component={GetCYJScreen} />
         <ResourcesStack.Screen name='SearchedResources' component={SearchedResourcesScreen} />
-        <ResourcesStack.Screen name='Home' component={HomeStack} />
+        {/* <ResourcesStack.Screen name='Home' component={HomeStack} /> */}
       </ResourcesStack.Navigator>
     );
 }
