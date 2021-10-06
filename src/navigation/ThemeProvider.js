@@ -1,5 +1,5 @@
 import React, {useEffect, useState, createContext, useContext} from 'react';
-import {useColorScheme} from 'react-native-appearance';
+import { Appearance } from 'react-native';
 import {lightColors, darkColors} from '../utils/colorThemes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -11,7 +11,7 @@ export const ThemeContext = createContext({
 
 export const ThemeProvider = (props) => {
     // Getting the device color theme, this will also work with react-native-web
-    const [colorScheme, setColorScheme] = useState(useColorScheme());
+    const [colorScheme, setColorScheme] = useState(Appearance.getColorScheme());
     async function getColorScheme() {
         try {
             const storedColorScheme = await AsyncStorage.getItem('@color_theme')

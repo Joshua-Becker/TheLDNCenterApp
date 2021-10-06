@@ -5,7 +5,6 @@ import firestore from '@react-native-firebase/firestore';
 import { EThree } from '@virgilsecurity/e3kit-native';
 import functions from '@react-native-firebase/functions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { min } from 'moment';
 
 export const AuthContext = createContext({});
 

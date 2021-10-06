@@ -12,12 +12,12 @@ import {useTheme} from './ThemeProvider';
 const ResourcesStack = createStackNavigator();
 export default function Resources() {
     return (
-      <ResourcesStack.Navigator mode='modal' headerMode='none'>
-        <ResourcesStack.Screen name='ResourcesHome' component={ResourcesHome} />
-        <ResourcesStack.Screen name='About' component={AboutScreen} />
-        <ResourcesStack.Screen name='MyResources' component={MyResourcesScreen} />
-        <ResourcesStack.Screen name='GetCYJ' component={GetCYJScreen} />
-        <ResourcesStack.Screen name='SearchedResources' component={SearchedResourcesScreen} />
+      <ResourcesStack.Navigator mode='modal'>
+        <ResourcesStack.Screen name='ResourcesHome' component={ResourcesHome} options={{headerShown: false,}}/>
+        <ResourcesStack.Screen name='About' component={AboutScreen} options={{headerShown: false,}}/>
+        <ResourcesStack.Screen name='MyResources' component={MyResourcesScreen} options={{headerShown: false,}}/>
+        <ResourcesStack.Screen name='GetCYJ' component={GetCYJScreen} options={{headerShown: false,}}/>
+        <ResourcesStack.Screen name='SearchedResources' component={SearchedResourcesScreen} options={{headerShown: false,}}/>
         {/* <ResourcesStack.Screen name='Home' component={HomeStack} /> */}
       </ResourcesStack.Navigator>
     );

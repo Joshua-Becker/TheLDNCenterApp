@@ -5,7 +5,6 @@ import AuthStack from './AuthStack';
 import HomeStack from './HomeStack';
 import { AuthContext } from './AuthProvider';
 import Loading from '../components/Loading';
-import {AppearanceProvider} from 'react-native-appearance';
 import {ThemeProvider} from './ThemeProvider';
 
 export default function Routes() {
@@ -30,12 +29,10 @@ export default function Routes() {
   }
 
   return (
-    <AppearanceProvider>
-      <ThemeProvider>
-        <NavigationContainer>
-          {(user && ethree) ? <HomeStack /> : <AuthStack />}
-        </NavigationContainer>
-      </ThemeProvider>
-    </AppearanceProvider>
+    <ThemeProvider>
+      <NavigationContainer>
+        {(user && ethree) ? <HomeStack /> : <AuthStack />}
+      </NavigationContainer>
+    </ThemeProvider>
   );
 }

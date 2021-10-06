@@ -14,11 +14,11 @@ const Stack = createStackNavigator();
 export default function HomeStack() {
     return (
       <>
-        <Stack.Navigator initialRouteName='Login' headerMode='none'>
-          <Stack.Screen name='Home' component={Home} />
-          <Stack.Screen name='Settings' component={SettingsScreen} />
-          <Stack.Screen name='Team' component={TeamStack} />
-          <Stack.Screen name='Resources' component={ResourcesStack} />
+        <Stack.Navigator initialRouteName='Login'>
+          <Stack.Screen name='Home' component={Home} options={{headerShown: false,}}/>
+          <Stack.Screen name='Settings' component={SettingsScreen} options={{headerShown: false,}}/>
+          <Stack.Screen name='Team' component={TeamStack} options={{headerShown: false,}}/>
+          <Stack.Screen name='Resources' component={ResourcesStack} options={{headerShown: false,}}/>
         </Stack.Navigator>
         <SessionTimeout/>
       </>
