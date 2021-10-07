@@ -59,6 +59,8 @@
 		2D02E4901E0B4A5D006451C7 /* theldncenterapp-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "theldncenterapp-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		326E410425A7901A00672487 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Documents/Work/LDN/apps/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		32C8DBEA270F7C4700377D4B /* Images-2.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = "Images-2.xcassets"; path = "theldncenterapp/Images-2.xcassets"; sourceTree = "<group>"; };
+		32C8DBEC270F834000377D4B /* theldncenterapp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = theldncenterapp.entitlements; path = theldncenterapp/theldncenterapp.entitlements; sourceTree = "<group>"; };
+		32C8DBED270F838700377D4B /* theldncenterappRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = theldncenterappRelease.entitlements; path = theldncenterapp/theldncenterappRelease.entitlements; sourceTree = "<group>"; };
 		35F51E33648F3ACBE9303EA1 /* libPods-theldncenterapp-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-theldncenterapp-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		36CDB9A7AE2211959A3B3B5A /* Pods-theldncenterapp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-theldncenterapp.release.xcconfig"; path = "Target Support Files/Pods-theldncenterapp/Pods-theldncenterapp.release.xcconfig"; sourceTree = "<group>"; };
 		383BCD47B007C70BF13C3FCA /* Pods-theldncenterapp-theldncenterappTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-theldncenterapp-theldncenterappTests.release.xcconfig"; path = "Target Support Files/Pods-theldncenterapp-theldncenterappTests/Pods-theldncenterapp-theldncenterappTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -130,6 +132,8 @@
 		13B07FAE1A68108700A75B9A /* theldncenterapp */ = {
 			isa = PBXGroup;
 			children = (
+				32C8DBED270F838700377D4B /* theldncenterappRelease.entitlements */,
+				32C8DBEC270F834000377D4B /* theldncenterapp.entitlements */,
 				326E410425A7901A00672487 /* GoogleService-Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -795,6 +799,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = theldncenterapp/Entitlements.plist;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 448N28V8NA;
 				ENABLE_BITCODE = NO;
@@ -802,7 +807,7 @@
 				INFOPLIST_FILE = theldncenterapp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.4.2;
+				MARKETING_VERSION = 1.4.4;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -822,13 +827,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = theldncenterapp/Entitlements.plist;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 448N28V8NA;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = theldncenterapp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.4.2;
+				MARKETING_VERSION = 1.4.4;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

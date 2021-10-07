@@ -20,3 +20,8 @@ Setting up for Build and Archive to App Store:
 4) change version number in general
 5) Make sure ios version is accurate
 6) Change build target to any ios device
+
+
+Build and Archive and Deploy to Testflight Notes
+- Must have app icons - Icons must not have transparency or alpha channels - (turn off alpha channels and use .jpg)
+- Must have notification entitlements - under signing and capabilities
