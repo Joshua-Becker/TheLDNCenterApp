@@ -12,7 +12,6 @@ import useStatusBar from '../utils/useStatusBar';
 import { IconButton } from 'react-native-paper';
 import {useTheme} from '../navigation/ThemeProvider';
 import DropDownPicker from 'react-native-dropdown-picker';
-import { setSourceMapRange } from 'typescript';
 
 export default function SignupScreen({ navigation }) {
   const {colors, isDark} = useTheme();
