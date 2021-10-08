@@ -7,6 +7,9 @@ https://feathericons.com/
 
 FIXES:
 
+react-native-gifted-chat:
+https://github.com/FaridSafi/react-native-gifted-chat/issues/2090
+
 react-native-virgil-crypto error:
 https://github.com/VirgilSecurity/react-native-virgil-crypto/issues/44
 
