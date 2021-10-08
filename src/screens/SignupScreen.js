@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, StyleSheet, Text, ScrollView } from 'react-native';
+import { View, StyleSheet, Text, ScrollView, Platform, KeyboardAvoidingView } from 'react-native';
 import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
 import { AuthContext } from '../navigation/AuthProvider';
@@ -86,145 +86,152 @@ export default function SignupScreen({ navigation }) {
   // }, []);
 
   return (
-    <View style={styles(colors).container}>
-      { page == 2 && (
-      <View style={styles(colors).page2}>
-        <Text style={styles(colors).formHeader}>Please select other medications you are taking. If you cannot find your medication then please list it in the comment section.</Text>
-        <DropDownPicker
-              open={openMeds}
-              value={medValue}
-              items={medItems}
-              setOpen={setOpenMeds}
-              setValue={setMedValue}
-              setItems={setMedItems}
-              multiple={true}
-              searchable={true}
-              listMode="FLATLIST"
-              containerStyle={styles(colors).medications} 
-          />
-        <Divider style={styles(colors).divider} />
-        <View style={styles(colors).commentsContainer}>
-          <Text style={styles(colors).formHeader}>Other Comments</Text>
-          <FormComments
-            labelName='Comments'
-            value={comments}
-            onChangeText={comment => setComments(comment)}
-          />
-        </View>
-        <FormButton
-            title='Go Back'
-            modeValue='contained'
-            labelStyle={styles(colors).signUpButtonLabel}
-            onPress={() => {
-                setPage(1);              }
-            }
-          />
-        <FormButton
-            title='Sign Up'
-            modeValue='contained'
-            labelStyle={styles(colors).signUpButtonLabel}
-            onPress={() => {
-              setIsLoding(true);
-              registerFilter(firstName, lastName, phoneNumber, email, password, condition, painLevel, symptomTimeline, retMedications, comments);
-              }
-            }
-          />
-      </View>
-      )}
-    { page == 1 && (
-    <ScrollView style={styles(colors).page1}>
-      <Spinner
-          visible={isLoading}
-          textContent={'Loading...'}
-          textStyle={styles(colors).spinnerTextStyle}
-      />
-      <View style={styles(colors).form}>
-      <Divider style={styles(colors).dividerFirst} />
-        <Text style={styles(colors).formHeader}>Basic Information</Text>
-        <FormInput
-          labelName='First name'
-          value={firstName}
-          autoCapitalize='words'
-          onChangeText={userFirstName => setFirstName(userFirstName)}
-        />
-        <FormInput
-          labelName='Last name'
-          value={lastName}
-          autoCapitalize='words'
-          onChangeText={userLastName => setLastName(userLastName)}
-        />
-        <FormInput
-          labelName='Phone Number'
-          value={phoneNumber}
-          keyboardType='numeric'
-          maxLength={15}
-          onChangeText={phone => setPhoneFilter(phone)}
-        />
-        <FormInput
-          labelName='Email'
-          value={email}
-          autoCapitalize='none'
-          onChangeText={userEmail => setEmail(userEmail)}
-        />
-        <FormInput
-          labelName='Password'
-          value={password}
-          secureTextEntry={true}
-          autoCapitalize='none'
-          onChangeText={userPassword => setPassword(userPassword)}
-        />
-        <FormInput
-          labelName='Reason for taking LDN'
-          value={condition}
-          autoCapitalize='words'
-          onChangeText={userCondition => setCondition(userCondition)}
-        />
-        <Divider style={styles(colors).divider} />
-        <Text style={styles(colors).formHeader}>Current level of pain or discomfort</Text>
-        <View style={styles(colors).pickerContainer}> 
-          <Picker style={styles(colors).picker} itemStyle={styles(colors).pickerItems} selectedValue={painLevel} onValueChange={(itemValue, itemIndex) => setPainLevel(itemValue)}>
-            <Picker.Item label="0" value="0" />
-            <Picker.Item label="1" value="1" />
-            <Picker.Item label="2" value="2" />
-            <Picker.Item label="3" value="3" />
-            <Picker.Item label="4" value="4" />
-            <Picker.Item label="5" value="5" />
-            <Picker.Item label="6" value="6" />
-            <Picker.Item label="7" value="7" />
-            <Picker.Item label="8" value="8" />
-            <Picker.Item label="9" value="9" />
-            <Picker.Item label="10" value="10" />
-          </Picker>
-          <IconButton
-            icon='arrow-down-drop-circle'
-            size={15}
-            color='#fff'
-            style={styles(colors).pickerIcon}
-          />
-        </View>
-        <Divider style={styles(colors).divider} />
-        <Text style={styles(colors).formHeader}>How long have you been experiencing symptoms?</Text>
-        <FormInput
-          labelName='Symptoms timeline'
-          value={symptomTimeline}
-          // autoCapitalize='none'
-          onChangeText={timeline => setSymptomTimeline(timeline)}
-        />
-        <View style={styles(colors).signUpButtonContainer}>
+    <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior="padding"
+        keyboardVerticalOffset={Platform.select({
+            ios: () => 10,
+            android: () => 100
+        })()}
+    >
+        { page == 2 && (
+        <View style={styles(colors).page2}>
+          <Text style={styles(colors).formHeader}>Please select other medications you are taking. If you cannot find your medication then please list it in the comment section.</Text>
+          <DropDownPicker
+                open={openMeds}
+                value={medValue}
+                items={medItems}
+                setOpen={setOpenMeds}
+                setValue={setMedValue}
+                setItems={setMedItems}
+                multiple={true}
+                searchable={true}
+                listMode="FLATLIST"
+                containerStyle={styles(colors).medications} 
+            />
+          <Divider style={styles(colors).divider} />
+          <View style={styles(colors).commentsContainer}>
+            <Text style={styles(colors).formHeader}>Other Comments</Text>
+            <FormComments
+              labelName='Comments'
+              value={comments}
+              onChangeText={comment => setComments(comment)}
+            />
+          </View>
           <FormButton
-            title='Next'
-            modeValue='contained'
-            labelStyle={styles(colors).signUpButtonLabel}
-            onPress={() => {
-              setPage(2);
-            }
-            }
-          />
+              title='Go Back'
+              modeValue='contained'
+              labelStyle={styles(colors).signUpButtonLabel}
+              onPress={() => {
+                  setPage(1);              }
+              }
+            />
+          <FormButton
+              title='Sign Up'
+              modeValue='contained'
+              labelStyle={styles(colors).signUpButtonLabel}
+              onPress={() => {
+                setIsLoding(true);
+                registerFilter(firstName, lastName, phoneNumber, email, password, condition, painLevel, symptomTimeline, retMedications, comments);
+                }
+              }
+            />
         </View>
-      </View>
-    </ScrollView>
-    )}
-  </View>
+        )}
+      { page == 1 && (
+      <ScrollView style={styles(colors).page1}>
+        <Spinner
+            visible={isLoading}
+            textContent={'Loading...'}
+            textStyle={styles(colors).spinnerTextStyle}
+        />
+        <View style={styles(colors).form}>
+        <Divider style={styles(colors).dividerFirst} />
+          <Text style={styles(colors).formHeader}>Basic Information</Text>
+          <FormInput
+            labelName='First name'
+            value={firstName}
+            autoCapitalize='words'
+            onChangeText={userFirstName => setFirstName(userFirstName)}
+          />
+          <FormInput
+            labelName='Last name'
+            value={lastName}
+            autoCapitalize='words'
+            onChangeText={userLastName => setLastName(userLastName)}
+          />
+          <FormInput
+            labelName='Phone Number'
+            value={phoneNumber}
+            keyboardType='numeric'
+            maxLength={15}
+            onChangeText={phone => setPhoneFilter(phone)}
+          />
+          <FormInput
+            labelName='Email'
+            value={email}
+            autoCapitalize='none'
+            onChangeText={userEmail => setEmail(userEmail)}
+          />
+          <FormInput
+            labelName='Password'
+            value={password}
+            secureTextEntry={true}
+            autoCapitalize='none'
+            onChangeText={userPassword => setPassword(userPassword)}
+          />
+          <FormInput
+            labelName='Reason for taking LDN'
+            value={condition}
+            autoCapitalize='words'
+            onChangeText={userCondition => setCondition(userCondition)}
+          />
+          <Divider style={styles(colors).divider} />
+          <Text style={styles(colors).formHeader}>Current level of pain or discomfort</Text>
+          <View style={styles(colors).pickerContainer}> 
+            <Picker style={styles(colors).picker} itemStyle={styles(colors).pickerItems} selectedValue={painLevel} onValueChange={(itemValue, itemIndex) => setPainLevel(itemValue)}>
+              <Picker.Item label="0" value="0" />
+              <Picker.Item label="1" value="1" />
+              <Picker.Item label="2" value="2" />
+              <Picker.Item label="3" value="3" />
+              <Picker.Item label="4" value="4" />
+              <Picker.Item label="5" value="5" />
+              <Picker.Item label="6" value="6" />
+              <Picker.Item label="7" value="7" />
+              <Picker.Item label="8" value="8" />
+              <Picker.Item label="9" value="9" />
+              <Picker.Item label="10" value="10" />
+            </Picker>
+            <IconButton
+              icon='arrow-down-drop-circle'
+              size={15}
+              color='#fff'
+              style={styles(colors).pickerIcon}
+            />
+          </View>
+          <Divider style={styles(colors).divider} />
+          <Text style={styles(colors).formHeader}>How long have you been experiencing symptoms?</Text>
+          <FormInput
+            labelName='Symptoms timeline'
+            value={symptomTimeline}
+            // autoCapitalize='none'
+            onChangeText={timeline => setSymptomTimeline(timeline)}
+          />
+          <View style={styles(colors).signUpButtonContainer}>
+            <FormButton
+              title='Next'
+              modeValue='contained'
+              labelStyle={styles(colors).signUpButtonLabel}
+              onPress={() => {
+                setPage(2);
+              }
+              }
+            />
+          </View>
+        </View>
+      </ScrollView>
+      )}
+    </KeyboardAvoidingView>
   );
 }
 
@@ -232,6 +239,10 @@ const styles = (colors) => StyleSheet.create({
   container: {
     backgroundColor: colors.background,
     flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    color: '#000000',
+    paddingBottom: 20,
   },
   page2: {
     flex: 1,

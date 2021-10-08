@@ -17,12 +17,18 @@ https://github.com/VirgilSecurity/react-native-virgil-crypto/issues/44
 ENCRYPTION REPORTING:
 https://www.bis.doc.gov/index.php/policy-guidance/encryption/4-reports-and-reviews/a-annual-self-classification
 
+Removed flipper in podfile
+
 
 Setting up for testing in Google Play Store:
 - https://reactnative.dev/docs/signed-apk-android
+- Play Console - https://play.google.com/console
 
 
 Setting up for Build and Archive to App Store:
+- links:
+    https://appstoreconnect.apple.com/apps
+    https://developer.apple.com/account/
 1) changes to info.plist
 - set NSAllowsArbitraryLoads to false
 - comment out localhost key pair in NSExceptionDomains

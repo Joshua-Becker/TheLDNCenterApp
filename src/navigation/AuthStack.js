@@ -34,7 +34,7 @@ function ForgotPassword() {
       }}
     >
       <Stack.Screen
-      name='ForgotPassword'
+      name='ForgotPasswordNested'
       component={ForgotPasswordScreen}
       options={() => ({
           title: 'Password Reset'
@@ -59,7 +59,7 @@ function Signup() {
       }}
     >
       <Stack.Screen
-      name='Signup'
+      name='SignupNested'
       component={SignupScreen}
       options={() => ({
           title: 'Sign Up'

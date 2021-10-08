@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useState } from 'react';
-import {ScrollView, View, StatusBar, Text, StyleSheet, Switch, Alert} from 'react-native';
+import {ScrollView, View, StatusBar, Text, StyleSheet, Switch, Alert, Platform, KeyboardAvoidingView} from 'react-native';
 import {useTheme} from '../navigation/ThemeProvider';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import FormInput from '../components/FormInput';
@@ -150,129 +150,138 @@ export default function SettingsScreen(props) {
     }, [isDark]);
 
     return (
-        <ScrollView style={styles(colors).scrollContainer}>
-            {/* We can also use the isDark prop to set the statusbar style accordingly */}
-            <StatusBar 
-                barStyle={isDark ? "light-content" : "light-content"} 
-                backgroundColor={isDark? colors.statusBar : colors.statusBar}/>
-            <View style={styles(colors).container}>
-                {children}
-                <View style={[styles(colors).listItemToggle, styles(colors).listItemStart]}>
-                    <Text style={styles(colors).text}>{isDark ? "Dark Mode" : "Light Mode"}</Text>
-                    <Switch value={isDark} onValueChange={toggleScheme}/>
-                </View>
-                <View style={styles(colors).listItem}>
-                    <View style={styles(colors).textContainer}>
-                        <Text style={styles(colors).text}>Name:</Text>
-                        <Text style={styles(colors).userValues}>{name}</Text>
+        <KeyboardAvoidingView
+            style={{ flex: 1 }}
+            behavior="padding"
+            keyboardVerticalOffset={Platform.select({
+                ios: () => 10,
+                android: () => 100
+            })()}
+        >
+            <ScrollView style={styles(colors).scrollContainer}>
+                {/* We can also use the isDark prop to set the statusbar style accordingly */}
+                <StatusBar 
+                    barStyle={isDark ? "light-content" : "light-content"} 
+                    backgroundColor={isDark? colors.statusBar : colors.statusBar}/>
+                <View style={styles(colors).container}>
+                    {children}
+                    <View style={[styles(colors).listItemToggle, styles(colors).listItemStart]}>
+                        <Text style={styles(colors).text}>{isDark ? "Dark Mode" : "Light Mode"}</Text>
+                        <Switch value={isDark} onValueChange={toggleScheme}/>
                     </View>
-                    <View style={styles(colors).textContainer}>
-                        <Text style={styles(colors).text}>Email:</Text>
-                        <Text style={styles(colors).userValues}>{email}</Text>
+                    <View style={styles(colors).listItem}>
+                        <View style={styles(colors).textContainer}>
+                            <Text style={styles(colors).text}>Name:</Text>
+                            <Text style={styles(colors).userValues}>{name}</Text>
+                        </View>
+                        <View style={styles(colors).textContainer}>
+                            <Text style={styles(colors).text}>Email:</Text>
+                            <Text style={styles(colors).userValues}>{email}</Text>
+                        </View>
                     </View>
-                </View>
-                <View style={styles(colors).listItem}>
-                    <View style={styles(colors).textContainer}>
-                        <Text style={styles(colors).text}>Set new password</Text>
+                    <View style={styles(colors).listItem}>
+                        <View style={styles(colors).textContainer}>
+                            <Text style={styles(colors).text}>Set new password</Text>
+                        </View>
+                        <FormInput
+                        labelName="Old password"
+                        style={styles(colors).formInput}
+                        autoCapitalize='none'
+                        onChangeText={userOldPass => setOldPass(userOldPass)}
+                        />
+                        <FormInput
+                        labelName="New password"
+                        style={styles(colors).formInput}
+                        autoCapitalize='none'
+                        onChangeText={userNewPass => setNewPass(userNewPass)}
+                        />
                     </View>
-                    <FormInput
-                    labelName="Old password"
-                    style={styles(colors).formInput}
-                    autoCapitalize='none'
-                    onChangeText={userOldPass => setOldPass(userOldPass)}
+                    <View style={styles(colors).listItem}>
+                        <View style={styles(colors).textContainer}>
+                            <Text style={styles(colors).text}>Phone:</Text>
+                            <Text style={styles(colors).userValues}>{originalPhone}</Text>
+                        </View>
+                        <FormInput
+                        labelName="Change field"
+                        style={styles(colors).formInput}
+                        autoCapitalize='none'
+                        onChangeText={userPhone => setPhone(userPhone)}
+                        />
+                    </View>
+                    <View style={styles(colors).listItem}>
+                        <View style={styles(colors).textContainer}>
+                            <Text style={styles(colors).text}>Condition:</Text>
+                            <Text style={styles(colors).userValues}>{originalCondition}</Text>
+                        </View>
+                        <FormInput
+                        labelName="Change field"
+                        style={styles(colors).formInput}
+                        autoCapitalize='none'
+                        onChangeText={userCondition => setCondition(userCondition)}
+                        />
+                    </View>
+                    <View style={styles(colors).listItem}>
+                        <View style={styles(colors).textContainer}>
+                            <Text style={styles(colors).text}>Medications:</Text>
+                            <Text style={styles(colors).userValues}>{originalMedications}</Text>
+                        </View>
+                        <FormInput
+                        labelName="Change field"
+                        style={styles(colors).formInput}
+                        autoCapitalize='none'
+                        onChangeText={userMedications => setMedications(userMedications)}
+                        />
+                    </View>
+                    <View style={styles(colors).listItem}>
+                        <View style={styles(colors).textContainer}>
+                            <Text style={styles(colors).text}>Symptom Timeline:</Text>
+                            <Text style={styles(colors).userValues}>{originalSymptomTimeline}</Text>
+                        </View>
+                        <FormInput
+                        labelName="Change field"
+                        style={styles(colors).formInput}
+                        autoCapitalize='none'
+                        onChangeText={userTimeline => setSymptomTimeline(userTimeline)}
+                        />
+                    </View>
+                    <View style={styles(colors).listItem}>
+                        <View style={styles(colors).textContainer}>
+                            <Text style={styles(colors).text}>Starting Pain Level:</Text>
+                            <Text style={styles(colors).userValues}>{JSON.stringify(originalPainLevel)}</Text>
+                        </View>
+                        <FormInput
+                        labelName="Change field"
+                        style={styles(colors).formInput}
+                        autoCapitalize='none'
+                        onChangeText={userPainLevel => setPainLevel(parseInt(userPainLevel))}
+                        />
+                    </View>
+                    <View style={styles(colors).listItem}>
+                        <View style={styles(colors).textContainer}>
+                            <Text style={styles(colors).text}>Comments:</Text>
+                            <Text style={styles(colors).userValues}>{originalComments}</Text>
+                        </View>
+                        <FormInput
+                        labelName="Change field"
+                        multiline
+                        style={styles(colors).formInput}
+                        autoCapitalize='none'
+                        onChangeText={userComments => setComments(userComments)}
+                        />
+                    </View>
+                    <FormButton
+                        title='Save Changes'
+                        modeValue='contained'
+                        onPress={() => {
+                            console.log("Saving changes...")
+                            saveSettings();
+                            getUserData();
+                        }
+                        }
                     />
-                    <FormInput
-                    labelName="New password"
-                    style={styles(colors).formInput}
-                    autoCapitalize='none'
-                    onChangeText={userNewPass => setNewPass(userNewPass)}
-                    />
                 </View>
-                <View style={styles(colors).listItem}>
-                    <View style={styles(colors).textContainer}>
-                        <Text style={styles(colors).text}>Phone:</Text>
-                        <Text style={styles(colors).userValues}>{originalPhone}</Text>
-                    </View>
-                    <FormInput
-                    labelName="Change field"
-                    style={styles(colors).formInput}
-                    autoCapitalize='none'
-                    onChangeText={userPhone => setPhone(userPhone)}
-                    />
-                </View>
-                <View style={styles(colors).listItem}>
-                    <View style={styles(colors).textContainer}>
-                        <Text style={styles(colors).text}>Condition:</Text>
-                        <Text style={styles(colors).userValues}>{originalCondition}</Text>
-                    </View>
-                    <FormInput
-                    labelName="Change field"
-                    style={styles(colors).formInput}
-                    autoCapitalize='none'
-                    onChangeText={userCondition => setCondition(userCondition)}
-                    />
-                </View>
-                <View style={styles(colors).listItem}>
-                    <View style={styles(colors).textContainer}>
-                        <Text style={styles(colors).text}>Medications:</Text>
-                        <Text style={styles(colors).userValues}>{originalMedications}</Text>
-                    </View>
-                    <FormInput
-                    labelName="Change field"
-                    style={styles(colors).formInput}
-                    autoCapitalize='none'
-                    onChangeText={userMedications => setMedications(userMedications)}
-                    />
-                </View>
-                <View style={styles(colors).listItem}>
-                    <View style={styles(colors).textContainer}>
-                        <Text style={styles(colors).text}>Symptom Timeline:</Text>
-                        <Text style={styles(colors).userValues}>{originalSymptomTimeline}</Text>
-                    </View>
-                    <FormInput
-                    labelName="Change field"
-                    style={styles(colors).formInput}
-                    autoCapitalize='none'
-                    onChangeText={userTimeline => setSymptomTimeline(userTimeline)}
-                    />
-                </View>
-                <View style={styles(colors).listItem}>
-                    <View style={styles(colors).textContainer}>
-                        <Text style={styles(colors).text}>Starting Pain Level:</Text>
-                        <Text style={styles(colors).userValues}>{JSON.stringify(originalPainLevel)}</Text>
-                    </View>
-                    <FormInput
-                    labelName="Change field"
-                    style={styles(colors).formInput}
-                    autoCapitalize='none'
-                    onChangeText={userPainLevel => setPainLevel(parseInt(userPainLevel))}
-                    />
-                </View>
-                <View style={styles(colors).listItem}>
-                    <View style={styles(colors).textContainer}>
-                        <Text style={styles(colors).text}>Comments:</Text>
-                        <Text style={styles(colors).userValues}>{originalComments}</Text>
-                    </View>
-                    <FormInput
-                    labelName="Change field"
-                    multiline
-                    style={styles(colors).formInput}
-                    autoCapitalize='none'
-                    onChangeText={userComments => setComments(userComments)}
-                    />
-                </View>
-                <FormButton
-                    title='Save Changes'
-                    modeValue='contained'
-                    onPress={() => {
-                        console.log("Saving changes...")
-                        saveSettings();
-                        getUserData();
-                    }
-                    }
-                />
-            </View>
-        </ScrollView>
+            </ScrollView>
+        </KeyboardAvoidingView>
     );
 }
 

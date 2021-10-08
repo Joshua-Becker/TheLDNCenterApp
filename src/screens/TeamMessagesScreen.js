@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { GiftedChat, Bubble, Send, SystemMessage, InputToolbar, Time } from 'react-native-gifted-chat';
 import { IconButton } from 'react-native-paper';
-import { ActivityIndicator, View, StyleSheet, LogBox, Text } from 'react-native';
+import { ActivityIndicator, View, StyleSheet, LogBox, Text, KeyboardAvoidingView, Platform } from 'react-native';
 import { AuthContext } from '../navigation/AuthProvider';
 import firestore from '@react-native-firebase/firestore';
 import useStatusBar from '../utils/useStatusBar';
@@ -260,36 +260,45 @@ export default function TeamMessagesScreen({navigation}) {
   }, [dataLoaded]);
 
   return (
-    <View style={styles(colors).container}>
-      <View style={styles(colors).giftedChatContainer}>
-        <GiftedChat
-            messages={messages}
-            onSend={handleSend}
-            user={{ _id: currentUser.uid}}
-            renderBubble={renderBubble}
-            placeholder='Type your message here...'
-            // showUserAvatar
-            alwaysShowSend
-            // renderAvatar={() => null}
-            renderAvatar={renderAvatar}
-            renderSend={renderSend}
-            scrollToBottomComponent={scrollToBottomComponent}
-            renderLoading={renderLoading}
-            renderSystemMessage={renderSystemMessage}
-            renderInputToolbar={renderInputToolbar}
-            renderTime={renderTime}
-        />
+    <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior="padding"
+        keyboardVerticalOffset={Platform.select({
+            ios: () => 20,
+            android: () => 100
+        })()}
+    >
+      <View style={styles(colors).container}>
+        <View style={styles(colors).giftedChatContainer}>
+          <GiftedChat
+              messages={messages}
+              onSend={handleSend}
+              user={{ _id: currentUser.uid}}
+              renderBubble={renderBubble}
+              placeholder='Type your message here...'
+              // showUserAvatar
+              alwaysShowSend
+              // renderAvatar={() => null}
+              renderAvatar={renderAvatar}
+              renderSend={renderSend}
+              scrollToBottomComponent={scrollToBottomComponent}
+              renderLoading={renderLoading}
+              renderSystemMessage={renderSystemMessage}
+              renderInputToolbar={renderInputToolbar}
+              renderTime={renderTime}
+          />
+        </View>
+          <NavFooter
+              navigation={navigation}
+              destA='TeamHome'
+              destB=''
+              destC='Form'
+              iconA='account-details'
+              iconB='message'
+              iconC='folder-information'
+          />
       </View>
-        <NavFooter
-            navigation={navigation}
-            destA='TeamHome'
-            destB=''
-            destC='Form'
-            iconA='account-details'
-            iconB='message'
-            iconC='folder-information'
-        />
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 

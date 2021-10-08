@@ -15,13 +15,12 @@ const TeamStack = createStackNavigator();
 
 export default function Team() {
     return (
-      <TeamStack.Navigator mode='modal'>
-        <TeamStack.Screen name='TeamHome' component={TeamHome} options={{headerShown: false,}}/>
-        <TeamStack.Screen name='AddTeam' component={AddTeamScreen} options={{headerShown: false,}}/>
-        <TeamStack.Screen name='Form' component={FormScreen} options={{headerShown: false,}}/>
-        <TeamStack.Screen name='ChangeTeam' component={ChangeTeamScreen} options={{headerShown: false,}}/>
-        {/* <TeamStack.Screen name='Home' component={HomeStack} /> */}
-        <TeamStack.Screen name='Messages' component={TeamMessagesScreen} options={{headerShown: false,}}/>
+      <TeamStack.Navigator>
+        <TeamStack.Screen name='TeamHome' component={TeamHome} options={{headerShown: false, presentation: "modal"}}/>
+        <TeamStack.Screen name='AddTeam' component={AddTeamScreen} options={{headerShown: false, presentation: "modal"}}/>
+        <TeamStack.Screen name='Form' component={FormScreen} options={{headerShown: false, presentation: "modal"}}/>
+        <TeamStack.Screen name='ChangeTeam' component={ChangeTeamScreen} options={{headerShown: false, presentation: "modal"}}/>
+        <TeamStack.Screen name='Messages' component={TeamMessagesScreen} options={{headerShown: false, presentation: "modal"}}/>
       </TeamStack.Navigator>
     );
 }

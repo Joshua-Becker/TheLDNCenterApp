@@ -12,13 +12,12 @@ import {useTheme} from './ThemeProvider';
 const ResourcesStack = createStackNavigator();
 export default function Resources() {
     return (
-      <ResourcesStack.Navigator mode='modal'>
-        <ResourcesStack.Screen name='ResourcesHome' component={ResourcesHome} options={{headerShown: false,}}/>
-        <ResourcesStack.Screen name='About' component={AboutScreen} options={{headerShown: false,}}/>
-        <ResourcesStack.Screen name='MyResources' component={MyResourcesScreen} options={{headerShown: false,}}/>
-        <ResourcesStack.Screen name='GetCYJ' component={GetCYJScreen} options={{headerShown: false,}}/>
-        <ResourcesStack.Screen name='SearchedResources' component={SearchedResourcesScreen} options={{headerShown: false,}}/>
-        {/* <ResourcesStack.Screen name='Home' component={HomeStack} /> */}
+      <ResourcesStack.Navigator>
+        <ResourcesStack.Screen name='ResourcesHome' component={ResourcesHome} options={{headerShown: false, presentation: "modal"}}/>
+        <ResourcesStack.Screen name='About' component={AboutScreen} options={{headerShown: false, presentation: "modal"}}/>
+        <ResourcesStack.Screen name='MyResources' component={MyResourcesScreen} options={{headerShown: false, presentation: "modal"}}/>
+        <ResourcesStack.Screen name='GetCYJ' component={GetCYJScreen} options={{headerShown: false, presentation: "modal"}}/>
+        <ResourcesStack.Screen name='SearchedResources' component={SearchedResourcesScreen} options={{headerShown: false, presentation: "modal"}}/>
       </ResourcesStack.Navigator>
     );
 }

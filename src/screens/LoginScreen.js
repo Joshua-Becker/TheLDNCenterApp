@@ -32,7 +32,7 @@ export default function LoginScreen({ navigation }) {
     }, []);
     return (
       <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      behavior={Platform.OS === "ios" ? "padding" : "padding"}
       style={styles.container}>
         <ImageBackground source={require('../media/images/mainpage_photo.jpeg')}  style={styles.container} imageStyle={styles.backgroundImage}>
           <Spinner

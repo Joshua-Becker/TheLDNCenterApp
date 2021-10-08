@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { ScrollView, View, StyleSheet, Text, TouchableOpacity, Platform } from 'react-native';
+import { ScrollView, View, StyleSheet, Text, TouchableOpacity, Platform, KeyboardAvoidingView } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import { Divider, Checkbox, Card, TextInput } from 'react-native-paper';
 import FormComments from '../components/FormComments';
@@ -97,74 +97,83 @@ export default function FormScreen({ navigation }) {
     },[formSymptoms]);
 
     return (
-    <View style={styles(colors).container}>
-        <ScrollView style={styles(colors).form} contentContainerStyle={styles(colors).formContainer}>
-            <View style={styles(colors).textBox}>
-                <IconButton style={styles(colors).notificationIcon} icon={'alert-circle'} size={30}/>
-                <Text style={styles(colors).disclaimer}>Please find the symptoms you are treating with LDN below and rate them. </Text>
-            </View>
-            <View style={styles(colors).textBox}>
-                <Text style={styles(colors).disclaimer}>Scale: 0(none) - 10(severe)</Text>
-            </View>
-            <View style={styles(colors).formQuestions}>
-                <Card style={styles(colors).cards}>
-                    <Text style={styles(colors).cardTitle}>Symptoms</Text>
-                    {
-                    formSymptoms.map(formItem => {
-                        return <View style={styles(colors).symptomBox}>
-                                    <Text style={styles(colors).symptomText}>{formItem.title}</Text>
-                                    <View style={styles(colors).dropdown}>
-                                        <DropDown
-                                            label={'0'}
-                                            defaultValue={'0'}
-                                            mode={'outlined'}
-                                            value={symptoms[formItem.var]}
-                                            setValue={event => handleChange(formItem.var,event)}
-                                            list={numbers}
-                                            visible={open[formItem.var]}
-                                            dropDownContainerMaxHeight={300}
-                                            showDropDown={() =>  handleDropdown(formItem.var, true)}
-                                            onDismiss={() =>  handleDropdown(formItem.var, false)}
-                                            inputProps={{
-                                                right:  <TextInput.Icon  name={'menu-down'} style={styles(colors).dropdownIcon} size={30} />,
-                                            }}
-                                        />
+    <KeyboardAvoidingView
+    style={{ flex: 1 }}
+    behavior="padding"
+    keyboardVerticalOffset={Platform.select({
+        ios: () => 10,
+        android: () => 100
+    })()}
+    >
+        <View style={styles(colors).container}>
+            <ScrollView style={styles(colors).form} contentContainerStyle={styles(colors).formContainer}>
+                <View style={styles(colors).textBox}>
+                    <IconButton style={styles(colors).notificationIcon} icon={'alert-circle'} size={30}/>
+                    <Text style={styles(colors).disclaimer}>Please find the symptoms you are treating with LDN below and rate them. </Text>
+                </View>
+                <View style={styles(colors).textBox}>
+                    <Text style={styles(colors).disclaimer}>Scale: 0(none) - 10(severe)</Text>
+                </View>
+                <View style={styles(colors).formQuestions}>
+                    <Card style={styles(colors).cards}>
+                        <Text style={styles(colors).cardTitle}>Symptoms</Text>
+                        {
+                        formSymptoms.map(formItem => {
+                            return <View style={styles(colors).symptomBox} key={formItem.title}>
+                                        <Text style={styles(colors).symptomText}>{formItem.title}</Text>
+                                        <View style={styles(colors).dropdown}>
+                                            <DropDown
+                                                label={'0'}
+                                                defaultValue={'0'}
+                                                mode={'outlined'}
+                                                value={symptoms[formItem.var]}
+                                                setValue={event => handleChange(formItem.var,event)}
+                                                list={numbers}
+                                                visible={open[formItem.var]}
+                                                dropDownContainerMaxHeight={300}
+                                                showDropDown={() =>  handleDropdown(formItem.var, true)}
+                                                onDismiss={() =>  handleDropdown(formItem.var, false)}
+                                                inputProps={{
+                                                    right:  <TextInput.Icon  name={'menu-down'} style={styles(colors).dropdownIcon} size={30} />,
+                                                }}
+                                            />
+                                        </View>
                                     </View>
-                                </View>
-                    })
-                    }
-                </Card>
-                <FormComments
-                    labelName='Other comments or side effects?'
-                    value={comments}
-                    onChangeText={comment => setComments(comment)}
-                    style={styles(colors).comments}
-                    placeholderTextColor = "#555"
-                />
-            </View>
-            <View style={styles(colors).submit}>
-                <FormButton
-                title='Submit'
-                modeValue='contained'
-                labelStyle={styles(colors).submitButtonLabel}
-                onPress={() => {
-                    // console.log(JSON.stringify(symptoms));
-                    submitForm(symptoms, comments)
-                    navigation.navigate('Home')
-                }}
-                />
-            </View>
-        </ScrollView>
-        <NavFooter
-          navigation={navigation}
-          destA='TeamHome'
-          destB='Messages'
-          destC=''
-          iconA='account-details'
-          iconB='message'
-          iconC='folder-information'
-          />
-    </View>
+                        })
+                        }
+                    </Card>
+                    <FormComments
+                        labelName='Other comments or side effects?'
+                        value={comments}
+                        onChangeText={comment => setComments(comment)}
+                        style={styles(colors).comments}
+                        placeholderTextColor = "#555"
+                    />
+                </View>
+                <View style={styles(colors).submit}>
+                    <FormButton
+                    title='Submit'
+                    modeValue='contained'
+                    labelStyle={styles(colors).submitButtonLabel}
+                    onPress={() => {
+                        // console.log(JSON.stringify(symptoms));
+                        submitForm(symptoms, comments)
+                        navigation.navigate('Home')
+                    }}
+                    />
+                </View>
+            </ScrollView>
+            <NavFooter
+            navigation={navigation}
+            destA='TeamHome'
+            destB='Messages'
+            destC=''
+            iconA='account-details'
+            iconB='message'
+            iconC='folder-information'
+            />
+        </View>
+    </KeyboardAvoidingView>
     );
 }
 
