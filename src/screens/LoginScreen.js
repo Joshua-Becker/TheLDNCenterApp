@@ -32,8 +32,8 @@ export default function LoginScreen({ navigation }) {
     }, []);
     return (
       <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "padding"}
-      style={styles.container}>
+      behavior={Platform.OS === "ios" ? "padding" : ""}
+      style={styles.containerOuter}>
         <ImageBackground source={require('../media/images/mainpage_photo.jpeg')}  style={styles.container} imageStyle={styles.backgroundImage}>
           <Spinner
             visible={isLoading}
@@ -106,6 +106,9 @@ const styles = StyleSheet.create({
     color: '#000000',
     paddingBottom: 20,
   },
+  containerOuter: {
+    flex: 1,
+  },
   backgroundImage: {
     resizeMode: "cover",
     height: '100%', // the image height
@@ -122,7 +125,8 @@ const styles = StyleSheet.create({
     color: '#000000',
   },
   loginButtonLabel: {
-    fontSize: 22,
+    fontSize: 20,
+    lineHeight: 20,
     color: '#fff',
   },
   navButtonText: {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Dimensions, TextInput } from 'react-native';
+import { StyleSheet, Dimensions, TextInput, Keyboard } from 'react-native';
 import {useTheme} from '../navigation/ThemeProvider';
 
 const { width, height } = Dimensions.get('screen');
@@ -15,6 +15,9 @@ export default function FormComments({ labelName, ...rest }) {
       style={styles(colors).input}
       numberOfLines={4}
       multiline={true}
+      returnKeyType="done"
+      blurOnSubmit={true}
+      onSubmitEditing={()=>{Keyboard.dismiss()}}
       {...rest}
     />
   );

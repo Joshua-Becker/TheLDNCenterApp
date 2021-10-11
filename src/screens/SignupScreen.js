@@ -32,7 +32,7 @@ export default function SignupScreen({ navigation }) {
   const [openMeds, setOpenMeds] = useState(false);
   const [medValue, setMedValue] = useState(null);
   const [medItems, setMedItems] = useState(drugList['data']);
-
+  
   function registerFilter(firstName, lastName, phoneNumber, email, password, condition, painLevel, symptomTimeline, medications, comments){
     if(password.length < 8){
       alert('Password must be least 8 characters in length and contain at least 1 number, special character, and capital letter.');
@@ -87,11 +87,11 @@ export default function SignupScreen({ navigation }) {
 
   return (
     <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        behavior="padding"
+        style={styles(colors).container}
+        behavior={Platform.OS === "ios" ? "padding" : ""}
         keyboardVerticalOffset={Platform.select({
             ios: () => 10,
-            android: () => 100
+            android: () => 0
         })()}
     >
         { page == 2 && (
@@ -268,6 +268,7 @@ const styles = (colors) => StyleSheet.create({
   },
   signUpButtonLabel: {
     fontSize: 22,
+    lineHeight: 21,
     color: colors.buttonText,
   },
   signUpButtonContainer: {

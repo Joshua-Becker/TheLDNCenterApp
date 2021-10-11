@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useState } from 'react';
-import {ScrollView, View, StatusBar, Text, StyleSheet, Switch, Alert, Platform, KeyboardAvoidingView} from 'react-native';
+import {ScrollView, View, StatusBar, Text, StyleSheet, Switch, Alert, Platform, KeyboardAvoidingView, Keyboard} from 'react-native';
 import {useTheme} from '../navigation/ThemeProvider';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import FormInput from '../components/FormInput';
@@ -152,7 +152,7 @@ export default function SettingsScreen(props) {
     return (
         <KeyboardAvoidingView
             style={{ flex: 1 }}
-            behavior="padding"
+            behavior={Platform.OS === "ios" ? "padding" : ""}
             keyboardVerticalOffset={Platform.select({
                 ios: () => 10,
                 android: () => 100
@@ -264,6 +264,9 @@ export default function SettingsScreen(props) {
                         <FormInput
                         labelName="Change field"
                         multiline
+                        returnKeyType="done"
+                        blurOnSubmit={true}
+                        onSubmitEditing={()=>{Keyboard.dismiss()}}
                         style={styles(colors).formInput}
                         autoCapitalize='none'
                         onChangeText={userComments => setComments(userComments)}

@@ -98,14 +98,14 @@ export default function FormScreen({ navigation }) {
 
     return (
     <KeyboardAvoidingView
-    style={{ flex: 1 }}
+    style={styles(colors).container}
     behavior="padding"
     keyboardVerticalOffset={Platform.select({
         ios: () => 10,
         android: () => 100
     })()}
     >
-        <View style={styles(colors).container}>
+        <View>
             <ScrollView style={styles(colors).form} contentContainerStyle={styles(colors).formContainer}>
                 <View style={styles(colors).textBox}>
                     <IconButton style={styles(colors).notificationIcon} icon={'alert-circle'} size={30}/>
@@ -242,6 +242,7 @@ const styles = (colors) => StyleSheet.create({
     },
     submitButtonLabel: {
         fontSize: 22,
+        lineHeight: 21,
         color: '#fff',
     },
     cards: {

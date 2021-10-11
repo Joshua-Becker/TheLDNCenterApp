@@ -34,5 +34,6 @@ const styles = (colors) => StyleSheet.create({
   buttonLabel: {
     color: colors.buttonText,
     fontSize: 15,
+    lineHeight: 15,
   }
 });
