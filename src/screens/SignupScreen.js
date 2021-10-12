@@ -32,7 +32,7 @@ export default function SignupScreen({ navigation }) {
   const [openMeds, setOpenMeds] = useState(false);
   const [medValue, setMedValue] = useState(null);
   const [medItems, setMedItems] = useState(drugList['data']);
-  
+
   function registerFilter(firstName, lastName, phoneNumber, email, password, condition, painLevel, symptomTimeline, medications, comments){
     if(password.length < 8){
       alert('Password must be least 8 characters in length and contain at least 1 number, special character, and capital letter.');
@@ -108,6 +108,7 @@ export default function SignupScreen({ navigation }) {
                 searchable={true}
                 listMode="FLATLIST"
                 containerStyle={styles(colors).medications} 
+                listItemContainerStyle={styles(colors).medicationsListItem}
             />
           <Divider style={styles(colors).divider} />
           <View style={styles(colors).commentsContainer}>
@@ -333,5 +334,11 @@ const styles = (colors) => StyleSheet.create({
     marginTop: 20,
     width: '95%',
     alignSelf: 'center',
-  }
+    zIndex: 10,
+  },
+  medicationsListItem: {
+    lineHeight: 80,
+    height: 60,
+    overflow: 'scroll',
+  },
 });
