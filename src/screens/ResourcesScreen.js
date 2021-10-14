@@ -208,7 +208,7 @@ export default function ResourcesScreen({ navigation }) {
           textStyle={styles(colors).spinnerTextStyle}
           color={'white'}
         />
-        <ScrollView style={styles(colors).content}>
+        <View style={styles(colors).content}>
         <Card style={styles(colors).card}>
               <Card.Title
                 title={'Filter Resources'}
@@ -284,7 +284,7 @@ export default function ResourcesScreen({ navigation }) {
                     />
                 </View>
             </View>
-        </ScrollView>
+        </View>
         <NavFooter
           navigation={navigation}
           destA='About'
