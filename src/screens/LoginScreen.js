@@ -1,100 +1,110 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { View, StyleSheet, Image, Dimensions, Text, TouchableOpacity, Platform, KeyboardAvoidingView } from 'react-native';
-import { IconButton } from 'react-native-paper';
+import React, {useState, useContext, useEffect} from 'react';
+import {
+  View,
+  StyleSheet,
+  Image,
+  Dimensions,
+  Text,
+  TouchableOpacity,
+  Platform,
+  KeyboardAvoidingView,
+} from 'react-native';
+import {IconButton} from 'react-native-paper';
 import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
-import { AuthContext } from '../navigation/AuthProvider';
+import {AuthContext} from '../navigation/AuthProvider';
 import useStatusBar from '../utils/useStatusBar';
 import Spinner from 'react-native-loading-spinner-overlay';
-import { ImageBackground } from 'react-native';
-import PushNotification from "react-native-push-notification";
+import {ImageBackground} from 'react-native';
+import PushNotification from 'react-native-push-notification';
 
-const { width, height } = Dimensions.get('screen');
+const {width, height} = Dimensions.get('screen');
 
-export default function LoginScreen({ navigation }) {
-    useStatusBar();
-    const { login } = useContext(AuthContext);
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
+export default function LoginScreen({navigation}) {
+  useStatusBar();
+  const {login} = useContext(AuthContext);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-    function createNotificationChannel(){
-      PushNotification.createChannel({
-        channelId: 'login-channel',
-        channelName: 'Login Channel',
-      });
-    }
+  function createNotificationChannel() {
+    PushNotification.createChannel({
+      channelId: 'login-channel',
+      channelName: 'Login Channel',
+    });
+  }
 
-    useEffect(() => {
-      createNotificationChannel();
-      setIsLoading(false);
-      return () => setIsLoading(false);
-    }, []);
-    return (
-      <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : ""}
+  useEffect(() => {
+    createNotificationChannel();
+    setIsLoading(false);
+    return () => setIsLoading(false);
+  }, []);
+  return (
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : ''}
       style={styles.containerOuter}>
-        <ImageBackground source={require('../media/images/mainpage_photo.jpeg')}  style={styles.container} imageStyle={styles.backgroundImage}>
-          <Spinner
-            visible={isLoading}
-            textContent={'Loading...'}
-            textStyle={styles.spinnerTextStyle}
-          />
-          <View style={styles.header}>
-            <TouchableOpacity style={Platform.OS === 'ios' ? styles.signUpBoxIOS : styles.signUpBox} onPress={() => navigation.navigate('Signup')}>
-              <Text 
-              style={styles.signUpText} 
-              >Sign up</Text>
-              <IconButton
-                    icon='arrow-right'
-                    size={20}
-                    color='#fff'
-              />
-            </TouchableOpacity>
-            <Image 
-                source={require('../media/images/logo-dark.png')} 
-                style={styles.logo}
-            />
-          </View>
-          <View>
-            <FormInput
-              labelName='Email'
-              value={email}
-              autoCapitalize='none'
-              onChangeText={userEmail => setEmail(userEmail)}
-            />
-            <FormInput
-              labelName='Password'
-              value={password}
-              secureTextEntry={true}
-              onChangeText={userPassword => setPassword(userPassword)}
-            />
-            <TouchableOpacity 
-              style={styles.forgotPasswordContainer}
-              onPress={() => {navigation.navigate('ForgotPassword')}}
-              >
-              <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
-            </TouchableOpacity>
-          </View>
-          <FormButton
-            title='Login'
-            modeValue='contained'
-            labelStyle={styles.loginButtonLabel}
-            onPress={async () => {
-                setIsLoading(true);
-                setEmail('');
-                setPassword('');
-                let loggedIn = await login(email, password);
-                if(!loggedIn){
-                  setIsLoading(false);
-                }
-                //setIsLoading(false); // Will throw warning if there is a successful login
-              }
+      <ImageBackground
+        source={require('../media/images/mainpage_photo.jpeg')}
+        style={styles.container}
+        imageStyle={styles.backgroundImage}>
+        <Spinner
+          visible={isLoading}
+          textContent={'Loading...'}
+          textStyle={styles.spinnerTextStyle}
+        />
+        <View style={styles.header}>
+          <TouchableOpacity
+            style={
+              Platform.OS === 'ios' ? styles.signUpBoxIOS : styles.signUpBox
             }
+            onPress={() => navigation.navigate('Signup')}>
+            <Text style={styles.signUpText}>Sign up</Text>
+            <IconButton icon="arrow-right" size={20} color="#fff" />
+          </TouchableOpacity>
+          <Image
+            source={require('../media/images/logo-dark.png')}
+            style={styles.logo}
           />
-        </ImageBackground>
-      </KeyboardAvoidingView>
-    );
+        </View>
+        <View>
+          <FormInput
+            labelName="Email"
+            value={email}
+            autoCapitalize="none"
+            onChangeText={(userEmail) => setEmail(userEmail)}
+          />
+          <FormInput
+            labelName="Password"
+            value={password}
+            secureTextEntry={true}
+            onChangeText={(userPassword) => setPassword(userPassword)}
+          />
+          <TouchableOpacity
+            style={styles.forgotPasswordContainer}
+            onPress={() => {
+              navigation.navigate('ForgotPassword');
+            }}>
+            <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+          </TouchableOpacity>
+        </View>
+        <FormButton
+          title="Login"
+          modeValue="contained"
+          labelStyle={styles.loginButtonLabel}
+          onPress={async () => {
+            setIsLoading(true);
+            setEmail('');
+            setPassword('');
+            let loggedIn = await login(email, password);
+            if (!loggedIn) {
+              setIsLoading(false);
+            }
+            //setIsLoading(false); // Will throw warning if there is a successful login
+          }}
+        />
+      </ImageBackground>
+    </KeyboardAvoidingView>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -110,7 +120,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   backgroundImage: {
-    resizeMode: "cover",
+    resizeMode: 'cover',
     height: '100%', // the image height
     left: -400,
     top: undefined,
@@ -130,10 +140,10 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   navButtonText: {
-    fontSize: 16
+    fontSize: 16,
   },
   spinnerTextStyle: {
-    color: '#fff'
+    color: '#fff',
   },
   logo: {
     width: width / 1.5,
@@ -171,5 +181,5 @@ const styles = StyleSheet.create({
     color: '#E97E33',
     fontSize: 24,
     fontWeight: 'bold',
-  }
+  },
 });

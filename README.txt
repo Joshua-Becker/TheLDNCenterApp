@@ -10,6 +10,9 @@ FIXES:
 Android emulator not printing console.log?
 use console.debug
 
+ios emulator not printing console.log?
+Disable fast refresh
+
 react-native-gifted-chat:
 https://github.com/FaridSafi/react-native-gifted-chat/issues/2090
 
@@ -36,7 +39,7 @@ Setting up for Build and Archive to App Store:
 1) changes to info.plist
 - set NSAllowsArbitraryLoads to false
 - comment out localhost key pair in NSExceptionDomains
-2) Set scheme to release (not debug)
+2) Set scheme to release (not debug) - Edit scheme at top bar click on name of app
 3) add ios simulator arm64 to excluded architectures in both pods and app
 4) change version (or build) number in general
 5) Make sure ios version is accurate

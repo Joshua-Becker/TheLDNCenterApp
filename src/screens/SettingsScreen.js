@@ -113,12 +113,12 @@ export default function SettingsScreen(props) {
         .doc(currentUser.uid)
         .set({
             user: {
-                phone: phone === '' ? originalPhone : phone,
-                condition: condition === '' ? originalCondition : condition,
+                phone: phone === '' || phone === undefined ? originalPhone : phone,
+                condition: condition === '' || condition === undefined ? originalCondition : condition,
                 painLevel: painLevel === -1 ? originalPainLevel : painLevel,
-                symptomTimeline: symptomTimeline === '' ? originalSymptomTimeline : symptomTimeline,
-                medications: medications === '' ? originalMedications : medications,
-                comments: comments === '' ?  originalComments : comments,
+                symptomTimeline: symptomTimeline === '' || symptomTimeline === undefined ? originalSymptomTimeline : symptomTimeline,
+                medications: medications === ''  || medications === undefined ? originalMedications : medications,
+                comments: comments === ''  || comments === undefined ?  originalComments : comments,
             },
           }, { merge: true });
         AsyncAlert('Settings saved', 'Your information has been updated!');
