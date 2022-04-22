@@ -169,17 +169,15 @@ export default function TeamScreen({navigation}) {
         }
         showFormCheck(thread.formInterval);
         let decryptedText;
+
         try {
           let group = await ethree.getGroup(user.id);
           const findUserIdentity = await ethree.findUsers(user.id);
           if (group == null) {
             group = await ethree.loadGroup(user.id, findUserIdentity);
           }
-          if (
-            thread.latestMessage.text == null ||
-            thread.latestMessage.text == undefined ||
-            thread.latestMessage.text == ''
-          ) {
+          if (typeof thread.latestMessage === 'undefined') {
+            thread['latestMessage'] = {text: ''};
             decryptedText = '';
           } else if (thread.latestMessage.id == thread.pharmacyID) {
             const findUserIdentity = await ethree.findUsers(thread.pharmacyID);

@@ -7,6 +7,10 @@ https://feathericons.com/
 
 FIXES:
 
+Opening to white screen?
+Run in another terminal -> npx react-native start
+Then run -> npx react-native run-ios
+
 Android emulator not printing console.log?
 use console.debug
 
